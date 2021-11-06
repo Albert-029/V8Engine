@@ -240,5 +240,18 @@
     <ClInclude Include="pcg-c-0.94\include\pcg_variants.h">
       <Filter>Sources\PCG</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="V8Engine.rc">
+      <Filter>Sources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Game\Assets\iconEngine.ico">
+      <Filter>Sources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

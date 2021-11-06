@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Archivo de inclusión generado de Microsoft Visual C++.
-// Usado por TonicEngine.rc
+// Usado por V8Engine.rc
 //
 #define IDI_ICON1                       101
 
