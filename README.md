@@ -39,7 +39,7 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
 ### Albert Robles
 
 - Github: [Albert Robles](https://github.com/Albertito029)
-- LinkedIn: [Pol Casaú](https://www.linkedin.com/in/albert-robles-munoz/)
+- LinkedIn: [Albert Robles](https://www.linkedin.com/in/albert-robles-munoz/)
 
 ## Contact
 
