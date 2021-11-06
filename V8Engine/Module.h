@@ -1,6 +1,10 @@
 #ifndef __ModuleH__
 #define __ModuleH__
 
+#include "Globals.h"
+
+#include <string>
+
 class Application;
 
 class Module
@@ -23,6 +27,11 @@ public:
 	}
 
 	virtual bool Start()
+	{
+		return true;
+	}
+
+	virtual bool Draw()
 	{
 		return true;
 	}

@@ -19,6 +19,13 @@ public:
 	bool CleanUp();
 
 	void SetTitle(const char* title);
+	const char* GetTitle();
+
+	// Window SDL functions
+	void GetWindowSize(int& width, int& height);
+	void SetFullScreen(bool active);
+	void SetResizable(bool active);
+	void SetBorderless(bool active);
 
 public:
 	//The window we'll be rendering to

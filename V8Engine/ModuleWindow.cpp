@@ -19,6 +19,7 @@ ModuleWindow::~ModuleWindow()
 bool ModuleWindow::Init()
 {
 	LOG("Init SDL window & surface");
+	App->appLogs.push_back("Loading Window");
 	bool ret = true;
 
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -71,6 +72,8 @@ bool ModuleWindow::Init()
 		}
 	}
 
+	SDL_EventState(SDL_DROPFILE, SDL_ENABLE);
+
 	return ret;
 }
 
@@ -93,4 +96,41 @@ bool ModuleWindow::CleanUp()
 void ModuleWindow::SetTitle(const char* title)
 {
 	SDL_SetWindowTitle(window, title);
+}
+
+const char* ModuleWindow::GetTitle()
+{
+	const char* name;
+	name = SDL_GetWindowTitle(window);
+
+	return name;
+}
+
+void ModuleWindow::GetWindowSize(int& width, int& height)
+{
+	SDL_GetWindowSize(window, &width, &height);
+}
+
+void ModuleWindow::SetFullScreen(bool active)
+{
+	if (active)
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP);
+	else
+		SDL_SetWindowFullscreen(window, SDL_WINDOW_MINIMIZED);
+}
+
+void ModuleWindow::SetResizable(bool active)
+{
+	if (active)
+		SDL_SetWindowResizable(window, SDL_TRUE);
+	else
+		SDL_SetWindowResizable(window, SDL_FALSE);
+}
+
+void ModuleWindow::SetBorderless(bool active)
+{
+	if (active)
+		SDL_SetWindowBordered(window, SDL_FALSE);
+	else
+		SDL_SetWindowBordered(window, SDL_TRUE);
 }
