@@ -1,8 +1,10 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleGUI.h"
+#include "ModuleRenderer3D.h"
 
 #include "glew/include/GL/glew.h"
+#include "SDL/include/SDL.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -18,11 +20,11 @@ ModuleWindow::~ModuleWindow()
 // Called before render is available
 bool ModuleWindow::Init()
 {
-	LOG("Init SDL window & surface");
-	App->appLogs.push_back("Loading Window");
+	LOG_IMGUI_CONSOLE("Init SDL window & surface");
+	LOG_IMGUI_CONSOLE("Loading Window");
 	bool ret = true;
 
-	if(SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -34,33 +36,33 @@ bool ModuleWindow::Init()
 		int height = SCREEN_HEIGHT * SCREEN_SIZE;
 		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
-		//Use OpenGL 2.1
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		//Use OpenGL 3.1
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(WIN_FULLSCREEN == true)
+		if (WIN_FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(WIN_RESIZABLE == true)
+		if (WIN_RESIZABLE == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(WIN_BORDERLESS == true)
+		if (WIN_BORDERLESS == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if (WIN_FULLSCREEN_DESKTOP == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
 		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-		if(window == NULL)
+		if (window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -83,7 +85,7 @@ bool ModuleWindow::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
-	if(window != NULL)
+	if (window != NULL)
 	{
 		SDL_DestroyWindow(window);
 	}
@@ -134,3 +136,4 @@ void ModuleWindow::SetBorderless(bool active)
 	else
 		SDL_SetWindowBordered(window, SDL_TRUE);
 }
+

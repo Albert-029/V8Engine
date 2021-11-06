@@ -1,5 +1,12 @@
 #include "Application.h"
 
+#include "ModuleWindow.h"
+#include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
+#include "ModuleGui.h"
+
 Application::Application()
 {
 	window = new ModuleWindow(this);
@@ -9,13 +16,20 @@ Application::Application()
 	camera = new ModuleCamera3D(this);
 	gui = new ModuleGUI(this);
 	importer = new ModuleImporter(this);
+	file_system = new ModuleFileSystem(this);
+	text_imp = new TextureImporter(this);
+
+	// The order of calls is very important!
+	// Modules will Init() Start() and Update in this order
+	// They will CleanUp() in reverse order
 
 	// Main Modules
 	AddModule(window);
 	AddModule(camera);
-	AddModule(input);	
-	
+	AddModule(input);
 	AddModule(importer);
+	AddModule(text_imp);
+	AddModule(file_system);
 
 	// Scenes
 	AddModule(scene_intro);
@@ -40,7 +54,7 @@ Application::~Application()
 bool Application::Init()
 {
 	bool ret = true;
-	//appLogs.push_back("Init Application");
+	LOG_IMGUI_CONSOLE("Init Application");
 
 	// Needed to initialize PCG (Random Number Generator Library)
 	InitSeed();
@@ -57,7 +71,7 @@ bool Application::Init()
 	{
 		ret = (*item)->Start();
 	}
-	
+
 	frame_time.Start();
 	return ret;
 }
@@ -107,8 +121,8 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
-	
-	for (list<Module*>::iterator item = list_modules.begin(); item != list_modules.end() && ret == UPDATE_CONTINUE; ++item) 
+
+	for (list<Module*>::iterator item = list_modules.begin(); item != list_modules.end() && ret == UPDATE_CONTINUE; ++item)
 	{
 		ret = (*item)->PreUpdate(dt);
 	}
@@ -117,13 +131,13 @@ update_status Application::Update()
 	{
 		ret = (*item)->Update(dt);
 	}
-	
+
 	for (list<Module*>::iterator item = list_modules.begin(); item != list_modules.end() && ret == UPDATE_CONTINUE; ++item)
 	{
 		ret = (*item)->PostUpdate(dt);
-		
+
 	}
-	
+
 	FinishUpdate();
 	return ret;
 }

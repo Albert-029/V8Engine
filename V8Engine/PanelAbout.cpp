@@ -1,5 +1,4 @@
 #include "PanelAbout.h"
-#include "Application.h"
 #include "ModuleGUI.h"
 #include "ModuleWindow.h"
 
@@ -30,14 +29,22 @@ bool PanelAbout::Draw()
 	{
 		if (ImGui::Begin("About", &active, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 		{
-			ImGui::Text("%s ", SDL_GetWindowTitle(App->window->window));
+			ImGui::Text("%s by Albert Robles", SDL_GetWindowTitle(App->window->window));
 			ImGui::Separator();
 
-			ImGui::Text("This is a 3D Game Engine developed during our Game Design and Development Bachelor's Degree.");
-			ImGui::Text("By Pol Casau and Xavi Marin\n");
+			ImGui::Text("This is a 3D Game Engine developed during CITM's Game Design and Development Bachelor's Degree.");
+			ImGui::Separator();
 
-			if (ImGui::Button("GitHub"))
-				App->RequestBrowser("https://github.com/xavimarin35/TonicEngine"); 
+			if (ImGui::TreeNodeEx("Github Links", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth))
+			{
+				if (ImGui::Button("Repository"))
+					App->RequestBrowser("https://github.com/Albertito029/V8Engine"); ImGui::SameLine();
+				if (ImGui::Button("Albert Robles"))
+					App->RequestBrowser("https://github.com/Albertito029"); ImGui::SameLine();
+
+				ImGui::TreePop();
+			}
+
 
 			ImGui::Separator();
 
@@ -46,19 +53,26 @@ bool PanelAbout::Draw()
 				App->RequestBrowser("https://www.opengl.org/"); ImGui::SameLine();
 			if (ImGui::Selectable("Glew", false, 0, { 35, 13 }))
 				App->RequestBrowser("http://glew.sourceforge.net/"); ImGui::SameLine();
-			if (ImGui::Selectable("SDL", false, 0, { 35, 13 }))
+			if (ImGui::Selectable("SDL", false, 0, { 30, 13 }))
 				App->RequestBrowser("https://www.libsdl.org/"); ImGui::SameLine();
 			if (ImGui::Selectable("ImGui", false, 0, { 40, 13 }))
 				App->RequestBrowser("https://github.com/ocornut/imgui"); ImGui::SameLine();
-			if (ImGui::Selectable("PCG", false, 0, { 35, 13 }))
+			if (ImGui::Selectable("PCG", false, 0, { 30, 13 }))
 				App->RequestBrowser("http://www.pcg-random.org/"); ImGui::SameLine();
-			if (ImGui::Selectable("MathGeoLib", false, 0, { 90, 13 }))
-				App->RequestBrowser("https://github.com/juj/MathGeoLib");
+			if (ImGui::Selectable("MathGeoLib", false, 0, { 75, 13 }))
+				App->RequestBrowser("https://github.com/juj/MathGeoLib"); ImGui::SameLine();
+			if (ImGui::Selectable("Assimp", false, 0, { 45, 13 }))
+				App->RequestBrowser("https://www.assimp.org/"); ImGui::SameLine();
+			if (ImGui::Selectable("DeviIL", false, 0, { 45, 13 }))
+				App->RequestBrowser("http://openil.sourceforge.net/"); ImGui::SameLine();
+			if (ImGui::Selectable("PhysFS", false, 0, { 45, 13 }))
+				App->RequestBrowser("https://icculus.org/physfs/");
+
 
 			ImGui::Separator();
 
 			ImGui::Text("MIT License");
-			ImGui::Text("Copyright (c) 2020 Xavi Marin Sola and Pol Casau Civit");
+			ImGui::Text("Copyright (c) 2020 Albert Robles Muñoz");
 			ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy of this");
 			ImGui::Text("software and associated documentation files (the 'Software'), to deal in the Software without");
 			ImGui::Text("restriction, including without limitation the rights to use, copy, modify, merge, publish,");

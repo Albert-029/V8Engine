@@ -2,10 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
-#include "imgui-1.78/imgui_impl_opengl3.h"
-//#include "imgui-1.78/examples/libs/glfw/include/GLFW/glfw3.h"
 
-//#pragma comment (lib, "imgui-1.78/examples/libs/glfw/lib-vc2010-32/glfw3.lib")
 
 
 ModuleGUI::ModuleGUI(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -23,11 +20,9 @@ bool ModuleGUI::Init()
 	Pabout = new PanelAbout();
 	Phierarchy = new PanelHierarchy();
 	Pconsole = new PanelConsole();
+	Pinspector = new PanelInspector();
 
-	panels.push_back(Pconfig);
-	panels.push_back(Pabout);
-	panels.push_back(Phierarchy);
-	panels.push_back(Pconsole);
+	PushBackPanels();
 
 	return true;
 }
@@ -35,6 +30,7 @@ bool ModuleGUI::Init()
 bool ModuleGUI::Start()
 {
 	bool ret = true;
+
 
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -93,7 +89,7 @@ update_status ModuleGUI::Update(float dt)
 		ret = UPDATE_STOP;
 
 	bool opt_fullscreen = true;
-	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
+	static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 
 	// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
 	// because it would be confusing to have two docking targets within each others.
@@ -109,6 +105,7 @@ update_status ModuleGUI::Update(float dt)
 		window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 		window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 	}
+
 
 	// When using ImGuiDockNodeFlags_PassthruCentralNode, DockSpace() will render our background and handle the pass-thru hole, so we ask Begin() to not render a background.
 	if (dockspace_flags & ImGuiDockNodeFlags_PassthruCentralNode)
@@ -134,9 +131,8 @@ update_status ModuleGUI::Update(float dt)
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 	}
 
-	ImGui::End();
-
 	docking_io = &io;
+	ImGui::End();
 
 	return ret;
 }
@@ -213,6 +209,26 @@ void ModuleGUI::EnableInput(SDL_Event* event)
 	ImGui_ImplSDL2_ProcessEvent(event);
 }
 
+void ModuleGUI::PushBackPanels()
+{
+	panels.push_back(Pconfig);
+	panels.push_back(Pabout);
+	panels.push_back(Phierarchy);
+	panels.push_back(Pconsole);
+	panels.push_back(Pinspector);
+}
+
+void ModuleGUI::LogConsole(char* text, ...)
+{
+	char buf[1024];
+	va_list args;
+	va_start(args, text);
+	vsnprintf(buf, IM_ARRAYSIZE(buf), text, args);
+	buf[IM_ARRAYSIZE(buf) - 1] = 0;
+	va_end(args);
+	App->appLogs.push_back(Strdup(buf));
+}
+
 bool ModuleGUI::CleanUp()
 {
 	bool ret = true;
@@ -239,3 +255,8 @@ void ModuleGUI::Render()
 	glViewport(0, 0, (int)docking_io->DisplaySize.x, (int)docking_io->DisplaySize.y);
 
 }
+
+
+
+
+

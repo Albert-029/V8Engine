@@ -4,13 +4,14 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModuleGui.h"
+
+
+
+#include "PanelManager.h"
 #include "ModuleImporter.h"
+#include "ModuleFileSystem.h"
+#include "TextureImporter.h"
+
 
 #include <vector>
 #include <list>
@@ -24,6 +25,8 @@ class ModuleRenderer3D;
 class ModuleCamera3D;
 class ModuleGUI;
 class ModuleImporter;
+class ModuleFileSystem;
+class TextureImporter;
 
 class Application
 {
@@ -35,6 +38,8 @@ public:
 	ModuleCamera3D* camera = nullptr;
 	ModuleGUI* gui = nullptr;
 	ModuleImporter* importer = nullptr;
+	ModuleFileSystem* file_system = nullptr;
+	TextureImporter* text_imp = nullptr;
 
 private:
 

@@ -1,8 +1,6 @@
 #ifndef __MODULEGUI_H__
 #define __MODULEGUI_H__
 
-#include "Globals.h"
-#include "Module.h"
 #include "PanelManager.h"
 
 #include "imgui-1.78/imgui.h"
@@ -17,12 +15,14 @@
 #include "PanelAbout.h"
 #include "PanelConsole.h"
 #include "PanelHierarchy.h"
+#include "PanelInspector.h"
 
 
 class PanelConfiguration;
 class PanelAbout;
 class PanelConsole;
 class PanelHierarchy;
+class PanelInspector;
 
 
 class ModuleGUI : public Module
@@ -45,23 +45,28 @@ public:
 	update_status PostUpdate(float dt);
 
 	void EnableInput(SDL_Event* event);
+	void PushBackPanels();
 
-	// Random Number Generator 
-	int rand = 0;
-	bool getRand = false;
+	// Console
+	void LogConsole(char* text, ...);
+	static char* Strdup(const char* str) { size_t len = strlen(str) + 1; void* buf = malloc(len); IM_ASSERT(buf); return (char*)memcpy(buf, (const void*)str, len); }
 
 	PanelConfiguration* Pconfig = nullptr;
 	PanelAbout* Pabout = nullptr;
 	PanelConsole* Pconsole = nullptr;
 	PanelHierarchy* Phierarchy = nullptr;
+	PanelInspector* Pinspector = nullptr;
+
+	// Random Number Generator 
+	int rand = 0;
+	bool getRand = false;
 
 	bool quitApp = false;
-
-	ImGuiIO* docking_io;
 
 private:
 
 	ImGuiIO* io = nullptr;
+	ImGuiIO* docking_io = nullptr;
 	bool p_open = true;
 
 	bool show_demo_window = false;

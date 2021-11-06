@@ -33,7 +33,7 @@ bool PanelInspector::Draw()
 			{
 
 			}
-			
+
 			if (ImGui::CollapsingHeader("Mesh"))
 			{
 

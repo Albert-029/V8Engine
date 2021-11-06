@@ -1,6 +1,5 @@
 #include "PanelConsole.h"
-#include "Application.h"
-#include "ModuleGUI.h"
+#include "Globals.h"
 #include "ModuleWindow.h"
 
 #include "SDL/include/SDL_opengl.h"
@@ -17,7 +16,7 @@ PanelConsole::~PanelConsole()
 bool PanelConsole::Start()
 {
 	this->active = true;
-	
+
 	if (consoleEmpty)
 		EraseLogs();
 
@@ -31,24 +30,58 @@ bool PanelConsole::Draw()
 
 	if (App->gui->Pconsole->active)
 	{
-
 		PrintLogs();
 
-		if (ImGui::Begin("Console", &active)) {
+		if (ImGui::Begin("Console", &active, ImGuiWindowFlags_NoScrollWithMouse || ImGuiWindowFlags_NoScrollbar)) {
 
 			if (ImGui::Button("Clear"))
 				EraseLogs();
 
+			ImGui::SameLine();
+
+			// Filter Input
+			Filter.Draw("Filter", -100.0f);
+
+			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+			const char* buf = Buf.begin();
+			const char* buf_end = Buf.end();
+			if (Filter.IsActive())
+			{
+
+				for (int line_no = 0; line_no < LineOffsets.Size; line_no++)
+				{
+					const char* line_start = buf + LineOffsets[line_no];
+					const char* line_end = (line_no + 1 < LineOffsets.Size) ? (buf + LineOffsets[line_no + 1] - 1) : buf_end;
+					if (Filter.PassFilter(line_start, line_end))
+						ImGui::TextUnformatted(line_start, line_end);
+				}
+			}
+			else
+			{
+				ImGuiListClipper clipper;
+				clipper.Begin(LineOffsets.Size);
+				while (clipper.Step())
+				{
+					for (int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++)
+					{
+						const char* line_start = buf + LineOffsets[line_no];
+						const char* line_end = (line_no + 1 < LineOffsets.Size) ? (buf + LineOffsets[line_no + 1] - 1) : buf_end;
+						ImGui::TextUnformatted(line_start, line_end);
+					}
+				}
+				clipper.End();
+			}
+			ImGui::PopStyleVar();
+
 			ImGui::Separator();
 
-			ImGui::BeginChild("Scroll", ImVec2(0, 200), false, ImGuiWindowFlags_HorizontalScrollbar);
 			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 6));
 
 			for (list<char*>::iterator item = consoleLogs.begin(); item != consoleLogs.end(); ++item)
 			{
 				ImVec4 color = TEXT_CONSOLE_COLOR;
 				bool has_color = true;
-				if (strstr((*item), "error:"))
+				if (strstr((*item), "ERROR:"))
 				{
 					color = ERROR_CONSOLE_COLOR;
 					has_color = true;
@@ -62,12 +95,11 @@ bool PanelConsole::Draw()
 			}
 
 			ImGui::PopStyleVar();
-			ImGui::EndChild();
-
-
-			ImGui::End();
 		}
+
+		ImGui::End();
 	}
+
 	return true;
 }
 

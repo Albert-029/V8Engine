@@ -2,7 +2,7 @@
 
 // Warning disabled ---
 #pragma warning( disable : 4577 ) // Warning that exceptions are disabled
-#pragma warning( disable : 4530 )
+#pragma warning( disable : 4530 ) // Warning that exceptions are disabled
 
 #include <windows.h>
 #include <stdio.h>
@@ -19,9 +19,6 @@ void log(const char file[], int line, const char* format, ...);
 #define RADTODEG 57.295779513082320876f
 #define HAVE_M_PI
 
-// Yellow Color to call in ImGui::TextColored
-#define PanelTextColor ImVec4(1.0f, 1.0f, 0.0f, 1.0f)
-
 #define IM_NEWLINE "\r\n"
 
 // PCG (Random Number Generator) functions
@@ -34,9 +31,9 @@ typedef unsigned int uint;
 
 enum update_status
 {
-	UPDATE_CONTINUE = 1,
-	UPDATE_STOP,
-	UPDATE_ERROR
+    UPDATE_CONTINUE = 1,
+    UPDATE_STOP,
+    UPDATE_ERROR
 };
 
 // Deletes a buffer
@@ -57,14 +54,15 @@ enum update_status
            delete[] x;\
 	       x = nullptr;\
 		 }\
+    }
 
 // Configuration -----------
-#define SCREEN_WIDTH 1280
-#define SCREEN_HEIGHT 1024
+#define SCREEN_WIDTH 1600
+#define SCREEN_HEIGHT 900
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-#define TITLE "V8 Engine"
+#define TITLE "V8Engine"
