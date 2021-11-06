@@ -147,6 +147,11 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentMesh.cpp" />
+    <ClCompile Include="ComponentTexture.cpp" />
+    <ClCompile Include="ComponentTransform.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glew\src\glew.c" />
     <ClCompile Include="glmath.cpp" />
     <ClCompile Include="imgui-1.78\imgui.cpp" />
@@ -159,8 +164,8 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MeshObj.cpp" />
     <ClCompile Include="ModuleCamera3D.cpp" />
+    <ClCompile Include="ModuleFileSystem.cpp" />
     <ClCompile Include="ModuleGui.cpp" />
     <ClCompile Include="ModuleImporter.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
@@ -171,13 +176,20 @@
     <ClCompile Include="PanelConfiguration.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
     <ClCompile Include="PanelHierarchy.cpp" />
+    <ClCompile Include="PanelInspector.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="RandomNumGenerator.cpp" />
+    <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentMesh.h" />
+    <ClInclude Include="ComponentTexture.h" />
+    <ClInclude Include="ComponentTransform.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="glew\include\GL\glew.h" />
     <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
@@ -191,12 +203,13 @@
     <ClInclude Include="imgui-1.78\imstb_textedit.h" />
     <ClInclude Include="imgui-1.78\imstb_truetype.h" />
     <ClInclude Include="Light.h" />
+    <ClInclude Include="Math.h" />
     <ClInclude Include="MathGeoLib\include\MathBuildConfig.h" />
     <ClInclude Include="MathGeoLib\include\MathGeoLib.h" />
     <ClInclude Include="MathGeoLib\include\MathGeoLibFwd.h" />
-    <ClInclude Include="MeshObj.h" />
     <ClInclude Include="Module.h" />
     <ClInclude Include="ModuleCamera3D.h" />
+    <ClInclude Include="ModuleFileSystem.h" />
     <ClInclude Include="ModuleGui.h" />
     <ClInclude Include="ModuleImporter.h" />
     <ClInclude Include="ModuleInput.h" />
@@ -207,12 +220,15 @@
     <ClInclude Include="PanelConfiguration.h" />
     <ClInclude Include="PanelConsole.h" />
     <ClInclude Include="PanelHierarchy.h" />
+    <ClInclude Include="PanelInspector.h" />
     <ClInclude Include="PanelManager.h" />
+    <ClInclude Include="PathNode.h" />
     <ClInclude Include="pcg-c-0.94\extras\entropy.h" />
     <ClInclude Include="pcg-c-0.94\extras\pcg_spinlock.h" />
     <ClInclude Include="pcg-c-0.94\include\pcg_variants.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
