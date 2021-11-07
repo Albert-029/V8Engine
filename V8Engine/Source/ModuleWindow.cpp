@@ -3,8 +3,8 @@
 #include "ModuleGUI.h"
 #include "ModuleRenderer3D.h"
 
-#include "glew/include/GL/glew.h"
-#include "SDL/include/SDL.h"
+#include "Libraries/glew/include/GL/glew.h"
+#include "Libraries/SDL/include/SDL.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {

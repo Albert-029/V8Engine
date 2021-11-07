@@ -9,10 +9,10 @@
 #include "GameObject.h"
 #include "Math.h"
 
-#include "MathGeoLib/include/MathBuildConfig.h"
-#include "MathGeoLib/include/MathGeoLib.h"
+#include "Libraries/MathGeoLib/include/MathBuildConfig.h"
+#include "Libraries/MathGeoLib/include/MathGeoLib.h"
 
-#include "SDL\include\SDL_opengl.h"
+#include "Libraries\SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 

@@ -4,8 +4,8 @@
 #include "Application.h"
 #include "Module.h"
 
-#include "MathGeoLib/include/MathBuildConfig.h"
-#include "MathGeoLib/include/MathGeoLib.h"
+#include "Libraries/MathGeoLib/include/MathBuildConfig.h"
+#include "Libraries/MathGeoLib/include/MathGeoLib.h"
 
 class MeshImporter : public Module
 {

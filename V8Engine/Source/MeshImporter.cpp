@@ -5,10 +5,10 @@
 #include "GameObject.h"
 #include "ModuleSceneIntro.h"
 
-#include "Assimp/include/cimport.h"
-#include "Assimp/include/scene.h"
-#include "Assimp/include/postprocess.h"
-#include "Assimp/include/cfileio.h"
+#include "Libraries/Assimp/include/cimport.h"
+#include "Libraries/Assimp/include/scene.h"
+#include "Libraries/Assimp/include/postprocess.h"
+#include "Libraries/Assimp/include/cfileio.h"
 
 #pragma comment ( lib, "Assimp/libx86/assimp.lib" )
 

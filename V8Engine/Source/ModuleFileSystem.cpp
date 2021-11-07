@@ -3,12 +3,12 @@
 #include "ModuleFileSystem.h"
 #include "PathNode.h"
 
-#include "PhysFS/include/physfs.h"
+#include "Libraries/PhysFS/include/physfs.h"
 #include <fstream>
 #include <filesystem>
 
-#include "Assimp/include/cfileio.h"
-#include "Assimp/include/types.h"
+#include "Libraries/Assimp/include/cfileio.h"
+#include "Libraries/Assimp/include/types.h"
 
 #pragma comment( lib, "PhysFS/libx86/physfs.lib" )
 

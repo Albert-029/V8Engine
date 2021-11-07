@@ -2,8 +2,8 @@
 #include "ModuleGUI.h"
 #include "ModuleWindow.h"
 
-#include "SDL/include/SDL_opengl.h"
-#include "imgui-1.78/imgui_impl_sdl.h"
+#include "Libraries/SDL/include/SDL_opengl.h"
+#include "Libraries/imgui-1.78/imgui_impl_sdl.h"
 
 PanelInspector::PanelInspector() : PanelManager()
 {

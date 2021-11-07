@@ -2,11 +2,11 @@
 #include "Application.h"
 #include "ModuleGUI.h"
 
-#include "glew/include/GL/glew.h"
+#include "Libraries/glew/include/GL/glew.h"
 
-#include "DevIL/include/IL/il.h"
-#include "DevIL/include/IL/ilu.h"
-#include "DevIL/include/IL/ilut.h"
+#include "Libraries/DevIL/include/IL/il.h"
+#include "Libraries/DevIL/include/IL/ilu.h"
+#include "Libraries/DevIL/include/IL/ilut.h"
 
 #pragma comment ( lib, "DevIL/libx86/DevIL.lib" )
 #pragma comment ( lib, "DevIL/libx86/ILU.lib" )

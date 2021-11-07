@@ -10,7 +10,7 @@
 #include "Component.h"
 #include "ComponentTexture.h"
 
-#include "SDL\include\SDL_opengl.h"
+#include "Libraries\SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
