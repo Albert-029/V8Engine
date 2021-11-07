@@ -2,11 +2,13 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "TextureImporter.h"
-#include "ModuleImporter.h"
+#include "MeshImporter.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleGUI.h"
 #include "ModuleCamera3D.h"
 #include "Math.h"
+#include "Component.h"
+#include "ComponentTexture.h"
 
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
@@ -30,11 +32,12 @@ bool ModuleSceneIntro::Start()
 	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
 	App->camera->LookAt(vec3(0, 0, 0));
 
-	uint Texture = App->text_imp->LoadTexture("Assets/Baker_house.png");
+	texData Texture = App->tex_imp->LoadTexture("Assets/Baker_house.png");
 
-	App->importer->Load("Assets/BakerHouse.fbx");
-	App->importer->meshes.at(0)->texture = Texture;
-	App->importer->meshes.at(1)->texture = Texture;
+	App->mesh_imp->LoadMesh("Assets/BakerHouse.fbx");
+
+	gameobjectsList.at(0)->GetComponentTexture()->tData = Texture;
+	gameobjectsList.at(1)->GetComponentTexture()->tData = Texture;
 
 	return ret;
 }
@@ -44,73 +47,78 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG_IMGUI_CONSOLE("Unloading Intro scene");
 
+	for (int i = 0; i < gameobjectsList.size(); ++i)
+		delete gameobjectsList[i];
+
+	gameobjectsList.clear();
+
 	return true;
 }
 
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
+	for (int i = 0; i < gameobjectsList.size(); ++i)
+	{
+		gameobjectsList[i]->Update();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleSceneIntro::PostUpdate(float dt)
 {
-	//PLANE -----------------------------
-	glLineWidth(2.0f);
+	DrawGridAndAxis();
 
-	glBegin(GL_LINES);
-	glColor3ub(255, 255, 255);
-	for (float i = -10; i <= 10; ++i)
+	for (std::vector<GameObject*>::iterator it = gameobjectsList.begin(); it != gameobjectsList.end(); ++it)
 	{
-		glVertex3f(i, 0.f, 0.f);
-		glVertex3f(i, 0, 10.f);
-
-		glVertex3f(0.f, 0.f, i);
-		glVertex3f(10.f, 0, i);
-
-		glVertex3f(i, 0.f, 0.f);
-		glVertex3f(i, 0, -10.f);
-
-		glVertex3f(0.f, 0.f, i);
-		glVertex3f(-10.f, 0, i);
+		if ((*it)->oData.active)
+		{
+			App->renderer3D->DrawObject((*it));
+		}
 	}
-	glEnd();
-
-	// AXIS ------------------------
-	glLineWidth(4.0f);
-
-	glBegin(GL_LINES);
-	//Y
-	glColor3ub(0, 255, 0);
-	glVertex3f(0.f, 0.f, 0.f);
-	glVertex3f(0.f, 1.f, 0.f);
-	glEnd();
-
-	glBegin(GL_LINES);
-	//X
-	glColor3ub(255, 0, 0);
-	glVertex3f(0.f, 0.001f, 0.f);
-	glVertex3f(1.f, 0.001f, 0.f);
-	glEnd();
-
-	glBegin(GL_LINES);
-	//Z
-	glColor3ub(0, 0, 255);
-	glVertex3f(0.f, 0.001f, 0.f);
-	glVertex3f(0.f, 0.001f, 1.f);
-	glEnd();
-
-	glColor3ub(255, 255, 255);
-
-	//Draw meshes
-	for (int i = 0; i < App->importer->meshes.size(); ++i)
-		App->renderer3D->DrawObj(App->importer->meshes[i]);
 
 	return UPDATE_CONTINUE;
 }
 
-void ModuleSceneIntro::OnCollision()
+GameObject* ModuleSceneIntro::CreateShape(SHAPE_TYPE type)
 {
+	return nullptr;
+}
+
+GameObject* ModuleSceneIntro::CreateGO(string objName)
+{
+	string n = AssignNameToGO(objName);
+
+	GameObject* GO = new GameObject(n);
+	GO->oData.GOid = gameobjectsList.size();
+
+	gameobjectsList.push_back(GO);
+
+	return GO;
+}
+
+string ModuleSceneIntro::AssignNameToGO(string name_go)
+{
+	string name = name_go.append(std::to_string(gameobjectsList.size()));
+
+	return name;
+}
+
+void ModuleSceneIntro::DestroySelectedGO(GameObject* GO)
+{
+	if (GOselected == GO)
+		GOselected = nullptr;
+
+	for (int i = 0; i < gameobjectsList.size(); ++i)
+	{
+		if (gameobjectsList[i] == GO)
+		{
+			gameobjectsList.erase(gameobjectsList.begin() + i);
+		}
+	}
+
+	delete GO;
 }
 
 void ModuleSceneIntro::DrawCube_36v(float x, float y, float z, float size)
@@ -166,4 +174,54 @@ void ModuleSceneIntro::DrawCube_36v(float x, float y, float z, float size)
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
+}
+
+void ModuleSceneIntro::DrawGridAndAxis()
+{
+	//PLANE -----------------------------
+	glLineWidth(2.0f);
+
+	glBegin(GL_LINES);
+	glColor3ub(255, 255, 255);
+	for (float i = -10; i <= 10; ++i)
+	{
+		glVertex3f(i, 0.f, 0.f);
+		glVertex3f(i, 0, 10.f);
+
+		glVertex3f(0.f, 0.f, i);
+		glVertex3f(10.f, 0, i);
+
+		glVertex3f(i, 0.f, 0.f);
+		glVertex3f(i, 0, -10.f);
+
+		glVertex3f(0.f, 0.f, i);
+		glVertex3f(-10.f, 0, i);
+	}
+	glEnd();
+
+	// AXIS ------------------------
+	glLineWidth(4.0f);
+
+	glBegin(GL_LINES);
+	//Y
+	glColor3ub(0, 255, 0);
+	glVertex3f(0.f, 0.f, 0.f);
+	glVertex3f(0.f, 1.f, 0.f);
+	glEnd();
+
+	glBegin(GL_LINES);
+	//X
+	glColor3ub(255, 0, 0);
+	glVertex3f(0.f, 0.001f, 0.f);
+	glVertex3f(1.f, 0.001f, 0.f);
+	glEnd();
+
+	glBegin(GL_LINES);
+	//Z
+	glColor3ub(0, 0, 255);
+	glVertex3f(0.f, 0.001f, 0.f);
+	glVertex3f(0.f, 0.001f, 1.f);
+	glEnd();
+
+	glColor3ub(255, 255, 255);
 }

@@ -1,8 +1,9 @@
 #ifndef __ModuleSceneIntro__
 #define __ModuleSceneIntro__
 
-#include "Application.h"
+#include "Globals.h"
 #include "Primitive.h"
+#include "GameObject.h"
 
 class ModuleSceneIntro : public Module
 {
@@ -15,14 +16,22 @@ public:
 	update_status PostUpdate(float dt);
 	bool CleanUp();
 
-	void OnCollision();
-
 	void DrawCube_36v(float x, float y, float z, float size);
+	void DrawGridAndAxis();
 
 	// DRAW CUBE INFO
 	uint id_vertices = 0;
 	uint id_no_dup_vertices = 1;
 	uint id_indices = 2;
+
+	GameObject* CreateShape(SHAPE_TYPE type);
+	GameObject* CreateGO(string objName);
+	string AssignNameToGO(string name_go);
+	void DestroySelectedGO(GameObject* GO);
+	std::vector<GameObject*> gameobjectsList;
+
+	GameObject* GOselected = nullptr;
+	uint GOselectedID = 0;
 
 };
 

@@ -109,7 +109,7 @@
     <ClCompile Include="Application.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleImporter.cpp">
+    <ClCompile Include="MeshImporter.cpp">
       <Filter>Sources\Meshes</Filter>
     </ClCompile>
     <ClCompile Include="ModuleGui.cpp">
@@ -234,7 +234,7 @@
     <ClInclude Include="Globals.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleImporter.h">
+    <ClInclude Include="MeshImporter.h">
       <Filter>Sources\Meshes</Filter>
     </ClInclude>
     <ClInclude Include="PanelAbout.h">

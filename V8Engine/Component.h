@@ -13,6 +13,8 @@ enum class COMPONENT_TYPE
 	TEXTURE
 };
 
+
+
 class Component
 {
 public:
@@ -22,13 +24,16 @@ public:
 	virtual bool Update();
 	virtual bool CleanUp();
 
+	virtual void Draw();
+	COMPONENT_TYPE GetComponentType() const;
 	virtual void EnableComponent();
 	virtual void DisableComponent();
 
 public:
 	bool active = true;
-	COMPONENT_TYPE type;
-	GameObject* gameobject;
+	COMPONENT_TYPE type = COMPONENT_TYPE::NONE;
+	GameObject* object;
+
 };
 
 
