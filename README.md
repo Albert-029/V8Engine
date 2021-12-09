@@ -49,6 +49,20 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
  Contact:
  - Albert Robles: alber1206@gmail.com
   
+
+## Third Party Libraries
+
+* [SDL](https://www.libsdl.org/)
+* [OpenGL](https://www.opengl.org/)
+* [ImGui](https://github.com/ocornut/imgui)
+* [glew](http://glew.sourceforge.net/)
+* [ASSIMP](http://assimp.org/)
+* [DevIL](http://openil.sourceforge.net/)
+* [MathGeoLib](https://github.com/juj/MathGeoLib)
+* [PCG](https://www.pcg-random.org/index.html)
+* [PhysFS](https://icculus.org/physfs/)
+* [JSON](https://github.com/nlohmann/json)
+
 ## License
 
 Licensed under the [MIT License](https://github.com/Albertito029/V8Engine/blob/master/LICENSE)
