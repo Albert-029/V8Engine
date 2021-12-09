@@ -8,29 +8,11 @@
     <Filter Include="Sources\Containers">
       <UniqueIdentifier>{6f08bac3-c7a5-4c3d-9d76-f7dd0531595c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\glew">
-      <UniqueIdentifier>{9ab60b8a-e94b-4b1e-b126-ea13e2c0beec}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Helpers">
-      <UniqueIdentifier>{6999613e-64cf-435b-84f9-c12be27a167d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\ImGui">
-      <UniqueIdentifier>{f05d92fc-5066-4a8e-9a36-a5967d3bb5e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\MathGeoLib">
-      <UniqueIdentifier>{2015dae0-5cd7-4bd6-9bbe-873787d8fd00}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\Modules">
       <UniqueIdentifier>{3c46fa74-3e9c-4d03-bcc5-db4bb12cf356}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Tools">
       <UniqueIdentifier>{733e957f-6508-47f9-a9a0-a439377d4241}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\PCG">
-      <UniqueIdentifier>{033de73f-9d3d-4303-920d-06361721a876}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Meshes">
-      <UniqueIdentifier>{0712f8e4-7dce-4205-be70-36af29a3edd8}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Modules\GUI">
       <UniqueIdentifier>{cfb25913-8258-4deb-92bd-42a8f69a5b4f}</UniqueIdentifier>
@@ -44,11 +26,35 @@
     <Filter Include="Sources\GameObject\Components">
       <UniqueIdentifier>{31e636a3-6358-400c-9311-42535b6b4f59}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Importers">
+      <UniqueIdentifier>{ef316e4a-b94a-48e9-9e2b-92af4670290a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries">
+      <UniqueIdentifier>{f79775b1-cefc-4c76-bafb-8fffcbfbf606}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries\MathGeoLib">
+      <UniqueIdentifier>{2015dae0-5cd7-4bd6-9bbe-873787d8fd00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries\ImGui">
+      <UniqueIdentifier>{f05d92fc-5066-4a8e-9a36-a5967d3bb5e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries\glew">
+      <UniqueIdentifier>{9ab60b8a-e94b-4b1e-b126-ea13e2c0beec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Tools\Helpers">
+      <UniqueIdentifier>{6999613e-64cf-435b-84f9-c12be27a167d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries\PCG">
+      <UniqueIdentifier>{033de73f-9d3d-4303-920d-06361721a876}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries\JSON">
+      <UniqueIdentifier>{94ef539f-7620-4b56-bd24-0d158f513f60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Libraries\mmgr">
+      <UniqueIdentifier>{8d475c64-f903-4cab-8016-773f3a645140}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\log.cpp">
-      <Filter>Sources\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Timer.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
@@ -57,9 +63,6 @@
     </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Sources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\RandomNumGenerator.cpp">
-      <Filter>Sources\PCG</Filter>
     </ClCompile>
     <ClCompile Include="Source\ModuleCamera3D.cpp">
       <Filter>Sources\Modules</Filter>
@@ -97,41 +100,35 @@
     <ClCompile Include="Source\PanelInspector.cpp">
       <Filter>Sources\Modules\GUI\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="Source\MeshImporter.cpp">
-      <Filter>Sources\Meshes</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\TextureImporter.cpp">
-      <Filter>Sources\Meshes</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui_demo.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui_draw.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui_impl_opengl2.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui_impl_opengl3.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui_impl_sdl.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\imgui-1.78\imgui_widgets.cpp">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="Source\Libraries\glew\src\glew.c">
-      <Filter>Sources\glew</Filter>
+      <Filter>Sources\Libraries\glew</Filter>
     </ClCompile>
     <ClCompile Include="Source\Light.cpp">
-      <Filter>Sources\Helpers</Filter>
+      <Filter>Sources\Tools\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Source\Primitive.cpp">
-      <Filter>Sources\Helpers</Filter>
+      <Filter>Sources\Tools\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Source\Color.cpp">
       <Filter>Sources\Containers</Filter>
@@ -154,6 +151,24 @@
     <ClCompile Include="Source\ComponentTransform.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ComponentCamera.cpp">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Importer.cpp">
+      <Filter>Sources\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MeshImporter.cpp">
+      <Filter>Sources\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TextureImporter.cpp">
+      <Filter>Sources\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RandomNumGenerator.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Libraries\mmgr\mmgr.cpp">
+      <Filter>Sources\Libraries\mmgr</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -175,13 +190,13 @@
       <Filter>Sources</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\pcg-c-0.94\include\pcg_variants.h">
-      <Filter>Sources\PCG</Filter>
+      <Filter>Sources\Libraries\PCG</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\pcg-c-0.94\extras\entropy.h">
-      <Filter>Sources\PCG</Filter>
+      <Filter>Sources\Libraries\PCG</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\pcg-c-0.94\extras\pcg_spinlock.h">
-      <Filter>Sources\PCG</Filter>
+      <Filter>Sources\Libraries\PCG</Filter>
     </ClInclude>
     <ClInclude Include="Source\Module.h">
       <Filter>Sources\Modules</Filter>
@@ -225,56 +240,50 @@
     <ClInclude Include="Source\PanelInspector.h">
       <Filter>Sources\Modules\GUI\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="Source\MeshImporter.h">
-      <Filter>Sources\Meshes</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\TextureImporter.h">
-      <Filter>Sources\Meshes</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Libraries\MathGeoLib\include\MathBuildConfig.h">
-      <Filter>Sources\MathGeoLib</Filter>
+      <Filter>Sources\Libraries\MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\MathGeoLib\include\MathGeoLib.h">
-      <Filter>Sources\MathGeoLib</Filter>
+      <Filter>Sources\Libraries\MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\MathGeoLib\include\MathGeoLibFwd.h">
-      <Filter>Sources\MathGeoLib</Filter>
+      <Filter>Sources\Libraries\MathGeoLib</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imconfig.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imgui.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imgui_impl_opengl2.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imgui_impl_opengl3.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imgui_impl_sdl.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imgui_internal.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imstb_rectpack.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imstb_textedit.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\imgui-1.78\imstb_truetype.h">
-      <Filter>Sources\ImGui</Filter>
+      <Filter>Sources\Libraries\ImGui</Filter>
     </ClInclude>
     <ClInclude Include="Source\Libraries\glew\include\GL\glew.h">
-      <Filter>Sources\glew</Filter>
+      <Filter>Sources\Libraries\glew</Filter>
     </ClInclude>
     <ClInclude Include="Source\Light.h">
-      <Filter>Sources\Helpers</Filter>
+      <Filter>Sources\Tools\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Primitive.h">
-      <Filter>Sources\Helpers</Filter>
+      <Filter>Sources\Tools\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Source\Color.h">
       <Filter>Sources\Containers</Filter>
@@ -296,6 +305,30 @@
     </ClInclude>
     <ClInclude Include="Source\ComponentTransform.h">
       <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ComponentCamera.h">
+      <Filter>Sources\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Importer.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\JsonImporter.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MeshImporter.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TextureImporter.h">
+      <Filter>Sources\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Libraries\JSON\json.hpp">
+      <Filter>Sources\Libraries\JSON</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Libraries\mmgr\mmgr.h">
+      <Filter>Sources\Libraries\mmgr</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Libraries\mmgr\nommgr.h">
+      <Filter>Sources\Libraries\mmgr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
