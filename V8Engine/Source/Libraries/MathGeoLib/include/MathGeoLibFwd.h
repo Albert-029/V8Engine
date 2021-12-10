@@ -4,7 +4,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-	   http://www.apache.org/licenses/LICENSE-2.0
+       http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -12,19 +12,19 @@
    See the License for the specific language governing permissions and
    limitations under the License. */
 
-   /** @file MathFwd.h
-	   @author Jukka Jylänki
-	   @brief */
+/** @file MathFwd.h
+	@author Jukka Jylänki
+	@brief */
 #pragma once
 
 #include "MathBuildConfig.h"
 #include "Math/MathNamespace.h"
 
-	   // The CONST_WIN32 is a #define which resolves to 'const' on Windows, and null on other
-	   // platforms. This #define is used on Windows to detect accidental programming errors
-	   // occurring from an expression "const float3 vec; vec[1] = 5;". Trying to return
-	   // const float from operator[] on GCC gives a warning "type qualifiers ignored on function return type",
-	   // so hence this is only enabled on Visual Studio.
+// The CONST_WIN32 is a #define which resolves to 'const' on Windows, and null on other
+// platforms. This #define is used on Windows to detect accidental programming errors
+// occurring from an expression "const float3 vec; vec[1] = 5;". Trying to return
+// const float from operator[] on GCC gives a warning "type qualifiers ignored on function return type",
+// so hence this is only enabled on Visual Studio.
 #ifdef _MSC_VER
 #define CONST_WIN32 const
 #else
