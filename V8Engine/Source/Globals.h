@@ -19,6 +19,7 @@ void log(const char file[], int line, const char* format, ...);
 #define RADTODEG 57.295779513082320876f
 #define HAVE_M_PI
 
+
 #define IM_NEWLINE "\r\n"
 
 // PCG (Random Number Generator) functions
@@ -56,13 +57,26 @@ enum update_status
 		 }\
     }
 
+// JSON assert 
+#include <cassert>
+#define JSON_ASSERT(x) assert(x)
+
 // Configuration -----------
-#define SCREEN_WIDTH 1600
-#define SCREEN_HEIGHT 900
+#define SCREEN_WIDTH 1820
+#define SCREEN_HEIGHT 980
 #define SCREEN_SIZE 1
+#define WIN_MAXIMIZED true
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-#define TITLE "V8Engine"
+
+//Common Directories
+#define ASSETS_FOLDER "/Assets/"
+#define ASSETS_SCENES_FOLDER "Assets/Scenes/" // It must not have a / before Assets, even though it won't create any .json file
+#define ASSETS_TEXTURES_FOLDER "Assets/Textures/"
+#define ASSETS_MODELS_FOLDER "Assets/Models/"
+#define LIBRARY_FOLDER "/Library/"
+#define LIBRARY_TEXTURES_FOLDER "/Library/Textures/"
+#define LIBRARY_MESH_FOLDER "/Library/Meshes/"

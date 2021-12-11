@@ -73,7 +73,7 @@ bool ModuleFileSystem::Init(/*Config* config*/)
 	bool ret = true;
 
 	// Ask SDL for a write dir
-	char* write_path = SDL_GetPrefPath("Xavi and Pol", "Tonic Engine");
+	char* write_path = SDL_GetPrefPath("Albert", "V8Engine");
 
 	// Trun this on while in game mode
 	//if(PHYSFS_setWriteDir(write_path) == 0)

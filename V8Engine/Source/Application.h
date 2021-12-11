@@ -4,14 +4,7 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-
-
-
-#include "PanelManager.h"
-#include "MeshImporter.h"
-#include "ModuleFileSystem.h"
-#include "TextureImporter.h"
-
+#include "Math.h" // Include MathGeoLib
 
 #include <vector>
 #include <list>
@@ -27,6 +20,16 @@ class ModuleGUI;
 class MeshImporter;
 class ModuleFileSystem;
 class TextureImporter;
+class JsonImporter;
+class ModuleTime;
+class ModuleResources;
+
+enum class ENGINE_STATE
+{
+	NONE = 0,
+	PLAY,
+	PAUSE
+};
 
 class Application
 {
@@ -40,8 +43,8 @@ public:
 	MeshImporter* mesh_imp = nullptr;
 	ModuleFileSystem* file_system = nullptr;
 	TextureImporter* tex_imp = nullptr;
-
-private:
+	ModuleTime* time = nullptr;
+	ModuleResources* resources = nullptr;
 
 	list<Module*> list_modules;
 
@@ -54,6 +57,16 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	bool PlayScene();
+	void PauseScene();
+	void StopScene();
+	void ChangeEngineState(ENGINE_STATE new_state);
+	ENGINE_STATE GetEngineState();
+
+	ENGINE_STATE current_state = ENGINE_STATE::NONE;
+
+	bool quitApp = false;
+
 	void RequestBrowser(const char* link) const;
 
 	const char* GetAppName() const;
@@ -62,6 +75,13 @@ public:
 	void ApplyOrgName(const char* name);
 	string appName;
 	string orgName;
+
+	bool isInCharStr(std::string path, std::string search);
+	std::string GetBuildingID(std::string path, std::string search = "Building");
+	std::string GetPathName(std::string path);
+	std::string GetPathDir(std::string path);
+
+	int GenerateUUID();
 
 	list<char*> appLogs;
 
@@ -76,11 +96,17 @@ public:
 	int						capped_ms = -1;
 	int						framerateCap = 60; // Max amount of FPS
 	int						totalBars = 100; // Number of bars that appear in the histogram
-	std::vector<float> fpsVec;
-	std::vector<float> msVec;
+	std::vector<float>		fpsVec;
+	std::vector<float>		msVec;
 
 	float GetDT() const;
 	float	dt;
+
+	//JSON
+	json jsonImp;
+	const char* jsonPath;
+	void LoadJSON();
+	void SaveJSON();
 
 private:
 

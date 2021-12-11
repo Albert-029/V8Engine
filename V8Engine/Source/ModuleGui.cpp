@@ -366,20 +366,20 @@ bool ModuleGUI::Draw()
 
 		if (ImGui::BeginMenu("Help"))
 		{
-			ImGui::MenuItem("About Tonic Engine", NULL, &Pabout->active);
+			ImGui::MenuItem("About V8Engine", NULL, &Pabout->active);
 
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Documentation"))
-				App->RequestBrowser("https://github.com/xavimarin35/TonicEngine/blob/master/README.md");
+				App->RequestBrowser("https://github.com/Albertito029/V8Engine/blob/master/README.md");
 
 			if (ImGui::MenuItem("Download Latest Version"))
-				App->RequestBrowser("https://github.com/xavimarin35/TonicEngine/releases");
+				App->RequestBrowser("https://github.com/Albertito029/V8Engine/releases");
 
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Report Bug"))
-				App->RequestBrowser("https://github.com/xavimarin35/TonicEngine/issues");
+				App->RequestBrowser("https://github.com/Albertito029/V8Engine/issues");
 
 			ImGui::EndMenu();
 		}
@@ -429,7 +429,7 @@ bool ModuleGUI::Draw()
 			if (ImGui::IsItemHovered())
 			{
 				ImGui::BeginTooltip();
-				ImGui::TextColored(GREY_COLOR, "Tonic Engine/Game/Assets/Scenes/%s.json", finalName.c_str());
+				ImGui::TextColored(GREY_COLOR, "V8Engine/Game/Assets/Scenes/%s.json", finalName.c_str());
 				ImGui::EndTooltip();
 			}
 
@@ -484,7 +484,7 @@ bool ModuleGUI::Draw()
 		if (ImGui::BeginPopupModal("Quit", &exitMenu, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 		{
 
-			ImGui::Text("Exit from Tonic Engine?");
+			ImGui::Text("Exit from V8Engine?");
 			ImGui::Spacing();
 
 			if (ImGui::Button("Yes", ImVec2(77.0f, 25.0f)))

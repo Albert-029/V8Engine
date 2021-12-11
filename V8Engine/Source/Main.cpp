@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Globals.h"
 
-#include "Libraries/SDL/include/SDL.h"
+#include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
 
@@ -19,7 +19,7 @@ Application* App = NULL;
 
 int main(int argc, char** argv)
 {
-	LOG("Starting game '%s'...", TITLE);
+	LOG("Welcome to V8Engine :) ");
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
@@ -85,6 +85,6 @@ int main(int argc, char** argv)
 	}
 
 	delete App;
-	LOG("Exiting game '%s'...\n", TITLE);
+	LOG("Quitting from V8Engine... ");
 	return main_return;
 }
