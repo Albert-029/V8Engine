@@ -24,7 +24,7 @@ public:
 	void DrawInspector();
 	void DrawCamera();
 	void LookAt(const float3& position);
-
+	
 	float4x4 GetViewMatrix() const;
 	float4x4 GetProjectionMatrix() const;
 	float4x4 GetView() const;

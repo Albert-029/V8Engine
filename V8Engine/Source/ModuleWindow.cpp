@@ -24,7 +24,7 @@ bool ModuleWindow::Init()
 	LOG_C("Loading Window");
 	bool ret = true;
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -45,29 +45,29 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_MAXIMIZED;
 		}
 
-		if (WIN_FULLSCREEN == true)
+		if(WIN_FULLSCREEN == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if (WIN_RESIZABLE == true)
+		if(WIN_RESIZABLE == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if (WIN_BORDERLESS == true)
+		if(WIN_BORDERLESS == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if (WIN_FULLSCREEN_DESKTOP == true)
+		if(WIN_FULLSCREEN_DESKTOP == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
 		window = SDL_CreateWindow(App->appName.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
-		if (window == NULL)
+		if(window == NULL)
 		{
 			LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			ret = false;
@@ -90,7 +90,7 @@ bool ModuleWindow::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	//Destroy window
-	if (window != NULL)
+	if(window != NULL)
 	{
 		SDL_DestroyWindow(window);
 	}

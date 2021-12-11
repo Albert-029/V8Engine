@@ -45,7 +45,7 @@ bool PanelResources::Draw()
 
 			ImGui::BeginChild("Resources Tree", ImVec2(ImGui::GetWindowContentRegionWidth() * 0.20f, 250), false, window_flags);
 
-			if (ImGui::IsWindowHovered())
+			if (ImGui::IsWindowHovered()) 
 				App->camera->isOnResourcesChild1 = true;
 			else App->camera->isOnResourcesChild1 = false;
 
@@ -66,7 +66,7 @@ bool PanelResources::Draw()
 					{
 						showing_models = showing_meshes = false;
 					}
-
+					
 					ImGui::Image((ImTextureID)folder->tex.id, ImVec2(15, 15), ImVec2(0, 1), ImVec2(1, 0));
 					ImGui::SameLine();
 					if (ImGui::Selectable("Models", &showing_models))
@@ -86,7 +86,7 @@ bool PanelResources::Draw()
 			ImGui::SameLine();
 
 			ImGuiWindowFlags window_flags2 = ImGuiWindowFlags_AlwaysAutoResize;
-
+ 
 			ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 5.0f);
 			ImGui::BeginChild("Resources Icons", ImVec2(0, 250), true, window_flags2);
 

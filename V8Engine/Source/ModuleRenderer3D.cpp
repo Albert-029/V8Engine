@@ -30,20 +30,20 @@ bool ModuleRenderer3D::Init()
 {
 	LOG_C("Loading 3D Renderer Context");
 	bool ret = true;
-
+	
 	//Create context
 	context = SDL_GL_CreateContext(App->window->window);
-	if (context == NULL)
+	if(context == NULL)
 	{
 		ret = false;
 	}
 
-	if (ret == true)
+	if(ret == true)
 	{
 		glewInit();
 
 		//Use Vsync
-		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
+		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG_C("ERROR: Unable to set VSync");
 
 		//Initialize Projection Matrix
@@ -52,7 +52,7 @@ bool ModuleRenderer3D::Init()
 
 		//Check for error
 		GLenum error = glGetError();
-		if (error != GL_NO_ERROR)
+		if(error != GL_NO_ERROR)
 		{
 			ret = false;
 		}
@@ -63,38 +63,38 @@ bool ModuleRenderer3D::Init()
 
 		//Check for error
 		error = glGetError();
-		if (error != GL_NO_ERROR)
+		if(error != GL_NO_ERROR)
 		{
 			ret = false;
 		}
-
+		
 		glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
 		glClearDepth(1.0f);
-
+		
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		//Check for error
 		error = glGetError();
-		if (error != GL_NO_ERROR)
+		if(error != GL_NO_ERROR)
 		{
 			ret = false;
 		}
-
-		GLfloat LightModelAmbient[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+		
+		GLfloat LightModelAmbient[] = {0.0f, 0.0f, 0.0f, 1.0f};
 		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, LightModelAmbient);
-
+		
 		lights[0].ref = GL_LIGHT0;
 		lights[0].ambient.Set(0.25f, 0.25f, 0.25f, 1.0f);
 		lights[0].diffuse.Set(0.75f, 0.75f, 0.75f, 1.0f);
 		lights[0].SetPos(0.0f, 0.0f, 2.5f);
 		lights[0].Init();
-
-		GLfloat MaterialAmbient[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		
+		GLfloat MaterialAmbient[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, MaterialAmbient);
 
-		GLfloat MaterialDiffuse[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+		GLfloat MaterialDiffuse[] = {1.0f, 1.0f, 1.0f, 1.0f};
 		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, MaterialDiffuse);
 
 		lights[0].Active(true);
@@ -132,7 +132,7 @@ update_status ModuleRenderer3D::PreUpdate(float dt)
 	glMatrixMode(GL_MODELVIEW);
 	glLoadMatrixf(App->camera->GetView());
 
-	for (uint i = 0; i < MAX_LIGHTS; ++i)
+	for(uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
 	//Environment Color
@@ -192,7 +192,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 
 void ModuleRenderer3D::VertexBuffer(float3* vertex, uint& size, uint& id_vertex)
 {
-	glGenBuffers(1, (GLuint*)&(id_vertex));
+	glGenBuffers(1, (GLuint*) &(id_vertex));
 	glBindBuffer(GL_ARRAY_BUFFER, id_vertex);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * size, vertex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -200,7 +200,7 @@ void ModuleRenderer3D::VertexBuffer(float3* vertex, uint& size, uint& id_vertex)
 
 void ModuleRenderer3D::IndexBuffer(uint* index, uint& size, uint& id_index)
 {
-	glGenBuffers(1, (GLuint*)&(id_index));
+	glGenBuffers(1, (GLuint*) &(id_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_index);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * size, index, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -208,7 +208,7 @@ void ModuleRenderer3D::IndexBuffer(uint* index, uint& size, uint& id_index)
 
 void ModuleRenderer3D::TextureBuffer(float* text_coords, uint& num_text_coords, uint& id_text_coords)
 {
-	glGenBuffers(1, (GLuint*)&(id_text_coords));
+	glGenBuffers(1, (GLuint*) &(id_text_coords));
 	glBindBuffer(GL_ARRAY_BUFFER, id_text_coords);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * num_text_coords * 2, text_coords, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -248,7 +248,7 @@ void ModuleRenderer3D::GenerateObject(GameObject* GO)
 		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, GO->GetComponentMesh()->rMesh->data.id_index);
-		glDrawElements(GL_TRIANGLES, GO->GetComponentMesh()->rMesh->data.num_index, GL_UNSIGNED_INT, nullptr);
+		//glDrawElements(GL_TRIANGLES, GO->GetComponentMesh()->rMesh->data.num_index, GL_UNSIGNED_INT, nullptr);
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

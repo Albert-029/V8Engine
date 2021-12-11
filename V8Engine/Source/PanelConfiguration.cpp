@@ -47,7 +47,7 @@ bool PanelConfiguration::Draw()
 				SDL_SetWindowSize(App->window->window, screen.width, screen.height);
 
 				SDL_SetWindowBrightness(App->window->window, screen.brightness);
-
+				
 				ImGui::Separator();
 				ImGui::Spacing();
 
@@ -195,7 +195,7 @@ bool PanelConfiguration::Draw()
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				if (ImGui::TreeNodeEx("Grid:", ImGuiTreeNodeFlags_None))
+				if (ImGui::TreeNodeEx("Grid:", ImGuiTreeNodeFlags_None)) 
 				{
 					ImGuiColorEditFlags flags = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_PickerHueBar;
 					ImGui::Spacing();
@@ -245,9 +245,9 @@ bool PanelConfiguration::Draw()
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				if (ImGui::TreeNodeEx("View Modes:", ImGuiTreeNodeFlags_DefaultOpen))
+				if (ImGui::TreeNodeEx("View Modes:", ImGuiTreeNodeFlags_DefaultOpen)) 
 				{
-					ImGui::Spacing();
+					ImGui::Spacing(); 
 
 					if (ImGui::Checkbox("Wireframe", &wireframe))
 						App->renderer3D->WireframeView(wireframe);
@@ -256,7 +256,7 @@ bool PanelConfiguration::Draw()
 
 					if (ImGui::Checkbox("Depth", &depth_test))
 						App->renderer3D->DepthView(depth_test);
-
+					
 					ImGui::SameLine();
 
 					if (ImGui::Checkbox("Cull Face", &cull_face))
@@ -289,7 +289,7 @@ bool PanelConfiguration::Draw()
 				{
 					ImGui::Spacing();
 					ImGui::PushItemWidth(150);
-					ImGui::SliderFloat("Input Sensitivity", &App->camera->slow, 0.1f, 25.0f);
+					ImGui::SliderFloat("Input Sensitivity", &App->camera->slow, 0.1f, 25.0f); 
 					ImGui::SliderFloat("Camera Speed", &App->camera->currentSpeed, 0.1f, 100.0f);
 					ImGui::SliderFloat("Wheel Zoom Speed", &App->camera->mouseWheelS, 0.1f, 100.0f);
 					ImGui::SliderFloat("Focus Distance", &App->camera->distanceFocus, 0.1f, 50.0f);

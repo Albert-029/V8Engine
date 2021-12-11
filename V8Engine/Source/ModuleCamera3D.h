@@ -16,8 +16,8 @@ public:
 	bool CleanUp();
 
 	// Camera Movement
-	void LookAt(const float3& Spot, float dist = 0.0f);
-	void Move(const float3& Movement);
+	void LookAt(const float3 &Spot, float dist = 0.0f);
+	void Move(const float3 &Movement);
 	void Focus(GameObject* GO);
 
 	// Mouse Picking
@@ -72,7 +72,7 @@ public:
 	bool mouse_picking = false;
 
 public:
-
+	
 	float currentSpeed = 10.0f;
 	float slow = 6.0f;
 	float mouseWheelS = 30.0f;

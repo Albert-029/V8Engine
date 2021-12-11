@@ -37,7 +37,7 @@ void GameObject::Update()
 
 		// Selected Game Object
 		if (GO != nullptr)
-		{
+		{	
 			// Game Object is not a camera
 			if (GO->GetComponentCamera() == nullptr)
 			{
@@ -139,7 +139,7 @@ Component* GameObject::CreateComponent(COMPONENT_TYPE type, bool active)
 {
 	Component* component = nullptr;
 
-	switch (type)
+	switch (type) 
 	{
 	case COMPONENT_TYPE::TRANSFORM:
 		component = new ComponentTransform(this);
@@ -155,11 +155,11 @@ Component* GameObject::CreateComponent(COMPONENT_TYPE type, bool active)
 		break;
 	}
 
-	if (component != nullptr)
+	if (component != nullptr) 
 	{
 		componentsList.push_back(component);
 	}
-
+		
 	return component;
 }
 
@@ -288,7 +288,7 @@ void GameObject::Save(uint GO_id, nlohmann::json& scene)
 	scene["Game Objects"][GO_id]["Id"] = data.id;
 	scene["Game Objects"][GO_id]["UUID"] = data.UUID;
 	scene["Game Objects"][GO_id]["Active"] = data.active;
-
+	
 	for (int i = 0; i < componentsList.size(); i++)
 		componentsList[i]->Save(GO_id, scene);
 }
@@ -331,7 +331,7 @@ bool GameObject::DrawOwnBoundingBox(GameObject* GO)
 
 	if (GO == nullptr)
 		return false;
-
+	
 	if (GO != nullptr)
 	{
 		ComponentMesh* m = GO->GetComponentMesh();

@@ -24,7 +24,7 @@ public:
 	float time = 0.0f;
 	float real_time = 0.0f;
 	float real_dt = 0.0f;
-
+	
 	bool game_is_paused = false;
 };
 

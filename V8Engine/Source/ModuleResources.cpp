@@ -112,8 +112,8 @@ uint ModuleResources::GetNewFile(const char* new_file)
 
 uint ModuleResources::ImportFile(const char* new_file_in_assets, RESOURCE_TYPE type)
 {
-	uint ret = 0;
-	bool create_resource = false;
+	uint ret = 0; 
+	bool create_resource = false; 
 	std::string written_file;
 
 	ret = GetResourceFromFolder(Assets::FOLDERS::ASSETS, new_file_in_assets);
@@ -122,7 +122,7 @@ uint ModuleResources::ImportFile(const char* new_file_in_assets, RESOURCE_TYPE t
 	{
 		switch (type)
 		{
-		case RESOURCE_TYPE::TEXTURE:
+		case RESOURCE_TYPE::TEXTURE: 
 			create_resource = App->tex_imp->LoadTextureFromPath(new_file_in_assets, written_file);
 			break;
 		case RESOURCE_TYPE::MESH:
@@ -132,7 +132,7 @@ uint ModuleResources::ImportFile(const char* new_file_in_assets, RESOURCE_TYPE t
 		}
 
 		if (create_resource)
-		{
+		{ 
 			Resource* res = CreateResource(type);
 			BuildResource(res, new_file_in_assets, written_file);
 
@@ -326,13 +326,13 @@ void ModuleResources::DrawResources(RESOURCE_TYPE type)
 	else if (type == RESOURCE_TYPE::MODEL)
 	{
 		int i = 0;
-
+		
 		ImGui::Spacing();
 		ImGui::TextColored(GREY_COLOR, "You can double-click on a model to load it into the scene");
 		ImGui::Spacing();
 		ImGui::Separator();
 		ImGui::Spacing();
-
+		
 		for (std::list<Assets*>::iterator it = assets.begin(); it != assets.end(); it++)
 		{
 			// If the file is a texture, don't print it, just get the path
@@ -396,7 +396,7 @@ void ModuleResources::DrawResources(RESOURCE_TYPE type)
 	}
 }
 
-void ModuleResources::AlignResources(int& i)
+void ModuleResources::AlignResources(int &i)
 {
 	if (i < 6)
 	{

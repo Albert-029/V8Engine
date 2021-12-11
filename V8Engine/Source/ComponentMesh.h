@@ -40,7 +40,7 @@ public:
 
 	AABB aabb;
 
-	ResourceMesh* rMesh = nullptr;
+	ResourceMesh* rMesh = nullptr;	
 };
 
 #endif

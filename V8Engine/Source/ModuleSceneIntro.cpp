@@ -41,7 +41,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 
 	App->camera->Move(float3(1.0f, 1.0f, 0.0f));
-	App->camera->LookAt(float3(0, 0, 0));
+	App->camera->LookAt(float3(0, 0, 0));	
 
 	Create3DObject(OBJECTS3D::STREET);
 
@@ -99,7 +99,7 @@ update_status ModuleSceneIntro::PostUpdate(float dt)
 	}
 	else
 		DrawGameObjectNodes(GOroot);
-
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -177,7 +177,7 @@ GameObject* ModuleSceneIntro::CreateGO(string objName, GameObject* parent)
 
 	if (parent != nullptr)
 		parent->AddChild(GO);
-
+	
 	return GO;
 }
 
@@ -251,7 +251,7 @@ void ModuleSceneIntro::RemoveSelectedGO(GameObject* GO)
 				GO->CleanUp();
 				GO = nullptr;
 			}
-		}
+		}		
 	}
 }
 
@@ -349,7 +349,7 @@ bool ModuleSceneIntro::DrawGridAndAxis(bool active)
 	}
 	else {
 		return false;
-	}
+	}	
 }
 
 void ModuleSceneIntro::Create3DObject(OBJECTS3D object)
@@ -476,7 +476,7 @@ GameObject* ModuleSceneIntro::MousePicking(const LineSegment& segment, float& di
 					}
 				}
 			}
-		}
+		}		
 	}
 
 	return pick;

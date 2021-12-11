@@ -12,7 +12,7 @@ class JsonImporter;
 
 class Module
 {
-private:
+private :
 	bool enabled;
 
 public:
@@ -24,9 +24,9 @@ public:
 	virtual ~Module()
 	{}
 
-	virtual bool Init()
+	virtual bool Init() 
 	{
-		return true;
+		return true; 
 	}
 
 	virtual bool Start()
@@ -54,13 +54,13 @@ public:
 		return UPDATE_CONTINUE;
 	}
 
-	virtual bool CleanUp()
-	{
-		return true;
+	virtual bool CleanUp() 
+	{ 
+		return true; 
 	}
 
 	// Call them in every module we want to save JSON data
-	virtual void Load(const nlohmann::json& config)
+	virtual void Load(const nlohmann::json& config) 
 	{}
 
 	virtual void Save(nlohmann::json& config)

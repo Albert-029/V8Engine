@@ -18,7 +18,7 @@ PanelAbout::~PanelAbout()
 bool PanelAbout::Start()
 {
 	this->active = false;
-
+	
 	icon = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile("Assets/Others/iconEngine.ico"));
 	icon->LoadInMemory();
 
@@ -35,11 +35,11 @@ bool PanelAbout::Draw()
 		if (ImGui::Begin("About", &active, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 		{
 			ImGui::Image((ImTextureID*)icon->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)); ImGui::SameLine();
-
+			
 			ImGui::Text("%s by Albert Robles", SDL_GetWindowTitle(App->window->window));
 			ImGui::Separator();
 
-			ImGui::Text("This is a 3D Game Engine developed during CITM's Game Design and Development Bachelor's Degree.");
+			ImGui::Text("This is a 3D Game Engine developed during the Game Design and Development Bachelor's Degree.");
 			ImGui::Separator();
 
 			if (ImGui::TreeNodeEx("Github Links", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth))
@@ -51,7 +51,7 @@ bool PanelAbout::Draw()
 
 				ImGui::TreePop();
 			}
-
+			
 			ImGui::Separator();
 
 			if (ImGui::TreeNodeEx("3rd Party Libraries", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth))

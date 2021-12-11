@@ -7,8 +7,8 @@ class PanelManager
 {
 public:
 
-	PanelManager() {}
-	virtual ~PanelManager() {}
+	PanelManager(){}
+	virtual ~PanelManager(){}
 
 	bool active = false;
 

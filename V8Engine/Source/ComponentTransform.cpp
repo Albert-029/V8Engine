@@ -145,11 +145,11 @@ void ComponentTransform::DrawInspector()
 		}
 
 		float3 pos = GetPosition();
-		ImGui::Text("Position"); ImGui::SameLine();
-
+		ImGui::Text("Position"); ImGui::SameLine(); 
+		
 		ImGui::PushItemWidth(65); ImGui::PushID("posX"); ImGui::DragFloat("X", &pos.x, 0.5F); ImGui::PopID(); ImGui::SameLine();
 		ImGui::PushItemWidth(65); ImGui::PushID("posY"); ImGui::DragFloat("Y", &pos.y, 0.5F); ImGui::PopID(); ImGui::SameLine();
-		ImGui::PushItemWidth(65); ImGui::PushID("posZ"); ImGui::DragFloat("Z", &pos.z, 0.5F); ImGui::PopID();
+		ImGui::PushItemWidth(65); ImGui::PushID("posZ"); ImGui::DragFloat("Z", &pos.z, 0.5F);ImGui::PopID();
 
 		if (!GetPosition().Equals(pos)) SetPosition(pos);
 

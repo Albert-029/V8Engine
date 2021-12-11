@@ -20,7 +20,7 @@ ComponentCamera::ComponentCamera(GameObject* GO) : Component(COMPONENT_TYPE::CAM
 	frustum.nearPlaneDistance = 1.0f;
 	frustum.farPlaneDistance = 200.0f;
 	frustum.verticalFov = DegToRad(60.0f);
-
+	
 	AspectRatio(1.3f);
 }
 
@@ -121,7 +121,7 @@ void ComponentCamera::DrawInspector()
 
 			ImGui::PushItemWidth(180);
 			ImGui::SliderFloat("Far Plane", &farPlane, nearPlane, 400.f);
-
+			
 			ImGui::TreePop();
 		}
 
@@ -217,7 +217,7 @@ void ComponentCamera::DrawFrustum()
 {
 	glLineWidth(2.0f);
 	glBegin(GL_LINES);
-
+	
 	float3 corners[8];
 	frustum.GetCornerPoints(corners);
 

@@ -25,7 +25,7 @@ public:
 	void Save(uint GO_id, nlohmann::json& scene_file);
 
 public:
-
+	
 	bool EnableCheckersTexture = false;
 	bool EnableAssignedTexture = true;
 	bool noTexture = false;

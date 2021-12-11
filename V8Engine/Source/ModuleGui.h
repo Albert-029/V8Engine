@@ -50,7 +50,7 @@ public:
 	bool CleanUp();
 	void Render();
 	bool Draw();
-
+	
 	update_status PreUpdate(float dt);
 	update_status Update(float dt);
 	update_status PostUpdate(float dt);
@@ -62,7 +62,7 @@ public:
 	// Console
 	void LogConsole(char* text, ...);
 	static char* Strdup(const char* str) { size_t len = strlen(str) + 1; void* buf = malloc(len); IM_ASSERT(buf); return (char*)memcpy(buf, (const void*)str, len); }
-
+	
 	PanelConfiguration* Pconfig = nullptr;
 	PanelAbout* Pabout = nullptr;
 	PanelConsole* Pconsole = nullptr;
@@ -89,7 +89,7 @@ public:
 	void ChangeOperationGuizmo(ImGuizmo::OPERATION& op);
 	ImGuizmo::OPERATION g_operator = ImGuizmo::OPERATION::TRANSLATE;
 	ImGuizmo::MODE mode = ImGuizmo::MODE::WORLD;
-
+	
 	int currentOp = 1; // 1 is move, 2 is rotate, 3 is scale
 	bool updateMat = false;
 
@@ -109,7 +109,7 @@ private:
 
 	bool show_demo_window = false;
 	bool show_style_editor = false;
-
+	
 	list<PanelManager*> panels;
 };
 

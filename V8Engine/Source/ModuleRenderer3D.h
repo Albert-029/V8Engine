@@ -37,7 +37,7 @@ public:
 	void Texture2DView(bool active);
 
 public:
-
+	
 
 	ComponentCamera* culling = nullptr;
 

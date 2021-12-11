@@ -14,7 +14,7 @@ PanelConsole::~PanelConsole()
 bool PanelConsole::Start()
 {
 	this->active = true;
-
+	
 	if (consoleEmpty)
 		EraseLogs();
 
@@ -46,7 +46,7 @@ bool PanelConsole::Draw()
 				}
 
 				EraseLogs();
-			}
+			}				
 
 			ImGui::Separator();
 
@@ -54,7 +54,7 @@ bool PanelConsole::Draw()
 
 			if (ImGui::IsWindowHovered()) App->camera->isOnConsole = true;
 			else App->camera->isOnConsole = false;
-
+			
 			for (list<char*>::iterator item = consoleLogs.begin(); item != consoleLogs.end(); ++item)
 			{
 				ImVec4 color = TEXT_CONSOLE_COLOR;
@@ -117,7 +117,7 @@ void PanelConsole::PrintLogs()
 	{
 		CreateLog((*it));
 	}
-
+		
 	App->appLogs.clear();
 }
 

@@ -64,8 +64,8 @@ update_status ModuleCamera3D::Update(float dt)
 	mouse_picking = true;
 	focusError = false;
 
-	float3 speed =
-	{
+	float3 speed = 
+	{ 
 		(float)-App->input->GetMouseXMotion() * dt,
 		(float)-App->input->GetMouseYMotion() * dt,
 		(float)App->input->GetMouseZ() * dt
@@ -88,7 +88,7 @@ update_status ModuleCamera3D::Update(float dt)
 	else if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT)
 	{
 		Rotate(speed.x / slow, speed.y / slow);
-
+		
 		float moveSpeed = currentSpeed * dt;
 
 		MoveCamera(moveSpeed);
@@ -109,7 +109,7 @@ update_status ModuleCamera3D::Update(float dt)
 
 	DrawRay();
 
-	return UPDATE_CONTINUE;
+	return UPDATE_CONTINUE;	
 }
 
 void ModuleCamera3D::LookAt(const float3& Spot, float distance)
@@ -124,7 +124,7 @@ void ModuleCamera3D::LookAt(const float3& Spot, float distance)
 	}
 }
 
-void ModuleCamera3D::Move(const float3& Movement)
+void ModuleCamera3D::Move(const float3 &Movement)
 {
 	activeCam->frustum.pos += Movement;
 	looking_at += Movement;

@@ -109,7 +109,7 @@ void ComponentMesh::IsMeshComponentActive(GameObject* go)
 	else
 	{
 		LOG_C("ERROR: Mesh Component is NOT active");
-	}
+	}		
 }
 
 void ComponentMesh::Save(uint GO_id, nlohmann::json& scene)
@@ -119,7 +119,7 @@ void ComponentMesh::Save(uint GO_id, nlohmann::json& scene)
 		scene[object->data.name]["Components"]["Mesh"]["Name"] = App->GetPathName(rMesh->exported_file);
 }
 
-const AABB& ComponentMesh::BoundingBox()
-{
-	return aabb;
+const AABB& ComponentMesh::BoundingBox() 
+{ 
+	return aabb; 
 }

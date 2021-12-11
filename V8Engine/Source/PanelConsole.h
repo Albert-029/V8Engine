@@ -38,7 +38,7 @@ private:
 	ImGuiTextBuffer     Buf;
 	ImGuiTextFilter     Filter;
 	ImVector<int>       LineOffsets;
-
+	
 	list<char*> consoleLogs;
 };
 

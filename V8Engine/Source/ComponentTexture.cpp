@@ -88,7 +88,7 @@ void ComponentTexture::DrawInspector()
 			ImGui::Image((ImTextureID*)tex, ImVec2(310, 310), ImVec2(0, 1), ImVec2(1, 0), ImVec4(1.0f, 1.0f, 1.0f, 1.0f), ImVec4(1.0f, 1.0f, 1.0f, 0.5f));
 		}
 
-		else if (!active)
+		else if(!active)
 		{
 			if (ImGui::Button("Enable Texture"))
 				active = true;
@@ -113,7 +113,7 @@ void ComponentTexture::OpenTexturesMenu()
 	if (ImGui::Begin("Select Texture Menu", &openMenuTex, ImGuiWindowFlags_AlwaysAutoResize))
 	{
 		if (ImGui::IsWindowHovered())
-			App->camera->isOnSelectTexture = true;
+			App->camera->isOnSelectTexture = true;		
 		else
 			App->camera->isOnSelectTexture = false;
 

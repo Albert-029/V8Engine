@@ -67,7 +67,7 @@ bool TextureImporter::CleanUp()
 bool TextureImporter::DuplicateTexture(const char* path, std::string& output_file) const
 {
 	bool ret = false;
-
+	
 	std::string name = App->GetPathName(path);
 
 	ILuint size;

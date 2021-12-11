@@ -10,7 +10,7 @@ using json = nlohmann::json;
 
 class JsonImporter // actually it's not necessary to create this class
 {
-public:
+public: 
 	JsonImporter() {};
 
 };

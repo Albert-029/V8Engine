@@ -30,7 +30,7 @@ bool ModuleInput::Init()
 	bool ret = true;
 	SDL_Init(0);
 
-	if (SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
+	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
@@ -45,19 +45,19 @@ update_status ModuleInput::PreUpdate(float dt)
 	SDL_PumpEvents();
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
-
-	for (int i = 0; i < MAX_KEYS; ++i)
+	
+	for(int i = 0; i < MAX_KEYS; ++i)
 	{
-		if (keys[i] == 1)
+		if(keys[i] == 1)
 		{
-			if (keyboard[i] == KEY_IDLE)
+			if(keyboard[i] == KEY_IDLE)
 				keyboard[i] = KEY_DOWN;
 			else
 				keyboard[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if (keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
+			if(keyboard[i] == KEY_REPEAT || keyboard[i] == KEY_DOWN)
 				keyboard[i] = KEY_UP;
 			else
 				keyboard[i] = KEY_IDLE;
@@ -70,18 +70,18 @@ update_status ModuleInput::PreUpdate(float dt)
 	mouse_y /= SCREEN_SIZE;
 	mouse_z = 0;
 
-	for (int i = 0; i < 5; ++i)
+	for(int i = 0; i < 5; ++i)
 	{
-		if (buttons & SDL_BUTTON(i))
+		if(buttons & SDL_BUTTON(i))
 		{
-			if (mouse_buttons[i] == KEY_IDLE)
+			if(mouse_buttons[i] == KEY_IDLE)
 				mouse_buttons[i] = KEY_DOWN;
 			else
 				mouse_buttons[i] = KEY_REPEAT;
 		}
 		else
 		{
-			if (mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
+			if(mouse_buttons[i] == KEY_REPEAT || mouse_buttons[i] == KEY_DOWN)
 				mouse_buttons[i] = KEY_UP;
 			else
 				mouse_buttons[i] = KEY_IDLE;
@@ -92,17 +92,17 @@ update_status ModuleInput::PreUpdate(float dt)
 
 	bool quit = false;
 	SDL_Event e;
-	while (SDL_PollEvent(&e))
+	while(SDL_PollEvent(&e))
 	{
 		App->gui->EnableInput(&e);
 
-		switch (e.type)
+		switch(e.type)
 		{
-		case SDL_MOUSEWHEEL:
+			case SDL_MOUSEWHEEL:
 			mouse_z = e.wheel.y;
 			break;
 
-		case SDL_MOUSEMOTION:
+			case SDL_MOUSEMOTION:
 			mouse_x = e.motion.x / SCREEN_SIZE;
 			mouse_y = e.motion.y / SCREEN_SIZE;
 
@@ -110,61 +110,61 @@ update_status ModuleInput::PreUpdate(float dt)
 			mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
 			break;
 
-		case SDL_QUIT:
+			case SDL_QUIT:
 			/*quit = true;*/
 			App->gui->exitMenu = true;
 			break;
 
-		case SDL_WINDOWEVENT:
-		{
-			if (e.window.event == SDL_WINDOWEVENT_RESIZED)
-				App->renderer3D->OnResize(e.window.data1, e.window.data2);
-			break;
-		}
-
-		// File Dropped on scene
-		case SDL_DROPFILE:
-		{
-			dropDirection = e.drop.file;
-
-			// FBX or OBJ
-			if (strstr(dropDirection, ".fbx") != nullptr || strstr(dropDirection, ".FBX") != nullptr || strstr(dropDirection, ".obj") != nullptr || strstr(dropDirection, ".OBJ") != nullptr)
+			case SDL_WINDOWEVENT:
 			{
-				App->mesh_imp->LoadFile(dropDirection);
-				MeshFileDroped = true;
-				LOG_C("New file dropped on window with path: %s", dropDirection);
+				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
+					App->renderer3D->OnResize(e.window.data1, e.window.data2);
+				break;
 			}
 
-			// PNG or DDS
-			else if (strstr(dropDirection, ".png") != nullptr || strstr(dropDirection, ".dds") != nullptr || strstr(dropDirection, ".tga") != nullptr)
+			// File Dropped on scene
+			case SDL_DROPFILE:
 			{
-				if (App->scene_intro->GOselected != nullptr)
+				dropDirection = e.drop.file;
+
+				// FBX or OBJ
+				if (strstr(dropDirection, ".fbx") != nullptr || strstr(dropDirection, ".FBX") != nullptr || strstr(dropDirection, ".obj") != nullptr || strstr(dropDirection, ".OBJ") != nullptr)
 				{
-					if (App->scene_intro->GOselected->GetComponentTexture() == nullptr)
+					App->mesh_imp->LoadFile(dropDirection);
+					MeshFileDroped = true;
+					LOG_C("New file dropped on window with path: %s", dropDirection);
+				}
+
+				// PNG or DDS
+				else if (strstr(dropDirection, ".png") != nullptr || strstr(dropDirection, ".dds") != nullptr || strstr(dropDirection, ".tga") != nullptr)
+				{
+					if (App->scene_intro->GOselected != nullptr)
 					{
-						LOG_C("WARNING: This Game Object doesn't have a Component Texture, maybe try with another child");
+						if (App->scene_intro->GOselected->GetComponentTexture() == nullptr)
+						{
+							LOG_C("WARNING: This Game Object doesn't have a Component Texture, maybe try with another child");
+						}
+						else
+						{
+							App->scene_intro->GOselected->GetComponentTexture()->rTexture = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile(dropDirection));
+							App->scene_intro->GOselected->GetComponentTexture()->rTexture->LoadInMemory();
+							//App->tex_imp->LoadTexture(dropDirection);
+							TextureFileDropped = true;
+							LOG_C("New texture dropped on window with path: %s", dropDirection);
+						}
 					}
 					else
 					{
-						App->scene_intro->GOselected->GetComponentTexture()->rTexture = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile(dropDirection));
-						App->scene_intro->GOselected->GetComponentTexture()->rTexture->LoadInMemory();
-						//App->tex_imp->LoadTexture(dropDirection);
-						TextureFileDropped = true;
-						LOG_C("New texture dropped on window with path: %s", dropDirection);
+						LOG_C("ERROR: You must select a GameObject to drop a texture!");
 					}
+					
 				}
 				else
-				{
-					LOG_C("ERROR: You must select a GameObject to drop a texture!");
-				}
+					LOG_C("ERROR: File dropped extension not supported! Try '.fbx', '.obj', '.png' or 'dds'");
 
+				SDL_free((char*)dropDirection);
+				break;
 			}
-			else
-				LOG_C("ERROR: File dropped extension not supported! Try '.fbx', '.obj', '.png' or 'dds'");
-
-			SDL_free((char*)dropDirection);
-			break;
-		}
 		}
 	}
 

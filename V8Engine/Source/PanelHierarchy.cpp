@@ -71,7 +71,7 @@ void PanelHierarchy::ManageNodesOnHierarchy(GameObject* GO)
 
 	if (GO->data.active == true)
 		node_open = ImGui::TreeNodeEx((void*)(intptr_t)GO->data.id, node_flag, GO->data.name.c_str());
-	else
+	else 
 		node_open = ImGui::TreeNodeEx((void*)(intptr_t)GO->data.id, node_flag |= ImGuiTreeNodeFlags_Leaf, GO->data.name.c_str());
 
 	// when node is clicked
@@ -213,7 +213,7 @@ void PanelHierarchy::DrawMenuNotHovering()
 		}
 
 		ImGui::Separator();
-
+		
 		if (ImGui::BeginMenu("Create Shape"))
 		{
 			if (ImGui::MenuItem("Cube"))

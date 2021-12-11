@@ -16,12 +16,12 @@
 
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
-MeshImporter::MeshImporter(Application* app, bool start_enabled) : Module(app, start_enabled)
-{
-	active = true;
+MeshImporter::MeshImporter(Application* app, bool start_enabled) : Module(app, start_enabled) 
+{ 
+	active = true; 
 }
 
-MeshImporter::~MeshImporter()
+MeshImporter::~MeshImporter() 
 {
 }
 
@@ -256,10 +256,10 @@ void MeshImporter::LoadNode(const aiScene* scene, aiNode* node, const char* node
 
 			mesh->rMesh = res_mesh;
 
-			if (mesh->rMesh != nullptr)
+			if(mesh->rMesh != nullptr)
 				mesh->rMesh->LoadInMemory();
 		}
-
+		
 		aiMaterial* material = scene->mMaterials[new_mesh->mMaterialIndex];
 		uint numTextures = material->GetTextureCount(aiTextureType_DIFFUSE);
 
@@ -305,31 +305,31 @@ bool MeshImporter::Export(const char* name, std::string& output_file, ResourceMe
 
 	uint ranges[4] = { mesh->data.num_index, mesh->data.num_vertex,  mesh->data.num_normals, mesh->data.num_tex_coords };
 
-	uint size = sizeof(ranges)
-		+ sizeof(uint) * mesh->data.num_index
-		+ sizeof(float) * mesh->data.num_vertex * 3
-		+ sizeof(float) * mesh->data.num_normals * 3 * 2
+	uint size = sizeof(ranges) 
+		+ sizeof(uint) * mesh->data.num_index 
+		+ sizeof(float) * mesh->data.num_vertex * 3 
+		+ sizeof(float) * mesh->data.num_normals * 3 * 2 
 		+ sizeof(float) * mesh->data.num_tex_coords * 2;
 
-	char* data = new char[size];
+	char* data = new char[size]; 
 	char* cursor = data;
 
-	uint bytes = sizeof(ranges);
+	uint bytes = sizeof(ranges); 
 	memcpy(cursor, ranges, bytes);
 
-	cursor += bytes;
+	cursor += bytes; 
 	bytes = sizeof(uint) * mesh->data.num_index;
 	memcpy(cursor, mesh->data.index, bytes);
 
-	cursor += bytes;
+	cursor += bytes; 
 	bytes = sizeof(float) * mesh->data.num_vertex * 3;
 	memcpy(cursor, mesh->data.vertex, bytes);
 
-	cursor += bytes;
+	cursor += bytes; 
 	bytes = sizeof(float) * mesh->data.num_normals * 3;
 	memcpy(cursor, mesh->data.face_center, bytes);
 
-	cursor += bytes;
+	cursor += bytes; 
 	bytes = sizeof(float) * mesh->data.num_normals * 3;
 	memcpy(cursor, mesh->data.face_normals, bytes);
 
@@ -373,27 +373,27 @@ bool MeshImporter::Load(ResourceMesh* mesh)
 		mesh->data.num_normals = ranges[2];
 		mesh->data.num_tex_coords = ranges[3];
 
-		cursor += bytes;
+		cursor += bytes; 
 		bytes = sizeof(uint) * mesh->data.num_index;
 		mesh->data.index = new uint[mesh->data.num_index];
 		memcpy(mesh->data.index, cursor, bytes);
 
-		cursor += bytes;
+		cursor += bytes; 
 		bytes = sizeof(float) * mesh->data.num_vertex * 3;
 		mesh->data.vertex = new float3[mesh->data.num_vertex];
 		memcpy(mesh->data.vertex, cursor, bytes);
 
-		cursor += bytes;
+		cursor += bytes; 
 		bytes = sizeof(float) * mesh->data.num_normals * 3;
 		mesh->data.face_center = new float3[mesh->data.num_normals];
 		memcpy(mesh->data.face_center, cursor, bytes);
 
-		cursor += bytes;
+		cursor += bytes; 
 		bytes = sizeof(float) * mesh->data.num_normals * 3;
 		mesh->data.face_normals = new float3[mesh->data.num_normals];
 		memcpy(mesh->data.face_normals, cursor, bytes);
 
-		cursor += bytes;
+		cursor += bytes; 
 		bytes = sizeof(float) * mesh->data.num_tex_coords * 2;
 		mesh->data.tex_coords = new float[mesh->data.num_tex_coords * 2];
 		memcpy(mesh->data.tex_coords, cursor, bytes);

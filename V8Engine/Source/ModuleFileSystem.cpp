@@ -31,7 +31,7 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());
 
 	const char* dirs[] = {
-		ASSETS_FOLDER,
+		ASSETS_FOLDER, 
 		ASSETS_SCENES_FOLDER,
 		ASSETS_TEXTURES_FOLDER,
 		ASSETS_MODELS_FOLDER,
@@ -244,7 +244,7 @@ void ModuleFileSystem::NormalizePath(std::string& full_path) const
 void ModuleFileSystem::DuplicateFile(const char* path, const char* objective)
 {
 	std::string full_p, cons_path, fileName, extended;
-
+	
 	SplitFilePath(path, &cons_path, &fileName, &extended);
 
 	full_p = path;

@@ -22,7 +22,7 @@ public:
 public:
 	int		w_width = 0;
 	int		w_height = 0;
-
+	
 	struct ScreenInfo {
 		int		width = SCREEN_WIDTH;
 		int		height = SCREEN_HEIGHT;
@@ -42,7 +42,7 @@ public:
 		GLint VRAM_available = 0;
 		GLint VRAM_usage = 0;
 	}hardware;
-
+	
 public:
 
 	// View Mode

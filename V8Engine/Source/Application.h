@@ -31,7 +31,7 @@ class ModuleResources;
 enum class ENGINE_STATE
 {
 	NONE = 0,
-	PLAY,
+	PLAY, 
 	PAUSE
 };
 

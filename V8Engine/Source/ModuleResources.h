@@ -16,7 +16,7 @@ struct Assets
 
 	enum TYPE
 	{
-		FOLDER,
+		FOLDER, 
 		FILE
 	}type;
 
@@ -40,7 +40,7 @@ public:
 	bool CleanUp();
 
 	void DrawResources(RESOURCE_TYPE type);
-	void AlignResources(int& i);
+	void AlignResources(int &i);
 
 	Resource* CreateResource(RESOURCE_TYPE type);
 	Resource* BuildResource(Resource* res, const char* file, std::string written);
@@ -56,7 +56,7 @@ public:
 	bool CompareExtensionForModels(std::string var);
 	bool CompareExtensionForScenes(std::string var);
 
-public:
+public: 
 
 	std::map<uint, Resource*> resources;
 	std::map<uint, ResourceTexture*> tex_resources;
@@ -70,7 +70,7 @@ private:
 	bool isTexture = false;
 
 	std::string text_path;
-
+	
 };
 
 #endif
