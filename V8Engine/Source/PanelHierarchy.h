@@ -2,6 +2,8 @@
 #define __PANELHIERARCHY_H__
 
 #include "Application.h"
+#include "PanelManager.h"
+#include "GameObject.h"
 
 
 class PanelHierarchy : public PanelManager
@@ -12,10 +14,22 @@ public:
 
 	bool Start();
 	bool Draw();
+	void DrawMenuHovering();
+	void DrawMenuNotHovering();
+
+	bool openMenuHovering = false;
+	bool openMenuNotHovering = false;
+
+	uint clickedGO = -1;
+	void ManageNodesOnHierarchy(GameObject* GO);
+	GameObject* draggedGO = nullptr;
 
 private:
-	int		w_width = 0;
-	int		w_height = 0;
+	GameObject* lastParent = nullptr;
+	GameObject* newParent = nullptr;
+
+	bool changingParent = false;
+
 };
 
 #endif

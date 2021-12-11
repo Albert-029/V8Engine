@@ -2,13 +2,10 @@
 #define __ModuleRenderer3D__
 
 #include "Application.h"
-#include "Math.h"
 #include "Light.h"
 #include "GameObject.h"
 
 #define MAX_LIGHTS 8
-
-//struct MeshObj;
 
 class ModuleRenderer3D : public Module
 {
@@ -23,11 +20,13 @@ public:
 
 	void OnResize(int width, int height);
 
-	void NewVertexBuffer(float3* vertex, uint& size, uint& id_vertex);
-	void NewIndexBuffer(uint* index, uint& size, uint& id_index);
-	void NewTextBuffer(float* text_coords, uint& num_text_coords, uint& id_text_coords);
+	void VertexBuffer(float3* vertex, uint& size, uint& id_vertex);
+	void IndexBuffer(uint* index, uint& size, uint& id_index);
+	void TextureBuffer(float* text_coords, uint& num_text_coords, uint& id_text_coords);
+	void DeleteBuffer(uint& type);
 
-	void DrawObject(GameObject* GO);
+	void GenerateObject(GameObject* GO);
+	float* GetProjectionMatrix();
 
 	// View Mode
 	void WireframeView(bool active);
@@ -39,10 +38,15 @@ public:
 
 public:
 
+
+	ComponentCamera* culling = nullptr;
+
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	mat3x3 NormalMatrix;
 	mat4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+
+	Color bg_color = { 0.f, 0.f, 0.05f };
 
 };
 

@@ -4,6 +4,8 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleGUI.h"
 #include "ModuleSceneIntro.h"
+#include "MeshImporter.h"
+#include "ModuleResources.h"
 
 #define MAX_KEYS 300
 
@@ -23,7 +25,7 @@ ModuleInput::~ModuleInput()
 // Called before render is available
 bool ModuleInput::Init()
 {
-	LOG_IMGUI_CONSOLE("Loading Input");
+	LOG_C("Loading Input");
 	LOG("Init SDL input event system");
 	bool ret = true;
 	SDL_Init(0);
@@ -109,7 +111,8 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 
 		case SDL_QUIT:
-			quit = true;
+			/*quit = true;*/
+			App->gui->exitMenu = true;
 			break;
 
 		case SDL_WINDOWEVENT:
@@ -119,26 +122,45 @@ update_status ModuleInput::PreUpdate(float dt)
 			break;
 		}
 
+		// File Dropped on scene
 		case SDL_DROPFILE:
 		{
 			dropDirection = e.drop.file;
 
-			if (GetFileExtension(dropDirection) == "FBX" || GetFileExtension(dropDirection) == "fbx")
+			// FBX or OBJ
+			if (strstr(dropDirection, ".fbx") != nullptr || strstr(dropDirection, ".FBX") != nullptr || strstr(dropDirection, ".obj") != nullptr || strstr(dropDirection, ".OBJ") != nullptr)
 			{
-				App->mesh_imp->LoadMesh(dropDirection);
-				LOG_IMGUI_CONSOLE("New file dropped on window with path: %s", dropDirection);
+				App->mesh_imp->LoadFile(dropDirection);
+				MeshFileDroped = true;
+				LOG_C("New file dropped on window with path: %s", dropDirection);
 			}
-			else if (GetFileExtension(dropDirection) == "png")
+
+			// PNG or DDS
+			else if (strstr(dropDirection, ".png") != nullptr || strstr(dropDirection, ".dds") != nullptr || strstr(dropDirection, ".tga") != nullptr)
 			{
-				for (int i = 0; i < App->scene_intro->gameobjectsList.size(); i++)
+				if (App->scene_intro->GOselected != nullptr)
 				{
-					App->scene_intro->gameobjectsList[i]->GetComponentTexture()->tData = App->tex_imp->LoadTexture(dropDirection);
+					if (App->scene_intro->GOselected->GetComponentTexture() == nullptr)
+					{
+						LOG_C("WARNING: This Game Object doesn't have a Component Texture, maybe try with another child");
+					}
+					else
+					{
+						App->scene_intro->GOselected->GetComponentTexture()->rTexture = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile(dropDirection));
+						App->scene_intro->GOselected->GetComponentTexture()->rTexture->LoadInMemory();
+						//App->tex_imp->LoadTexture(dropDirection);
+						TextureFileDropped = true;
+						LOG_C("New texture dropped on window with path: %s", dropDirection);
+					}
+				}
+				else
+				{
+					LOG_C("ERROR: You must select a GameObject to drop a texture!");
 				}
 
-				LOG_IMGUI_CONSOLE("New texture dropped on window with path: %s", dropDirection);
 			}
 			else
-				LOG_IMGUI_CONSOLE("ERROR: File dropped extension not supported! Try '.fbx' or '.png'");
+				LOG_C("ERROR: File dropped extension not supported! Try '.fbx', '.obj', '.png' or 'dds'");
 
 			SDL_free((char*)dropDirection);
 			break;
@@ -146,8 +168,8 @@ update_status ModuleInput::PreUpdate(float dt)
 		}
 	}
 
-	if (quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
-		return UPDATE_STOP;
+	if (/*quit == true ||*/ keyboard[SDL_SCANCODE_LALT] == KEY_REPEAT && keyboard[SDL_SCANCODE_F4] == KEY_DOWN)
+		App->quitApp = true;
 
 	return UPDATE_CONTINUE;
 }
@@ -158,12 +180,4 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
-}
-
-const std::string ModuleInput::GetFileExtension(const std::string FileName)
-{
-	if (FileName.find_last_of(".") != std::string::npos)
-		return (FileName.substr(FileName.find_last_of(".") + 1));
-	else
-		return "";
 }

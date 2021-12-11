@@ -1,14 +1,18 @@
 #include "GameObject.h"
 #include "ModuleGUI.h"
 #include "Component.h"
+#include "ModuleSceneIntro.h"
+#include "imgui-1.78/ImGuizmo.h"
+#include "ModuleCamera3D.h"
+#include "Color.h"
 
 GameObject::GameObject(std::string name)
 {
-	this->oData.GOname = name;
-	this->oData.active = true;
-	CreateComponent(COMPONENT_TYPE::TRANSFORM, true);
-	CreateComponent(COMPONENT_TYPE::MESH, true);
-	CreateComponent(COMPONENT_TYPE::TEXTURE, true);
+	this->data.name = name;
+	this->data.UUID = GO::GenerateUUID();
+	CreateComponent(COMPONENT_TYPE::TRANSFORM);
+
+	LOG_C("A new GameObject called '%s' has been created!", name.c_str());
 }
 
 GameObject::~GameObject()
@@ -17,40 +21,117 @@ GameObject::~GameObject()
 
 void GameObject::Update()
 {
-	for (int i = 0; i < componentsList.size(); ++i)
+	for (std::vector<GameObject*>::iterator it = childrenList.begin(); it != childrenList.end(); ++it)
 	{
-		if (componentsList[i] != nullptr && componentsList[i]->active)
-			componentsList[i]->Update();
+		(*it)->Update();
+	}
+
+	if (this->data.active)
+	{
+		if (this->GetComponentTransform()->moved)
+			TransformGlobal(this);
+
+		GameObject* GO = App->scene_intro->GOselected;
+
+		UpdateBoundingBox();
+
+		// Selected Game Object
+		if (GO != nullptr)
+		{
+			// Game Object is not a camera
+			if (GO->GetComponentCamera() == nullptr)
+			{
+				if (App->gui->Pstate->drawBB == 1 && GO->data.active)
+					DrawOwnBoundingBox(GO);
+
+				if (App->gui->Pstate->drawBB == 2)
+					DrawAllBoundingBoxes(aabb);
+
+			}
+			// Game Object is a camera
+			else
+			{
+				if (App->gui->Pstate->drawBB == 1 && GO->data.active && !GO->GetComponentCamera()->showFrustum)
+					DrawOwnBoundingBox(GO);
+
+				if (App->gui->Pstate->drawBB == 2 && !GO->GetComponentCamera()->showFrustum)
+					DrawAllBoundingBoxes(aabb);
+			}
+
+		}
+		// No Selected Game Object
+		else
+		{
+			if (App->gui->Pstate->drawBB == 2)
+				DrawAllBoundingBoxes(aabb);
+		}
 	}
 }
 
 void GameObject::CleanUp()
 {
+
 	for (int i = 0; i < componentsList.size(); ++i)
 	{
 		if (componentsList[i] != nullptr && componentsList[i]->active)
 			componentsList[i]->CleanUp();
+
+		delete componentsList[i];
+		componentsList[i] = nullptr;
 	}
+
+	componentsList.clear();
+
+	if (GOparent != nullptr)
+	{
+		GOparent->RemoveChild(this);
+	}
+
+	for (uint i = 0; i < childrenList.size(); ++i)
+	{
+		if (childrenList[i] != nullptr)
+		{
+			childrenList[i]->CleanUp();
+		}
+	}
+
+	childrenList.clear();
 }
 
-void GameObject::Draw()
+void GameObject::Draw() const
 {
+	if (App->gui->Pstate->drawBB == 2)
+	{
+		DrawAllBoundingBoxes(aabb);
+	}
+
 	for (int i = 0; i < componentsList.size(); ++i)
 	{
-		componentsList[i]->Draw();
+		if (componentsList[i]->active)
+			componentsList[i]->Draw();
 	}
 }
 
 void GameObject::EnableGameObject()
 {
-	if (oData.active)
-		oData.active = true;
+	if (!this->data.active)
+		this->data.active = true;
+
+	for (std::vector<GameObject*>::iterator it = childrenList.begin(); it != childrenList.end(); ++it)
+	{
+		(*it)->EnableGameObject();
+	}
 }
 
 void GameObject::DisableGameObject()
 {
-	if (oData.active)
-		oData.active = false;
+	if (this->data.active)
+		this->data.active = false;
+
+	for (std::vector<GameObject*>::iterator it = childrenList.begin(); it != childrenList.end(); ++it)
+	{
+		(*it)->DisableGameObject();
+	}
 }
 
 Component* GameObject::CreateComponent(COMPONENT_TYPE type, bool active)
@@ -60,16 +141,16 @@ Component* GameObject::CreateComponent(COMPONENT_TYPE type, bool active)
 	switch (type)
 	{
 	case COMPONENT_TYPE::TRANSFORM:
-		component = new ComponentTransform(this, true);
-		LOG_IMGUI_CONSOLE("Component transform added to the list");
+		component = new ComponentTransform(this);
 		break;
 	case COMPONENT_TYPE::MESH:
-		component = new ComponentMesh(this, true);
-		LOG_IMGUI_CONSOLE("Component mesh added to the list");
+		component = new ComponentMesh(this);
 		break;
 	case COMPONENT_TYPE::TEXTURE:
-		component = new ComponentTexture(this, true);
-		LOG_IMGUI_CONSOLE("Component texture added to the list");
+		component = new ComponentTexture(this);
+		break;
+	case COMPONENT_TYPE::CAMERA:
+		component = new ComponentCamera(this);
 		break;
 	}
 
@@ -81,15 +162,14 @@ Component* GameObject::CreateComponent(COMPONENT_TYPE type, bool active)
 	return component;
 }
 
-Component* GameObject::GetComponent(const COMPONENT_TYPE& type)
+Component* GameObject::GetComponent(COMPONENT_TYPE type) const
 {
-	for (std::vector<Component*>::iterator it = componentsList.begin(); it != componentsList.end(); ++it)
+	for (int i = 0; i < componentsList.size(); ++i)
 	{
-		if (*it != nullptr && (*it)->GetComponentType() == type)
-		{
-			return *it;
-		}
+		if (componentsList[i]->type == type)
+			return componentsList[i];
 	}
+
 	return nullptr;
 }
 
@@ -132,8 +212,176 @@ ComponentTexture* GameObject::GetComponentTexture()
 	return (ComponentTexture*)texture;
 }
 
-void GameObject::AssignNameToGO(const char* name)
+ComponentCamera* GameObject::GetComponentCamera()
 {
-	this->oData.GOname = name;
+	Component* camera = nullptr;
+	for (std::vector<Component*>::iterator i = componentsList.begin(); i != componentsList.end(); i++)
+	{
+		if ((*i)->type == COMPONENT_TYPE::CAMERA)
+		{
+			return (ComponentCamera*)*i;
+		}
+	}
+	return (ComponentCamera*)camera;
 }
 
+bool GameObject::IsGameObjectActive()
+{
+	return data.active;
+}
+
+const char* GameObject::GetGameObjectName()
+{
+	return data.name.c_str();
+}
+
+uint GameObject::GetGameObjectId()
+{
+	return data.id;
+}
+
+int GameObject::GetGameObjectUUID()
+{
+	return data.UUID;
+}
+
+GameObject* GameObject::GetRootGameObject()
+{
+	return App->scene_intro->GOroot;
+}
+
+void GameObject::AddChild(GameObject* child)
+{
+	if (child->GOparent != nullptr)
+		child->GOparent->RemoveChild(child);
+
+	child->GOparent = this;
+	childrenList.push_back(child);
+}
+
+void GameObject::RemoveChild(GameObject* child)
+{
+	for (int i = 0; i < childrenList.size(); i++)
+	{
+		if (childrenList[i] == child)
+		{
+			childrenList.erase(childrenList.begin() + i);
+		}
+	}
+}
+
+void GameObject::TransformGlobal(GameObject* GO)
+{
+	ComponentTransform* transform = GO->GetComponentTransform();
+	transform->TransformGlobalMat(GO->GOparent->GetComponentTransform()->GetGlobalTransform());
+
+	for (std::vector<GameObject*>::iterator it = GO->childrenList.begin(); it != GO->childrenList.end(); ++it)
+	{
+		TransformGlobal(*it);
+	}
+}
+
+void GameObject::Save(uint GO_id, nlohmann::json& scene)
+{
+	scene["Game Objects"][GO_id]["Name"] = data.name;
+	scene["Game Objects"][GO_id]["Id"] = data.id;
+	scene["Game Objects"][GO_id]["UUID"] = data.UUID;
+	scene["Game Objects"][GO_id]["Active"] = data.active;
+
+	for (int i = 0; i < componentsList.size(); i++)
+		componentsList[i]->Save(GO_id, scene);
+}
+
+void GameObject::UpdateBoundingBox()
+{
+	ComponentMesh* mesh = this->GetComponentMesh();
+
+	if (mesh)
+	{
+		obb = mesh->BoundingBox();
+		obb.Transform(this->GetComponentTransform()->GetGlobalTransform());
+
+		aabb.SetNegativeInfinity();
+		aabb.Enclose(obb);
+	}
+}
+
+void GameObject::DrawAllBoundingBoxes(const AABB& aabb)
+{
+	glLineWidth(App->scene_intro->bbSize);
+	glBegin(GL_LINES);
+
+	glColor4f(App->scene_intro->bbColor.r, App->scene_intro->bbColor.g, App->scene_intro->bbColor.b, App->scene_intro->bbColor.a);
+
+	for (uint i = 0; i < 12; i++)
+	{
+		glVertex3f(aabb.Edge(i).a.x, aabb.Edge(i).a.y, aabb.Edge(i).a.z);
+		glVertex3f(aabb.Edge(i).b.x, aabb.Edge(i).b.y, aabb.Edge(i).b.z);
+	}
+
+	glColor3ub(255, 255, 255);
+
+	glEnd();
+}
+
+bool GameObject::DrawOwnBoundingBox(GameObject* GO)
+{
+	bool ret = true;
+
+	if (GO == nullptr)
+		return false;
+
+	if (GO != nullptr)
+	{
+		ComponentMesh* m = GO->GetComponentMesh();
+
+		if (m)
+		{
+			obb = m->BoundingBox();
+
+			obb.Transform(GO->GetComponentTransform()->GetGlobalTransform());
+
+			aabb.SetNegativeInfinity();
+			aabb.Enclose(obb);
+		}
+
+		glLineWidth(App->scene_intro->bbSize);
+		glBegin(GL_LINES);
+
+		glColor4f(App->scene_intro->bbColor.r, App->scene_intro->bbColor.g, App->scene_intro->bbColor.b, App->scene_intro->bbColor.a);
+
+		for (uint i = 0; i < 12; i++)
+		{
+			glVertex3f(aabb.Edge(i).a.x, aabb.Edge(i).a.y, aabb.Edge(i).a.z);
+			glVertex3f(aabb.Edge(i).b.x, aabb.Edge(i).b.y, aabb.Edge(i).b.z);
+		}
+
+		glColor3ub(255, 255, 255);
+
+		glEnd();
+	}
+
+	return ret;
+}
+
+void GO::Culling(std::vector<const GameObject*>& array_, const GameObject* GO, bool parent, uint c)
+{
+	if (c != 0) array_.push_back(GO);
+	else if (parent) array_.push_back(GO);
+
+	c++;
+
+	if (GO->childrenList.size() > 0)
+	{
+		for (int i = 0; i < GO->childrenList.size(); ++i)
+		{
+			Culling(array_, GO->childrenList[i], parent, c);
+		}
+	}
+}
+
+int GO::GenerateUUID()
+{
+	int uuid = GenerateRandomBetween(99999999999);
+	return uuid;
+}

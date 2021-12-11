@@ -7,12 +7,10 @@
 #include "ModuleGUI.h"
 #include "ModuleCamera3D.h"
 #include "GameObject.h"
-#include "Math.h"
+#include "Viewport.h"
+#include "ModuleWindow.h"
 
-#include "Libraries/MathGeoLib/include/MathBuildConfig.h"
-#include "Libraries/MathGeoLib/include/MathGeoLib.h"
-
-#include "Libraries\SDL\include\SDL_opengl.h"
+#include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
 
@@ -30,7 +28,7 @@ ModuleRenderer3D::~ModuleRenderer3D()
 // Called before render is available
 bool ModuleRenderer3D::Init()
 {
-	LOG_IMGUI_CONSOLE("Loading 3D Renderer Context");
+	LOG_C("Loading 3D Renderer Context");
 	bool ret = true;
 
 	//Create context
@@ -42,12 +40,11 @@ bool ModuleRenderer3D::Init()
 
 	if (ret == true)
 	{
-		// Without this function glew doesn't initialize so the code crashes, IT MUST BE HERE
 		glewInit();
 
 		//Use Vsync
 		if (VSYNC && SDL_GL_SetSwapInterval(1) < 0)
-			LOG_IMGUI_CONSOLE("ERROR: Unable to set VSync");
+			LOG_C("ERROR: Unable to set VSync");
 
 		//Initialize Projection Matrix
 		glMatrixMode(GL_PROJECTION);
@@ -76,6 +73,7 @@ bool ModuleRenderer3D::Init()
 
 		//Initialize clear color
 		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClear(GL_COLOR_BUFFER_BIT);
 
 		//Check for error
 		error = glGetError();
@@ -107,13 +105,9 @@ bool ModuleRenderer3D::Init()
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_CULL_FACE);
-		glEnable(GL_LIGHTING);
 		glEnable(GL_COLOR_MATERIAL);
 		glEnable(GL_TEXTURE_2D);
 	}
-
-	// Projection matrix for
-	OnResize(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	return ret;
 }
@@ -121,25 +115,51 @@ bool ModuleRenderer3D::Init()
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate(float dt)
 {
+	// In playmode projection
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glLoadMatrixf((GLfloat*)App->camera->GetProjection());
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
+	// In editor projection
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(App->camera->GetViewMatrix());
-
-	// light 0 on cam pos
-	lights[0].SetPos(App->camera->Position.x, App->camera->Position.y, App->camera->Position.z);
+	glLoadMatrixf(App->camera->GetView());
 
 	for (uint i = 0; i < MAX_LIGHTS; ++i)
 		lights[i].Render();
 
+	//Environment Color
+	glClearColor(bg_color.r, bg_color.g, bg_color.b, 1.f);
+
 	return UPDATE_CONTINUE;
 }
 
-// PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate(float dt)
 {
-	App->scene_intro->Draw();
+	ComponentCamera* cam = culling;
+
+	if (culling == nullptr)
+		cam = App->camera->GetActiveCamera();
+	else cam->DrawCamera();
+
+	std::vector<const GameObject*> objs;
+
+	GO::Culling(objs, App->scene_intro->GOroot);
+
+	for (int i = 0; i < objs.size(); i++)
+	{
+		if (objs[i]->data.active && cam->Intersect(objs[i]->aabb))
+		{
+			objs[i]->Draw();
+		}
+	}
 
 	// Drawing Panels
 	App->gui->Draw();
@@ -170,7 +190,7 @@ void ModuleRenderer3D::OnResize(int width, int height)
 	glLoadIdentity();
 }
 
-void ModuleRenderer3D::NewVertexBuffer(float3* vertex, uint& size, uint& id_vertex)
+void ModuleRenderer3D::VertexBuffer(float3* vertex, uint& size, uint& id_vertex)
 {
 	glGenBuffers(1, (GLuint*)&(id_vertex));
 	glBindBuffer(GL_ARRAY_BUFFER, id_vertex);
@@ -178,7 +198,7 @@ void ModuleRenderer3D::NewVertexBuffer(float3* vertex, uint& size, uint& id_vert
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ModuleRenderer3D::NewIndexBuffer(uint* index, uint& size, uint& id_index)
+void ModuleRenderer3D::IndexBuffer(uint* index, uint& size, uint& id_index)
 {
 	glGenBuffers(1, (GLuint*)&(id_index));
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_index);
@@ -186,7 +206,7 @@ void ModuleRenderer3D::NewIndexBuffer(uint* index, uint& size, uint& id_index)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ModuleRenderer3D::NewTextBuffer(float* text_coords, uint& num_text_coords, uint& id_text_coords)
+void ModuleRenderer3D::TextureBuffer(float* text_coords, uint& num_text_coords, uint& id_text_coords)
 {
 	glGenBuffers(1, (GLuint*)&(id_text_coords));
 	glBindBuffer(GL_ARRAY_BUFFER, id_text_coords);
@@ -194,67 +214,58 @@ void ModuleRenderer3D::NewTextBuffer(float* text_coords, uint& num_text_coords, 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void ModuleRenderer3D::DrawObject(GameObject* GO)
+void ModuleRenderer3D::DeleteBuffer(uint& type)
+{
+	glDeleteBuffers(1, &(GLuint)type);
+}
+
+void ModuleRenderer3D::GenerateObject(GameObject* GO)
 {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glBindBuffer(GL_ARRAY_BUFFER, GO->GetComponentMesh()->mData.id_vertex);
-	glVertexPointer(3, GL_FLOAT, 0, NULL);
-
-	if (GO->GetComponentTexture()->EnableCheckersTexture)
-		glBindTexture(GL_TEXTURE_2D, App->tex_imp->CheckersTexture.id);
-	else
-		glBindTexture(GL_TEXTURE_2D, GO->GetComponentTexture()->tData.id);
-
-	glBindBuffer(GL_ARRAY_BUFFER, GO->GetComponentMesh()->mData.id_tex_coords);
-	glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, GO->GetComponentMesh()->mData.id_index);
-	glDrawElements(GL_TRIANGLES, GO->GetComponentMesh()->mData.num_index, GL_UNSIGNED_INT, nullptr);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
-
-
-	if (GO->GetComponentMesh()->showFaceNormals)
+	if (GO->GetComponentTexture() != nullptr)
 	{
-		/*glBegin(GL_LINES);
-		glColor3f(1, 0, 1);*/
+		if (GO->GetComponentTexture()->active && GO->GetComponentTexture()->rTexture != nullptr)
+		{
+			if (GO->GetComponentTexture()->EnableAssignedTexture)
+				glBindTexture(GL_TEXTURE_2D, GO->GetComponentTexture()->rTexture->tex.id);
+			else if (GO->GetComponentTexture()->EnableCheckersTexture)
+				glBindTexture(GL_TEXTURE_2D, App->tex_imp->checker_texture.id);
+		}
+		else
+			glBindTexture(GL_TEXTURE_2D, NULL);
+	}
 
-		//float3 mid;
-		//float3 normal;
-		//
-		//for (int j = 0; j < m->GetComponentMesh()->mData.num_index; j += 3)
-		//{
-		//	// Declaring each vertex of the triangle
-		//	float3 vert1 = m->GetComponentMesh()->mData.vertex[m->GetComponentMesh()->mData.index[j]];
-		//	float3 vert2 = m->GetComponentMesh()->mData.vertex[m->GetComponentMesh()->mData.index[j + 1]];
-		//	float3 vert3 = m->GetComponentMesh()->mData.vertex[m->GetComponentMesh()->mData.index[j + 2]];
+	if (GO->GetComponentMesh() != nullptr)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, GO->GetComponentMesh()->rMesh->data.id_vertex);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
 
-		//	mid = (vert1 + vert2 + vert3) / 3;
+		glActiveTexture(GL_TEXTURE0);
 
-		//	// Get normal vector with cross product
-		//	float3 edge_a = vert2 - vert1;
-		//	float3 edge_b = vert3 - vert1;
+		glBindBuffer(GL_ARRAY_BUFFER, GO->GetComponentMesh()->rMesh->data.id_tex_coords);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-		//	float3 normal = Cross(edge_a, edge_b);
-		//	normal.Normalize();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, GO->GetComponentMesh()->rMesh->data.id_index);
+		glDrawElements(GL_TRIANGLES, GO->GetComponentMesh()->rMesh->data.num_index, GL_UNSIGNED_INT, nullptr);
 
-		//	glVertex3f(mid.x, mid.y, mid.z);
-		//	glVertex3f(mid.x + normal.x, mid.y + normal.y, mid.z + normal.z);
-		//}
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 
-		//glColor3f(1, 1, 1);
-		//glEnd();
+		glDisableClientState(GL_VERTEX_ARRAY);
+
 	}
 }
 
-// View Modes
+// ImGuizmo purposes
+float* ModuleRenderer3D::GetProjectionMatrix()
+{
+	return &ProjectionMatrix;
+}
 
+// View Modes
 void ModuleRenderer3D::WireframeView(bool active)
 {
 	if (active)
@@ -282,9 +293,9 @@ void ModuleRenderer3D::CullFaceView(bool active)
 void ModuleRenderer3D::LightingView(bool active)
 {
 	if (active)
-		glEnable(GL_LIGHTING);
-	else
 		glDisable(GL_LIGHTING);
+	else
+		glEnable(GL_LIGHTING);
 }
 
 void ModuleRenderer3D::AlphaView(bool active)
@@ -303,4 +314,3 @@ void ModuleRenderer3D::Texture2DView(bool active)
 	else
 		glDisable(GL_TEXTURE_2D);
 }
-

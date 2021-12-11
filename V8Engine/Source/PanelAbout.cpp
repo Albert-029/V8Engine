@@ -1,9 +1,11 @@
 #include "PanelAbout.h"
 #include "ModuleGUI.h"
 #include "ModuleWindow.h"
-
-#include "Libraries/SDL/include/SDL_opengl.h"
-#include "Libraries/imgui-1.78/imgui_impl_sdl.h"
+#include "ModuleCamera3D.h"
+#include "TextureImporter.h"
+#include "ModuleResources.h"
+#include "Resource.h"
+#include "ResourceTexture.h"
 
 PanelAbout::PanelAbout() : PanelManager()
 {
@@ -17,6 +19,9 @@ bool PanelAbout::Start()
 {
 	this->active = false;
 
+	icon = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile("Assets/Others/iconEngine.ico"));
+	icon->LoadInMemory();
+
 	return true;
 }
 
@@ -29,6 +34,8 @@ bool PanelAbout::Draw()
 	{
 		if (ImGui::Begin("About", &active, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 		{
+			ImGui::Image((ImTextureID*)icon->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)); ImGui::SameLine();
+
 			ImGui::Text("%s by Albert Robles", SDL_GetWindowTitle(App->window->window));
 			ImGui::Separator();
 
@@ -45,29 +52,33 @@ bool PanelAbout::Draw()
 				ImGui::TreePop();
 			}
 
-
 			ImGui::Separator();
 
-			ImGui::Text("3rd Party Libraries used:");
-			if (ImGui::Selectable("OpenGL", false, 0, { 50, 13 }))
-				App->RequestBrowser("https://www.opengl.org/"); ImGui::SameLine();
-			if (ImGui::Selectable("Glew", false, 0, { 35, 13 }))
-				App->RequestBrowser("http://glew.sourceforge.net/"); ImGui::SameLine();
-			if (ImGui::Selectable("SDL", false, 0, { 30, 13 }))
-				App->RequestBrowser("https://www.libsdl.org/"); ImGui::SameLine();
-			if (ImGui::Selectable("ImGui", false, 0, { 40, 13 }))
-				App->RequestBrowser("https://github.com/ocornut/imgui"); ImGui::SameLine();
-			if (ImGui::Selectable("PCG", false, 0, { 30, 13 }))
-				App->RequestBrowser("http://www.pcg-random.org/"); ImGui::SameLine();
-			if (ImGui::Selectable("MathGeoLib", false, 0, { 75, 13 }))
-				App->RequestBrowser("https://github.com/juj/MathGeoLib"); ImGui::SameLine();
-			if (ImGui::Selectable("Assimp", false, 0, { 45, 13 }))
-				App->RequestBrowser("https://www.assimp.org/"); ImGui::SameLine();
-			if (ImGui::Selectable("DeviIL", false, 0, { 45, 13 }))
-				App->RequestBrowser("http://openil.sourceforge.net/"); ImGui::SameLine();
-			if (ImGui::Selectable("PhysFS", false, 0, { 45, 13 }))
-				App->RequestBrowser("https://icculus.org/physfs/");
+			if (ImGui::TreeNodeEx("3rd Party Libraries", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth))
+			{
+				if (ImGui::Button("OpenGL"))
+					App->RequestBrowser("https://www.opengl.org/"); ImGui::SameLine();
+				if (ImGui::Button("Glew"))
+					App->RequestBrowser("http://glew.sourceforge.net/"); ImGui::SameLine();
+				if (ImGui::Button("SDL"))
+					App->RequestBrowser("https://www.libsdl.org/"); ImGui::SameLine();
+				if (ImGui::Button("ImGui"))
+					App->RequestBrowser("https://github.com/ocornut/imgui"); ImGui::SameLine();
+				if (ImGui::Button("PCG"))
+					App->RequestBrowser("http://www.pcg-random.org/"); ImGui::SameLine();
+				if (ImGui::Button("MathGeoLib"))
+					App->RequestBrowser("https://github.com/juj/MathGeoLib"); ImGui::SameLine();
+				if (ImGui::Button("Assimp"))
+					App->RequestBrowser("https://www.assimp.org/"); ImGui::SameLine();
+				if (ImGui::Button("DeviIL"))
+					App->RequestBrowser("http://openil.sourceforge.net/"); ImGui::SameLine();
+				if (ImGui::Button("PhysFS"))
+					App->RequestBrowser("https://icculus.org/physfs/"); ImGui::SameLine();
+				if (ImGui::Button("JSON"))
+					App->RequestBrowser("https://github.com/nlohmann/json");
 
+				ImGui::TreePop();
+			}
 
 			ImGui::Separator();
 
@@ -92,5 +103,6 @@ bool PanelAbout::Draw()
 			ImGui::End();
 		}
 	}
+
 	return true;
 }

@@ -4,6 +4,8 @@
 #include "ModuleGUI.h"
 #include "TextureImporter.h"
 #include "MeshImporter.h"
+#include "ModuleSceneIntro.h"
+#include "PanelResources.h"
 
 // resources includes
 #include "ModuleResources.h"
@@ -24,6 +26,8 @@ ModuleResources::~ModuleResources()
 
 bool ModuleResources::Start()
 {
+	App->file_system->GetFilesOfFolder(ASSETS_MODELS_FOLDER, assets);
+
 	return true;
 }
 
@@ -34,6 +38,18 @@ update_status ModuleResources::Update()
 
 bool ModuleResources::CleanUp()
 {
+	bool ret = true;
+
+	std::map <uint, Resource*>::iterator it;
+	it = resources.begin();
+	while (it != resources.end())
+	{
+		RELEASE((*it).second);
+		it++;
+	}
+
+	resources.clear();
+
 	return true;
 }
 
@@ -90,40 +106,42 @@ uint ModuleResources::GetNewFile(const char* new_file)
 			ret = ImportFile(path.c_str(), RESOURCE_TYPE::TEXTURE);
 		}
 	}
-	else if (CompareExtensionForModels(extension))
-	{
-		path = ASSETS_MODELS_FOLDER + path;
-
-		if (App->file_system->CopyFromOutsideFS(new_file, path.c_str()))
-		{
-			ret = ImportFile(path.c_str(), RESOURCE_TYPE::MODEL);
-		}
-	}
 
 	return ret;
 }
 
 uint ModuleResources::ImportFile(const char* new_file_in_assets, RESOURCE_TYPE type)
 {
-	uint ret = 0; 
-	bool create_resource = false; 
+	uint ret = 0;
+	bool create_resource = false;
 	std::string written_file;
 
-	ret = GetResourceInAssets(new_file_in_assets);
+	ret = GetResourceFromFolder(Assets::FOLDERS::ASSETS, new_file_in_assets);
 
 	if (ret == 0)
 	{
 		switch (type)
 		{
-		case RESOURCE_TYPE::TEXTURE: 
+		case RESOURCE_TYPE::TEXTURE:
 			create_resource = App->tex_imp->LoadTextureFromPath(new_file_in_assets, written_file);
+			break;
+		case RESOURCE_TYPE::MESH:
+			break;
+		case RESOURCE_TYPE::MODEL:
 			break;
 		}
 
 		if (create_resource)
-		{ 
+		{
 			Resource* res = CreateResource(type);
-			BuildResource(res, new_file_in_assets, written_file);
+
+			if (res->type == RESOURCE_TYPE::TEXTURE)
+				BuildResource(res, new_file_in_assets, written_file);
+			else
+			{
+				res->file = new_file_in_assets;
+				res->exported_file = written_file;
+			}
 
 			ret = res->res_UUID;
 		}
@@ -142,33 +160,50 @@ Resource* ModuleResources::Get(uint uid)
 	return nullptr;
 }
 
-uint ModuleResources::GetResourceInAssets(const char* path) const
+uint ModuleResources::GetResourceFromFolder(Assets::FOLDERS folder, const char* path)
 {
-	for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+	if (folder == Assets::FOLDERS::ASSETS)
 	{
-		std::string s = it->second->file;
-		if (s.compare(path) == 0)
-			return it->first;
+		for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		{
+			std::string s = it->second->file;
+			if (s.compare(path) == 0)
+				return it->first;
+		}
+
+		return 0;
+	}
+
+	if (folder == Assets::FOLDERS::LIBRARY)
+	{
+		for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		{
+			char n[250];
+			sprintf_s(n, 250, "%s", path);
+			App->file_system->NormalizePath(n);
+
+			std::string s = App->GetPathName(it->second->exported_file);
+
+			if (s.compare(n) == 0)
+				return it->first;
+		}
+
+		return 0;
 	}
 
 	return 0;
 }
 
-uint ModuleResources::IsResourceInLibrary(const char* name) const
+void ModuleResources::ClearAssets()
 {
-	for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+	std::list<Assets*>::iterator it;
+	it = assets.begin();
+	while (it != assets.end())
 	{
-		char n[250];
-		sprintf_s(n, 250, "%s", name);
-		App->file_system->NormalizePath(n);
-
-		std::string s = App->GetPathName(it->second->exported_file);
-
-		if (s.compare(n) == 0)
-			return it->first;
+		RELEASE(*it);
+		it++;
 	}
-
-	return 0;
+	assets.clear();
 }
 
 bool ModuleResources::CompareExtensionForModels(std::string var)
@@ -179,45 +214,177 @@ bool ModuleResources::CompareExtensionForModels(std::string var)
 		return false;
 }
 
-bool ModuleResources::CompareExtensionForTextures(std::string var)
+bool ModuleResources::CompareExtensionForScenes(std::string var)
 {
-	if (var == "png" || var == "PNG" || var == "dds" || var == "DDS" || var == "jpg" || var == "tga" || var == "ico")
+	if (var == "json" || var == "JSON")
 		return true;
 	else
 		return false;
 }
 
-void ModuleResources::DrawResources()
+bool ModuleResources::CompareExtensionForTextures(std::string var)
 {
-	int i = 0;
+	if (var == "png" || var == "PNG" || var == "dds" || var == "DDS" || var == "jpg" || var == "tga" || var == "ico" || var == "ttex")
+		return true;
+	else
+		return false;
+}
 
-	for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+void ModuleResources::DrawResources(RESOURCE_TYPE type)
+{
+
+	if (type == RESOURCE_TYPE::TEXTURE)
 	{
-		if (it->second != nullptr)
+		int i = 0;
+
+		for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
 		{
-			i++;
-			if (it->second->type == RESOURCE_TYPE::TEXTURE)
+			if (it->second != nullptr && it->second->references > 0)
 			{
-				std::map<uint, ResourceTexture*>::const_iterator tex = tex_resources.find(it->first);
-				ImGui::ImageButton((ImTextureID*)tex_resources[it->first]->tex.id, ImVec2(50, 50), ImVec2(0, 1), ImVec2(1, 0));
+				if (it->second->type == RESOURCE_TYPE::TEXTURE)
+				{
+					i++;
 
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Name: %s\nUUID: %u\nReferences: %i", App->GetPathName(it->second->file).c_str(), it->second->res_UUID, it->second->references);
-			}
+					std::map<uint, ResourceTexture*>::const_iterator tex = tex_resources.find(it->first);
+					ImGui::ImageButton((ImTextureID*)tex_resources[it->first]->tex.id, ImVec2(60, 60), ImVec2(0, 1), ImVec2(1, 0));
 
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::Text("Name:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%s", App->GetPathName(it->second->file).c_str());
+						ImGui::Text("UUID:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%u", it->second->res_UUID);
+						ImGui::Text("References:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%i", it->second->references);
+						ImGui::EndTooltip();
+					}
 
-			if (i < 8)
-			{
-				ImGui::SameLine();
-				ImGui::Dummy(ImVec2(5.0f, 5.0f));
-				ImGui::SameLine();
-
-			}
-			else
-			{
-				i = 0;
-				ImGui::Dummy(ImVec2(875.0f, 10.0f));
+					AlignResources(i);
+				}
 			}
 		}
+	}
+
+	else if (type == RESOURCE_TYPE::MESH)
+	{
+		int i = 0;
+
+		for (std::map<uint, Resource*>::const_iterator it = resources.begin(); it != resources.end(); ++it)
+		{
+			if (it->second != nullptr && it->second->references > 0)
+			{
+				if (it->second->type == RESOURCE_TYPE::MESH && it->second->references > 0)
+				{
+					i++;
+
+					std::map<uint, ResourceMesh*>::const_iterator mesh = mesh_resources.find(it->first);
+					ImGui::ImageButton((ImTextureID*)App->gui->Presources->mesh->tex.id, ImVec2(60, 60), ImVec2(0, 1), ImVec2(1, 0));
+
+					if (ImGui::IsItemHovered())
+					{
+						ImGui::BeginTooltip();
+						ImGui::Text("Name:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%s", App->GetPathName(it->second->exported_file).c_str());
+						ImGui::Text("Source File:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%s", App->GetPathName(it->second->file).c_str());
+						ImGui::Text("UUID:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%u", it->second->res_UUID);
+						ImGui::Text("References:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%i", it->second->references);
+						ImGui::EndTooltip();
+					}
+
+					AlignResources(i);
+				}
+			}
+		}
+	}
+
+	else if (type == RESOURCE_TYPE::MODEL)
+	{
+		int i = 0;
+
+		ImGui::Spacing();
+		ImGui::TextColored(GREY_COLOR, "You can double-click on a model to load it into the scene");
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		for (std::list<Assets*>::iterator it = assets.begin(); it != assets.end(); it++)
+		{
+			// If the file is a texture, don't print it, just get the path
+			if ((*it)->type == Assets::TYPE::FILE)
+			{
+				std::string extension;
+				std::string filename;
+				App->file_system->SplitFilePath((*it)->name.c_str(), nullptr, &filename, &extension);
+
+				std::string complete_path = "Assets/Models/";
+				std::string mesh = "";
+				std::string tex = "";
+
+				if ((extension == "png" || extension == "PNG" || extension == "dds" || extension == "DDS"))
+				{
+					isTexture = true;
+					text_path = complete_path + filename;
+				}
+				else isTexture = false;
+			}
+
+			// If the file is not a texture, draw it
+			if (!isTexture)
+			{
+				i++;
+
+				ImGui::ImageButton((ImTextureID)App->gui->Presources->model->tex.id, ImVec2(60, 60), ImVec2(0, 1), ImVec2(1, 0));
+
+				if (ImGui::IsItemHovered())
+				{
+					if ((*it)->type == Assets::TYPE::FILE)
+					{
+						std::string extension;
+						std::string filename;
+						App->file_system->SplitFilePath((*it)->name.c_str(), nullptr, &filename, &extension);
+
+						std::string complete_path = "Assets/Models/";
+						std::string mesh = "";
+						std::string tex = "";
+
+						if ((extension == "fbx" || extension == "FBX" || extension == "OBJ" || extension == "obj"))
+						{
+							mesh = complete_path + filename;
+						}
+
+						ImGui::BeginTooltip();
+						ImGui::Text("Name:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%s", filename.c_str());
+						ImGui::Text("Source File:"); ImGui::SameLine();
+						ImGui::TextColored(YELLOW_COLOR, "%s", mesh.c_str());
+						ImGui::EndTooltip();
+
+						if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+							App->mesh_imp->LoadFile(mesh, text_path);
+					}
+				}
+
+				AlignResources(i);
+			}
+		}
+	}
+}
+
+void ModuleResources::AlignResources(int& i)
+{
+	if (i < 6)
+	{
+		ImGui::SameLine();
+		ImGui::Dummy(ImVec2(5.0f, 5.0f));
+		ImGui::SameLine();
+	}
+	else
+	{
+		i = 0;
+		ImGui::Dummy(ImVec2(10.0f, 10.0f));
 	}
 }

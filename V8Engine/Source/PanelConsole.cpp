@@ -1,9 +1,7 @@
 #include "PanelConsole.h"
 #include "Globals.h"
 #include "ModuleWindow.h"
-
-#include "Libraries/SDL/include/SDL_opengl.h"
-#include "Libraries/imgui-1.78/imgui_impl_sdl.h"
+#include "ModuleCamera3D.h"
 
 PanelConsole::PanelConsole() : PanelManager()
 {
@@ -34,48 +32,29 @@ bool PanelConsole::Draw()
 
 		if (ImGui::Begin("Console", &active, ImGuiWindowFlags_NoScrollWithMouse || ImGuiWindowFlags_NoScrollbar)) {
 
-			if (ImGui::Button("Clear"))
-				EraseLogs();
+			if (ImGui::Button("Last Log"))
+				autoScroll = true;
 
 			ImGui::SameLine();
 
-			// Filter Input
-			Filter.Draw("Filter", -100.0f);
-
-			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
-			const char* buf = Buf.begin();
-			const char* buf_end = Buf.end();
-			if (Filter.IsActive())
+			if (ImGui::Button("Clear"))
 			{
+				if (!warningShown)
+				{
+					LOG_C("WARNING: You have erased all the previous LOGs");
+					warningShown = true;
+				}
 
-				for (int line_no = 0; line_no < LineOffsets.Size; line_no++)
-				{
-					const char* line_start = buf + LineOffsets[line_no];
-					const char* line_end = (line_no + 1 < LineOffsets.Size) ? (buf + LineOffsets[line_no + 1] - 1) : buf_end;
-					if (Filter.PassFilter(line_start, line_end))
-						ImGui::TextUnformatted(line_start, line_end);
-				}
+				EraseLogs();
 			}
-			else
-			{
-				ImGuiListClipper clipper;
-				clipper.Begin(LineOffsets.Size);
-				while (clipper.Step())
-				{
-					for (int line_no = clipper.DisplayStart; line_no < clipper.DisplayEnd; line_no++)
-					{
-						const char* line_start = buf + LineOffsets[line_no];
-						const char* line_end = (line_no + 1 < LineOffsets.Size) ? (buf + LineOffsets[line_no + 1] - 1) : buf_end;
-						ImGui::TextUnformatted(line_start, line_end);
-					}
-				}
-				clipper.End();
-			}
-			ImGui::PopStyleVar();
+
 
 			ImGui::Separator();
 
-			ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 6));
+			ImGui::BeginChild("");
+
+			if (ImGui::IsWindowHovered()) App->camera->isOnConsole = true;
+			else App->camera->isOnConsole = false;
 
 			for (list<char*>::iterator item = consoleLogs.begin(); item != consoleLogs.end(); ++item)
 			{
@@ -86,6 +65,21 @@ bool PanelConsole::Draw()
 					color = ERROR_CONSOLE_COLOR;
 					has_color = true;
 				}
+				if (strstr((*item), "WARNING:"))
+				{
+					color = WARNING_CONSOLE_COLOR;
+					has_color = true;
+				}
+				if (strstr((*item), "SUCCESS:"))
+				{
+					color = SUCCESS_CONSOLE_COLOR;
+					has_color = true;
+				}
+				if (strstr((*item), "PLAYMODE:"))
+				{
+					color = PLAYMODE_CONSOLE_COLOR;
+					has_color = true;
+				}
 				if (has_color)
 				{
 					ImGui::PushStyleColor(ImGuiCol_Text, color);
@@ -94,7 +88,12 @@ bool PanelConsole::Draw()
 				}
 			}
 
-			ImGui::PopStyleVar();
+			if (autoScroll)
+				ImGui::SetScrollHere(1.0f);
+
+			ImGui::EndChild();
+
+			autoScroll = false;
 		}
 
 		ImGui::End();
@@ -109,12 +108,16 @@ void PanelConsole::CreateLog(char* info)
 
 	if (consoleLogs.size() > maxLogs)
 		consoleLogs.pop_front();
+
+	autoScroll = true;
 }
 
 void PanelConsole::PrintLogs()
 {
 	for (list<char*>::const_iterator it = App->appLogs.begin(); it != App->appLogs.end(); ++it)
+	{
 		CreateLog((*it));
+	}
 
 	App->appLogs.clear();
 }
@@ -122,6 +125,6 @@ void PanelConsole::PrintLogs()
 void PanelConsole::EraseLogs()
 {
 	consoleLogs.clear();
+
+	autoScroll = true;
 }
-
-

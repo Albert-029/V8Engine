@@ -3,8 +3,8 @@
 #include "ModuleGUI.h"
 #include "ModuleRenderer3D.h"
 
-#include "Libraries/glew/include/GL/glew.h"
-#include "Libraries/SDL/include/SDL.h"
+#include "glew/include/GL/glew.h"
+#include "SDL/include/SDL.h"
 
 ModuleWindow::ModuleWindow(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -20,8 +20,8 @@ ModuleWindow::~ModuleWindow()
 // Called before render is available
 bool ModuleWindow::Init()
 {
-	LOG_IMGUI_CONSOLE("Init SDL window & surface");
-	LOG_IMGUI_CONSOLE("Loading Window");
+	LOG_C("Init SDL window & surface");
+	LOG_C("Loading Window");
 	bool ret = true;
 
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -39,6 +39,11 @@ bool ModuleWindow::Init()
 		//Use OpenGL 3.1
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+
+		if (WIN_MAXIMIZED == true)
+		{
+			flags |= SDL_WINDOW_MAXIMIZED;
+		}
 
 		if (WIN_FULLSCREEN == true)
 		{
@@ -60,7 +65,7 @@ bool ModuleWindow::Init()
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(App->appName.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if (window == NULL)
 		{
@@ -108,9 +113,25 @@ const char* ModuleWindow::GetTitle()
 	return name;
 }
 
-void ModuleWindow::GetWindowSize(int& width, int& height)
+void ModuleWindow::GetWindowSize(int width, int height)
 {
 	SDL_GetWindowSize(window, &width, &height);
+}
+
+int ModuleWindow::GetWidth()
+{
+	int width, height;
+	SDL_GetWindowSize(window, &width, &height);
+
+	return width;
+}
+
+int ModuleWindow::GetHeight()
+{
+	int width, height;
+	SDL_GetWindowSize(window, &width, &height);
+
+	return height;
 }
 
 void ModuleWindow::SetFullScreen(bool active)

@@ -3,12 +3,10 @@
 
 #include "Application.h"
 #include "ModuleGUI.h"
+#include "PanelManager.h"
 
 #include <vector>
 #include <list>
-
-// Yellow Color to call in ImGui::TextColored
-#define YELLOW_COLOR ImVec4(1.0f, 1.0f, 0.0f, 1.0f)
 
 class Application;
 

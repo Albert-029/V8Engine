@@ -33,7 +33,7 @@ bool PanelCameraPreview::Draw()
 		if (ImGui::Begin("Camera Preview", &active, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoCollapse))
 			//ImGui::Image((ImTextureID)viewport_tex->texture, ImVec2(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y), ImVec2(0, 1), ImVec2(1, 0));
 
-		ImGui::End();
+			ImGui::End();
 		ImGui::PopStyleVar();
 	}
 

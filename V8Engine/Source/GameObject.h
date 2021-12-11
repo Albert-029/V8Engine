@@ -6,22 +6,25 @@
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentTexture.h"
+#include "ComponentCamera.h"
+#include "ModuleInput.h"
+#include "imgui-1.78/ImGuizmo.h"
+
 
 class ComponentTransform;
 class ComponentMesh;
 class ComponentTexture;
+class ComponentCamera;
 
-struct objData;
+class ResourceModel;
+
+struct goData;
 struct meshData;
 
-enum class SHAPE_TYPE {
-	NONE = -1,
-	CUBE
-};
-
-struct objData {
-	uint GOid = 0;
-	string GOname;
+struct goData {
+	uint id = -1;
+	int UUID = 0;
+	string name;
 	bool active = true;
 };
 
@@ -33,31 +36,51 @@ public:
 
 	void Update();
 	void CleanUp();
-	void Draw();
+	void Draw() const;
 
 	void EnableGameObject();
 	void DisableGameObject();
 
+	bool IsGameObjectActive();
+	const char* GetGameObjectName();
+	uint GetGameObjectId();
+	int GetGameObjectUUID();
+
 	Component* CreateComponent(COMPONENT_TYPE type, bool active = true);
-	Component* GetComponent(const COMPONENT_TYPE& type);
+	Component* GetComponent(COMPONENT_TYPE type) const;
 
 	ComponentTransform* GetComponentTransform();
 	ComponentMesh* GetComponentMesh();
 	ComponentTexture* GetComponentTexture();
+	ComponentCamera* GetComponentCamera();
+
+	GameObject* GetRootGameObject();
+	void AddChild(GameObject* child);
+	void RemoveChild(GameObject* child);
+
+	void TransformGlobal(GameObject* GO);
+
+	void UpdateBoundingBox();
+	static void DrawAllBoundingBoxes(const AABB& aabb);
+	bool DrawOwnBoundingBox(GameObject* GO);
+
+	void Save(uint GO_id, nlohmann::json& scene_file);
 
 public:
-	objData oData;
+	goData data;
 
 	std::vector<Component*> componentsList;
+	std::vector<GameObject*> childrenList;
+	GameObject* GOparent = nullptr;
 
-	Component* cTransform = nullptr;
-	Component* cMesh = nullptr;
-	Component* cTexture = nullptr;
-
-	void AssignNameToGO(const char* name);
-
+	AABB aabb;
+	OBB obb;
 };
 
-
+namespace GO
+{
+	void Culling(std::vector<const GameObject*>& array, const GameObject* GO, bool parent = false, uint c = 0);
+	int GenerateUUID();
+}
 
 #endif

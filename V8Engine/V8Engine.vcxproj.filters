@@ -169,9 +169,6 @@
     <ClCompile Include="Source\ComponentCamera.cpp">
       <Filter>Sources\GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Importer.cpp">
-      <Filter>Sources\Importers</Filter>
-    </ClCompile>
     <ClCompile Include="Source\MeshImporter.cpp">
       <Filter>Sources\Importers</Filter>
     </ClCompile>
@@ -197,9 +194,6 @@
       <Filter>Sources\Modules\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceModel.cpp">
-      <Filter>Sources\Modules\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\ResourceScene.cpp">
       <Filter>Sources\Modules\Resources</Filter>
     </ClCompile>
     <ClCompile Include="Source\ResourceTexture.cpp">
@@ -453,9 +447,6 @@
     <ClInclude Include="Source\ComponentCamera.h">
       <Filter>Sources\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Source\Importer.h">
-      <Filter>Sources\Importers</Filter>
-    </ClInclude>
     <ClInclude Include="Source\JsonImporter.h">
       <Filter>Sources\Importers</Filter>
     </ClInclude>
@@ -488,9 +479,6 @@
       <Filter>Sources\Modules\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceModel.h">
-      <Filter>Sources\Modules\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\ResourceScene.h">
       <Filter>Sources\Modules\Resources</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResourceTexture.h">

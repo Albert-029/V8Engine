@@ -1,9 +1,11 @@
 #include "PanelInspector.h"
 #include "ModuleGUI.h"
 #include "ModuleWindow.h"
+#include "ModuleSceneIntro.h"
+#include "Component.h"
+#include "GameObject.h"
+#include "ModuleCamera3D.h"
 
-#include "Libraries/SDL/include/SDL_opengl.h"
-#include "Libraries/imgui-1.78/imgui_impl_sdl.h"
 
 PanelInspector::PanelInspector() : PanelManager()
 {
@@ -29,19 +31,44 @@ bool PanelInspector::Draw()
 	{
 		if (ImGui::Begin("Inspector", &active))
 		{
-			if (ImGui::CollapsingHeader("Transform"))
-			{
+			if (ImGui::IsWindowHovered()) App->camera->isOnInspector = true;
+			else App->camera->isOnInspector = false;
 
+			GameObject* go = App->scene_intro->GOselected;
+
+			if (go != nullptr)
+			{
+				ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue;
+				activeGO = go->data.active;
+
+				ImGui::Spacing();
+
+				ImGui::Checkbox("Active", &activeGO);
+				ImGui::SameLine();
+				ImGui::InputText(" ", (char*)go->data.name.c_str(), 25, flags);
+
+				ImGui::Spacing();
+
+				if (go->data.active && go->GOparent != nullptr)
+				{
+					for (int i = 0; i < go->componentsList.size(); ++i)
+					{
+						if (go->componentsList[i] != nullptr)
+						{
+							go->componentsList[i]->DrawInspector();
+							go->componentsList[i]->Update();
+						}
+					}
+				}
+
+				if (activeGO)
+					go->EnableGameObject();
+				else
+					go->DisableGameObject();
 			}
-
-			if (ImGui::CollapsingHeader("Mesh"))
+			else
 			{
-
-			}
-
-			if (ImGui::CollapsingHeader("Texture"))
-			{
-
+				ImGui::TextColored(GREY_COLOR, "No GameObject Selected");
 			}
 
 		}

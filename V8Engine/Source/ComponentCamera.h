@@ -6,6 +6,7 @@
 #include "MathGeoLib/include/Geometry/Frustum.h"
 #include "MathGeoLib/include/Geometry/LineSegment.h"
 #include "MathGeoLib/include/Geometry/Plane.h"
+#include "Color.h"
 
 class GameObject;
 class Plane;
@@ -19,11 +20,11 @@ public:
 	bool Start();
 	bool Update();
 	bool CleanUp();
+
 	void DrawInspector();
-	void Draw2();
+	void DrawCamera();
 	void LookAt(const float3& position);
-	
-	// Getters
+
 	float4x4 GetViewMatrix() const;
 	float4x4 GetProjectionMatrix() const;
 	float4x4 GetView() const;
@@ -34,7 +35,6 @@ public:
 	float GetFarPlane() const;
 	float GetRatio() const;
 
-	// Setters
 	void SetNearPlane(float dist);
 	void SetFarPlane(float dist);
 	void SetFOV(float fov);
@@ -43,7 +43,6 @@ public:
 	void DrawFrustum();
 	void AspectRatio(float ratio);
 
-	//Ray
 	Ray EyeRay(float x, float y) const;
 	Ray NearRay(float x, float y) const;
 	LineSegment NearSegment(float x, float y) const;
@@ -51,10 +50,14 @@ public:
 	bool Intersect(const AABB& box) const;
 	static bool Intersect(const Frustum& frustum, const AABB& box);
 
+	void Save(uint GO_id, nlohmann::json& scene_file);
+
+
 public:
 
 	Frustum frustum;
-	bool showFrustrum = false;
+	bool showFrustum = false;
+	bool seeFrustum = false;
 	bool update_frustum = true;
 
 };

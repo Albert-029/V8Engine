@@ -3,9 +3,13 @@
 
 #include "Application.h"
 #include "Module.h"
+#include "ResourceMesh.h"
+#include "ResourceModel.h"
 
-#include "Libraries/MathGeoLib/include/MathBuildConfig.h"
-#include "Libraries/MathGeoLib/include/MathGeoLib.h"
+class aiNode;
+class aiScene;
+class Importer;
+class GameObject;
 
 class MeshImporter : public Module
 {
@@ -15,17 +19,19 @@ public:
 	~MeshImporter();
 
 	bool Init();
-
 	update_status Update(float dt);
-
 	bool CleanUp();
 
-	void LoadMesh(const char* Filename);
+	bool LoadFile(std::string path, std::string texture_path = "Assets/Others/Lenna.png");
+	void LoadNode(const aiScene* scene, aiNode* node, const char* node_path, std::string output_file, GameObject* GO_root, std::string text_path);
+
+	bool Export(const char* name, std::string& output_file, ResourceMesh* mesh);
+	bool Load(ResourceMesh* mesh);
 
 
 public:
+	bool active = false;
 
-	bool enabled = true;
 
 };
 

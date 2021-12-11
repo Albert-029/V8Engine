@@ -2,7 +2,10 @@
 #define __PANELABOUT_H__
 
 #include "Application.h"
+#include "PanelManager.h"
+#include "TextureImporter.h"
 
+class ResourceTexture;
 
 class PanelAbout : public PanelManager
 {
@@ -12,6 +15,8 @@ public:
 
 	bool Start();
 	bool Draw();
+
+	ResourceTexture* icon;
 };
 
 #endif

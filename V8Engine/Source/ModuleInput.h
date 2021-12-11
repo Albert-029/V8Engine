@@ -59,8 +59,6 @@ public:
 		return mouse_y_motion;
 	}
 
-	const std::string GetFileExtension(const std::string FileName);
-
 private:
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
@@ -72,6 +70,8 @@ private:
 	//int mouse_z_motion;
 
 	const char* dropDirection;
+	bool MeshFileDroped = false;
+	bool TextureFileDropped = false;
 };
 
 #endif __ModuleInput__

@@ -23,26 +23,16 @@ public:
 	virtual void ReleaseMemory() = 0;
 
 	RESOURCE_TYPE GetType() const;
-
-	bool IsLoadedToMemory() const;
-	bool LoadToMemory();
-
 	uint GetUUID() const;
-	const char* GetFile() const;
-	const char* GetImportedFile() const;
 	uint GetCurrentReference();
 
-
-	virtual void Load(const nlohmann::json& config);
-	virtual void Save(nlohmann::json& config) const;
-
 public:
+	RESOURCE_TYPE type = RESOURCE_TYPE::NONE;
+
 	uint res_UUID = 0;
 	std::string file = "";
 	std::string exported_file = "";
-	RESOURCE_TYPE type = RESOURCE_TYPE::NONE;
 	uint loaded = 0;
-
 	uint references = 0;
 };
 

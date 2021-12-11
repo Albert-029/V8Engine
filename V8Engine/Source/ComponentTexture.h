@@ -2,8 +2,8 @@
 #define __C_TEXTURE_H__
 
 #include "Component.h"
-#include "glmath.h"
 #include "TextureImporter.h"
+#include "ResourceTexture.h"
 
 class GameObject;
 
@@ -11,17 +11,30 @@ class GameObject;
 class ComponentTexture : public Component
 {
 public:
-	ComponentTexture(GameObject* gameObject, bool active);
+	ComponentTexture(GameObject* gameObject);
 	virtual ~ComponentTexture();
 
-	void Draw();
+	void DrawInspector();
+	bool Update();
+	bool CleanUp();
+
+	void OpenTexturesMenu();
+
+	void IsTextureComponentActive(GameObject* go);
+	void GetTexturePath();
+
+	void Save(uint GO_id, nlohmann::json& scene_file);
 
 public:
 
 	bool EnableCheckersTexture = false;
-	bool EnableHouseTexture = true;
+	bool EnableAssignedTexture = true;
+	bool noTexture = false;
+	bool openMenuTex = false;
 
-	texData tData;
+	Texture texture;
+
+	ResourceTexture* rTexture = nullptr;
 };
 
 #endif

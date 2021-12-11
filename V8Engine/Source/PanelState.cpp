@@ -7,6 +7,7 @@
 #include "Resource.h"
 #include "ResourceTexture.h"
 #include "ResourceMesh.h"
+#include "ModuleTime.h"
 
 PanelState::PanelState()
 {
@@ -72,26 +73,32 @@ bool PanelState::Draw()
 			// Engine State Button 1
 			if (ImGui::ImageButton((ImTextureID*)current_tex1->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)))
 			{
-				if (currentBut1 == 2) // button texture change play/stop
-					currentBut1 = 1;
-				else
-					currentBut1 = 2;
-
-				if (state == ENGINE_STATE::NONE)
+				if (!App->camera->playCam->IsGameObjectActive())
 				{
-					if (App->PlayScene())
-					{
-						current_tex1 = pause;
-						editing = false;
-						LOG_C("Running scene");
-					}
+					LOG_C("ERROR: Couldn't find any camera.");
+					LOG_C("ERROR: Enable it, or create a new one and set it as Game Camera.");
 				}
 				else
 				{
-					App->StopScene();
-					current_tex1 = play;
-					editing = true;
-					LOG_C("Stopped scene");
+					if (currentBut1 == 2) // button texture change play/stop
+						currentBut1 = 1;
+					else
+						currentBut1 = 2;
+
+					if (state == ENGINE_STATE::NONE)
+					{
+						if (App->PlayScene())
+						{
+							current_tex1 = stop;
+							editing = false;
+						}
+					}
+					else
+					{
+						App->StopScene();
+						current_tex1 = play;
+						editing = true;
+					}
 				}
 			}
 
@@ -109,10 +116,11 @@ bool PanelState::Draw()
 			// Engine State Button 2
 			if (ImGui::ImageButton((ImTextureID*)current_tex2->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)))
 			{
-				if (currentBut2 == 4) // button texture change pause/resume
-					currentBut2 = 3;
-				else
+				// button texture change pause/resume
+				if (currentBut2 == 3 && currentBut1 != 1)
 					currentBut2 = 4;
+				else
+					currentBut2 = 3;
 
 				if (state == ENGINE_STATE::PLAY)
 					current_tex2 = resume;
@@ -120,7 +128,6 @@ bool PanelState::Draw()
 					current_tex2 = pause;
 
 				App->PauseScene();
-				LOG_C("Paused scene");
 			}
 
 			// Tooltips Button2
@@ -135,20 +142,23 @@ bool PanelState::Draw()
 			if (!editing)
 				openTimeMenu = true;
 			else
+			{
 				openTimeMenu = false;
-
+				currentBut1 = 1;
+				currentBut2 = 3;
+			}
 		}
 
 		ImGui::End();
 	}
-	
+
 	return true;
 }
 
 void PanelState::DrawGuizmoButtons()
 {
 	// Move Button
-	if (ImGui::ImageButton((ImTextureID*)move->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)) || App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	if (ImGui::ImageButton((ImTextureID*)move->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)) || (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN))
 		App->gui->currentOp = 1;
 
 	if (ImGui::IsItemHovered())
@@ -157,7 +167,7 @@ void PanelState::DrawGuizmoButtons()
 	ImGui::SameLine();
 
 	// Rot Button
-	if (ImGui::ImageButton((ImTextureID*)rot->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)) || App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	if (ImGui::ImageButton((ImTextureID*)rot->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)) || (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN && !App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN))
 		App->gui->currentOp = 2;
 
 	if (ImGui::IsItemHovered())
@@ -166,7 +176,7 @@ void PanelState::DrawGuizmoButtons()
 	ImGui::SameLine();
 
 	// Scale Button
-	if (ImGui::ImageButton((ImTextureID*)scale->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)) || App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	if (ImGui::ImageButton((ImTextureID*)scale->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)) || (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN && (!App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_DOWN && !App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_DOWN)))
 		App->gui->currentOp = 3;
 
 	if (ImGui::IsItemHovered())
@@ -233,7 +243,7 @@ void PanelState::TimeInfoMenu()
 {
 	if (ImGui::Begin("Time Information", &openTimeMenu, ImGuiWindowFlags_NoScrollbar))
 	{
-		play_time += App->GetDT();
+		play_time = App->time->GetPlayModeCurrentTime();
 		current_dt = App->GetDT();
 
 		ImGui::Text("Time Playing: ");	ImGui::SameLine();
@@ -244,7 +254,6 @@ void PanelState::TimeInfoMenu()
 	}
 
 	ImGui::End();
-
 }
 
 void PanelState::LoadButtonsTextures()
@@ -269,18 +278,6 @@ void PanelState::LoadButtonsTextures()
 	ownBB->LoadInMemory();
 	allBB = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile("Assets/Others/allBB.png"));
 	allBB->LoadInMemory();
-
-	//move = App->tex_imp->LoadTexture("Assets/Others/move2.png");
-	//rot = App->tex_imp->LoadTexture("Assets/Others/rotate2.png");
-	//scale = App->tex_imp->LoadTexture("Assets/Others/scale2.png");
-
-	//play = App->tex_imp->LoadTexture("Assets/Others/play.png");
-	//pause = App->tex_imp->LoadTexture("Assets/Others/pause.png");
-	//stop = App->tex_imp->LoadTexture("Assets/Others/stop.png");
-	//resume = App->tex_imp->LoadTexture("Assets/Others/resume.png");
-
-	//ownBB = App->tex_imp->LoadTexture("Assets/Others/ownBB.png");
-	//allBB = App->tex_imp->LoadTexture("Assets/Others/allBB.png");
 }
 
 void PanelState::ToolTipShortCut(const char* word)

@@ -5,13 +5,10 @@
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleCamera3D.h"
-
-#include "Libraries/SDL/include/SDL_opengl.h"
-#include "Libraries/imgui-1.78/imgui_impl_sdl.h"
+#include "ModuleSceneIntro.h"
 
 PanelConfiguration::PanelConfiguration() : PanelManager()
 {
-
 }
 
 PanelConfiguration::~PanelConfiguration()
@@ -35,19 +32,25 @@ bool PanelConfiguration::Draw()
 
 		if (ImGui::Begin("Configuration", &active))
 		{
+			if (ImGui::IsWindowHovered()) App->camera->isOnConfiguration = true;
+			else App->camera->isOnConfiguration = false;
+
 			if (ImGui::CollapsingHeader("Window"))
 			{
+				ImGui::Spacing();
+
 				App->window->GetWindowSize(w_width, w_height);
-				ImGui::SliderInt("Width", &screen.width, 1, 1920);
-				ImGui::SliderInt("Height", &screen.height, 1, 1080);
+				ImGui::DragInt("Width", &screen.width, 1, 1920);
+				ImGui::DragInt("Height", &screen.height, 1, 1080);
 				ImGui::SliderFloat("Brightness", &screen.brightness, 0.0f, 1.0f);
 
 				SDL_SetWindowSize(App->window->window, screen.width, screen.height);
 				SDL_SetWindowBrightness(App->window->window, screen.brightness);
 
 				ImGui::Separator();
+				ImGui::Spacing();
 
-				if (ImGui::Checkbox("Full", &win.fullscreen))
+				if (ImGui::Checkbox("Full Screen", &win.fullscreen))
 					App->window->SetFullScreen(win.fullscreen);
 				ImGui::SameLine();
 				if (ImGui::Checkbox("Resizable", &win.resizable))
@@ -55,10 +58,16 @@ bool PanelConfiguration::Draw()
 				ImGui::SameLine();
 				if (ImGui::Checkbox("Borderless", &win.borderless))
 					App->window->SetBorderless(win.borderless);
+
+				ImGui::Spacing();
 			}
 
 			if (ImGui::CollapsingHeader("Application"))
 			{
+				ImGui::Spacing();
+
+				ImGui::Text("Engine Name: %s", App->appName.c_str());
+
 				// App Name
 				static char appName[60];
 				if (App->GetAppName() != nullptr)
@@ -73,13 +82,19 @@ bool PanelConfiguration::Draw()
 				if (ImGui::InputText("Organization Name", orgName, 60, ImGuiInputTextFlags_EnterReturnsTrue | ImGuiInputTextFlags_AutoSelectAll))
 					App->ApplyOrgName(orgName);*/
 
+				ImGui::Spacing();
 				ImGui::Separator();
+				ImGui::Spacing();
 
 				ImGui::SliderInt("Max FPS", &App->framerateCap, 1, 60);
+
+				ImGui::Spacing();
 
 				ImGui::Text("Limit Framerate:");
 				ImGui::SameLine();
 				ImGui::TextColored(YELLOW_COLOR, "%d", App->framerateCap);
+
+				ImGui::Spacing();
 
 				char title[25];
 				sprintf_s(title, 25, "Framerate %.1f", App->fpsVec[App->fpsVec.size() - 1]);
@@ -87,10 +102,13 @@ bool PanelConfiguration::Draw()
 				sprintf_s(title, 25, "Milliseconds %0.1f", App->msVec[App->msVec.size() - 1]);
 				ImGui::PlotHistogram("##milliseconds", &App->msVec[0], App->msVec.size(), 0, title, 0.0f, 40.0f, ImVec2(310, 100));
 
+				ImGui::Spacing();
 			}
 
 			if (ImGui::CollapsingHeader("Hardware"))
 			{
+				ImGui::Spacing();
+
 				ImGui::Text("SDL Version:");
 				ImGui::SameLine();
 				ImGui::TextColored(YELLOW_COLOR, "%d.%d.%d", SDL_MAJOR_VERSION, SDL_MINOR_VERSION, SDL_PATCHLEVEL);
@@ -154,45 +172,138 @@ bool PanelConfiguration::Draw()
 				ImGui::SameLine();
 				ImGui::TextColored(YELLOW_COLOR, "%f", float(hardware.VRAM_available) / (1024.f));
 
+				ImGui::Spacing();
 			}
 
 			if (ImGui::CollapsingHeader("Input"))
 			{
+				ImGui::Spacing();
+
 				ImGui::Text("Mouse Position:"); ImGui::SameLine(); ImGui::TextColored(YELLOW_COLOR, "%i, %i", App->input->GetMouseX(), App->input->GetMouseY());
 				ImGui::Text("Mouse Motion:"); ImGui::SameLine(); ImGui::TextColored(YELLOW_COLOR, "%i,%i", App->input->GetMouseXMotion(), App->input->GetMouseYMotion());
 				ImGui::Text("Mouse Wheel:"); ImGui::SameLine(); ImGui::TextColored(YELLOW_COLOR, "%i", App->input->GetMouseZ());
+
+				ImGui::Spacing();
 			}
 
 			if (ImGui::CollapsingHeader("Renderer"))
 			{
-				if (ImGui::Checkbox("Wireframe", &wireframe))
-					App->renderer3D->WireframeView(wireframe);
-				ImGui::SameLine();
-				if (ImGui::Checkbox("Depth", &depth_test))
-					App->renderer3D->DepthView(depth_test);
-				ImGui::SameLine();
-				if (ImGui::Checkbox("Cull Face", &cull_face))
-					App->renderer3D->CullFaceView(cull_face);
+				ImGui::Spacing();
 
-				if (ImGui::Checkbox("Lighting", &lighting))
-					App->renderer3D->LightingView(lighting);
-				ImGui::SameLine();
-				if (ImGui::Checkbox("Alpha", &alpha))
-					App->renderer3D->AlphaView(alpha);
-				ImGui::SameLine();
-				if (ImGui::Checkbox("Texture 2D", &texture2D))
-					App->renderer3D->Texture2DView(texture2D);
+				if (ImGui::TreeNodeEx("Background:", ImGuiTreeNodeFlags_None))
+				{
+					ImGuiColorEditFlags flags = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_PickerHueBar;
+					ImGui::Spacing();
+					ImGui::Text("Color: "); ImGui::SameLine(); ImGui::PushItemWidth(180); ImGui::ColorEdit3(" ", (float*)&App->renderer3D->bg_color, flags);
+					ImGui::TreePop();
+				}
+
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				if (ImGui::TreeNodeEx("Grid:", ImGuiTreeNodeFlags_None))
+				{
+					ImGuiColorEditFlags flags = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_PickerHueBar;
+					ImGui::Spacing();
+					ImGui::Text("Draw:  "); ImGui::SameLine(); ImGui::PushItemWidth(110); ImGui::PushID("drawG"); ImGui::Checkbox(" ", &App->scene_intro->drawGrid); ImGui::PopID();
+					ImGui::Text("Size:  ");	ImGui::SameLine(); ImGui::PushItemWidth(130); ImGui::PushID("lenghtG"); ImGui::InputFloat(" ", &App->scene_intro->gridSize, 0.1f, 10.0f); ImGui::PopID();
+					ImGui::Text("Width:  ");	ImGui::SameLine(); ImGui::PushItemWidth(130); ImGui::PushID("widthG"); ImGui::InputFloat(" ", &App->scene_intro->gridWidth, 1.0f, 10.0f); ImGui::PopID();
+					ImGui::Text("Color: "); ImGui::SameLine(); ImGui::PushItemWidth(180); ImGui::ColorEdit3(" ", (float*)&App->scene_intro->gridColor, flags);
+					ImGui::TreePop();
+				}
+
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				if (ImGui::TreeNodeEx("Axis:", ImGuiTreeNodeFlags_None))
+				{
+					ImGui::Spacing();
+					ImGui::Text("Length:  "); ImGui::SameLine(); ImGui::PushItemWidth(130); ImGui::PushID("lenghtG"); ImGui::InputFloat(" ", &App->scene_intro->axisLength, 0.1f, 10.0f); ImGui::PopID();
+					ImGui::TreePop();
+				}
+
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				if (ImGui::TreeNodeEx("Bounding Boxes:", ImGuiTreeNodeFlags_None))
+				{
+					ImGuiColorEditFlags flags = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_PickerHueBar;
+					ImGui::Spacing();
+					ImGui::Text("Size: "); ImGui::SameLine(); ImGui::PushItemWidth(130); ImGui::PushID("Size"); ImGui::InputFloat(" ", &App->scene_intro->bbSize, 1.f, 10.0f); ImGui::PopID();
+					ImGui::Text("Color: "); ImGui::SameLine(); ImGui::PushItemWidth(180); ImGui::ColorEdit3(" ", (float*)&App->scene_intro->bbColor, flags);
+					ImGui::TreePop();
+				}
+
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				if (ImGui::TreeNodeEx("Frustum:", ImGuiTreeNodeFlags_None))
+				{
+					ImGuiColorEditFlags flags = ImGuiColorEditFlags_Uint8 | ImGuiColorEditFlags_DisplayRGB | ImGuiColorEditFlags_PickerHueBar;
+					ImGui::Spacing();
+					ImGui::Text("Frustum: "); ImGui::SameLine(); ImGui::PushItemWidth(180); ImGui::ColorEdit3("##Frustum", (float*)&App->gui->frustum_color, flags);
+
+					ImGui::Spacing();
+					ImGui::Text("Planes: "); ImGui::SameLine(); ImGui::PushItemWidth(180); ImGui::ColorEdit3("##Planes", (float*)&App->gui->plane_color, flags);
+					ImGui::TreePop();
+				}
+
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				if (ImGui::TreeNodeEx("View Modes:", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::Spacing();
+
+					if (ImGui::Checkbox("Wireframe", &wireframe))
+						App->renderer3D->WireframeView(wireframe);
+
+					ImGui::SameLine();
+
+					if (ImGui::Checkbox("Depth", &depth_test))
+						App->renderer3D->DepthView(depth_test);
+
+					ImGui::SameLine();
+
+					if (ImGui::Checkbox("Cull Face", &cull_face))
+						App->renderer3D->CullFaceView(cull_face);
+
+					if (ImGui::Checkbox("Lighting", &lighting))
+						App->renderer3D->LightingView(lighting);
+
+					ImGui::SameLine();
+
+					if (ImGui::Checkbox("Alpha", &alpha))
+						App->renderer3D->AlphaView(alpha);
+
+					ImGui::SameLine();
+
+					if (ImGui::Checkbox("Texture 2D", &texture2D))
+						App->renderer3D->Texture2DView(texture2D);
+
+					ImGui::TreePop();
+				}
+
+				ImGui::Spacing();
 			}
 
 			if (ImGui::CollapsingHeader("Camera"))
 			{
-				ImGui::Text("Sensitivity");
-				ImGui::Separator();
-				ImGui::SliderFloat("WASD Move", &App->camera->WASDValue, 0.0f, 5.0f);
-				ImGui::SliderFloat("Wheel Move", &App->camera->wheelSpeedValue, 0.0f, 2.0f);
-				ImGui::SliderFloat("Wheel Zoom", &App->camera->zoomValue, 0.0f, 2.0f);
-			}
+				ImGui::Spacing();
 
+				if (ImGui::TreeNodeEx("Sensitivity", ImGuiTreeNodeFlags_DefaultOpen))
+				{
+					ImGui::Spacing();
+					ImGui::PushItemWidth(150);
+					ImGui::SliderFloat("Input Sensitivity", &App->camera->slow, 0.1f, 25.0f);
+					ImGui::SliderFloat("Camera Speed", &App->camera->currentSpeed, 0.1f, 100.0f);
+					ImGui::SliderFloat("Wheel Zoom Speed", &App->camera->mouseWheelS, 0.1f, 100.0f);
+					ImGui::SliderFloat("Focus Distance", &App->camera->distanceFocus, 0.1f, 50.0f);
+					ImGui::TreePop();
+				}
+
+				ImGui::Spacing();
+			}
 		}
 
 		ImGui::End();
@@ -200,5 +311,3 @@ bool PanelConfiguration::Draw()
 
 	return true;
 }
-
-

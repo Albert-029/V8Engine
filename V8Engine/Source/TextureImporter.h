@@ -4,14 +4,12 @@
 #include "Globals.h"
 #include "Module.h"
 
-#define CHECKERS_WIDTH 128
-#define CHECKERS_HEIGHT 128
+class ResourceTexture;
 
-struct texData {
-	uint id;
-	uint width;
-	uint height;
-	string path;
+struct Texture
+{
+	uint id, height, width;
+	std::string path;
 };
 
 class TextureImporter : public Module
@@ -28,17 +26,19 @@ public:
 
 public:
 
-	uint CreateTexture(const void* texture, uint width, uint height, int format, uint format2) const;
-	texData CreateCheckersTexture() const;
-	texData CreateEmptyTexture();
-	texData LoadTexture(const char* path) const;
+	uint CreateTexture(const void* texture, uint width, uint height, int format, uint format2, const char* path = nullptr) const;
+	Texture CreateEmptyTexture() const;
 
-	uint id_checkers = 0;
-	//texData tData;
+	bool LoadTextureFromPath(const char* path, std::string& output_file);
+	Texture GenerateCheckersTexture();
+	bool LoadTextureFromLibrary(ResourceTexture* tex);
 
-	// Textures
-	texData CheckersTexture;
-	texData AssignedTexture;
+	bool DuplicateTexture(const char* path, std::string& output_file) const;
+
+	// Textures used for opengl purposes
+	Texture texture;
+	Texture checker_texture;
+
 };
 
 #endif

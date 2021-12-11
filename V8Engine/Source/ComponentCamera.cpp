@@ -3,6 +3,7 @@
 #include "ModuleGUI.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
 
 #include "MathGeoLib/include/Math/MathFunc.h"
 
@@ -17,9 +18,9 @@ ComponentCamera::ComponentCamera(GameObject* GO) : Component(COMPONENT_TYPE::CAM
 	frustum.up = float3::unitY;
 
 	frustum.nearPlaneDistance = 1.0f;
-	frustum.farPlaneDistance = 1000.0f;
+	frustum.farPlaneDistance = 200.0f;
 	frustum.verticalFov = DegToRad(60.0f);
-	
+
 	AspectRatio(1.3f);
 }
 
@@ -39,12 +40,15 @@ bool ComponentCamera::Update()
 	frustum.front = transf->GetGlobalTransform().WorldZ();
 	frustum.up = transf->GetGlobalTransform().WorldY();
 
+	if (seeFrustum)
+		DrawFrustum();
+
 	return true;
 }
 
-void ComponentCamera::Draw2()
+void ComponentCamera::DrawCamera()
 {
-	if (showFrustrum || App->scene_intro->GOselected == object)
+	if (showFrustum || App->scene_intro->GOselected == object)
 		DrawFrustum();
 }
 
@@ -67,12 +71,29 @@ void ComponentCamera::DrawInspector()
 	{
 		ImGui::Spacing();
 
-		if (ImGui::Checkbox("Culling", &this->showFrustrum))
+		if (ImGui::Button("Set as Game Camera"))
 		{
-			if (this->showFrustrum)
+			App->camera->playCam = go;
+		}
+
+		ImGui::SameLine();
+
+		App->gui->HelpMarker("Select this camera to be the active one when entering into Play Mode");
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		ImGui::Checkbox("Draw Frustum", &this->seeFrustum);
+
+		ImGui::Spacing();
+
+		if (ImGui::Checkbox("Camera Culling", &this->showFrustum))
+		{
+			if (this->showFrustum)
 			{
 				if (App->renderer3D->culling != nullptr)
-					App->renderer3D->culling->showFrustrum = false;
+					App->renderer3D->culling->showFrustum = false;
 
 				App->renderer3D->culling = this;
 			}
@@ -80,6 +101,7 @@ void ComponentCamera::DrawInspector()
 				App->renderer3D->culling = nullptr;
 		}
 
+		ImGui::Spacing();
 		ImGui::Separator();
 
 		float nearPlane = GetNearPlane();
@@ -87,10 +109,37 @@ void ComponentCamera::DrawInspector()
 		float fov = GetFOV();
 		float ratio = GetRatio();
 
-		ImGui::Text("Near Plane"); ImGui::SameLine(130.f); ImGui::DragFloat("##NearPlane", &nearPlane, 0.05f, 0.1f, farPlane);
-		ImGui::Text("Far Plane"); ImGui::SameLine(130.f); ImGui::DragFloat("##FarPlane", &farPlane, 0.05f, nearPlane, 5000.f);
-		ImGui::Text("FOV"); ImGui::SameLine(130.f); ImGui::DragFloat("##FOV", &fov, 0.05f, 1.f, 179.f);
-		ImGui::Text("Aspect Ratio"); ImGui::SameLine(130.f); ImGui::DragFloat("##AspectRatio", &ratio, 0.05f, 0.1f, 10.f);
+		if (ImGui::TreeNodeEx("Planes", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::Spacing();
+
+			ImGui::PushItemWidth(180);
+			ImGui::SliderFloat("Near Plane", &nearPlane, 0.1f, farPlane);
+
+			ImGui::Spacing();
+
+			ImGui::PushItemWidth(180);
+			ImGui::SliderFloat("Far Plane", &farPlane, nearPlane, 400.f);
+
+			ImGui::TreePop();
+		}
+
+		ImGui::Spacing();
+
+		if (ImGui::TreeNodeEx("Properties", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::Spacing();
+
+			ImGui::PushItemWidth(180);
+			ImGui::SliderFloat("Field of View", &fov, 0.1f, 179.f);
+
+			ImGui::Spacing();
+
+			ImGui::PushItemWidth(180);
+			ImGui::SliderFloat("Aspect Ratio", &ratio, 0.1f, 10.f);
+
+			ImGui::TreePop();
+		}
 
 		if (nearPlane != GetNearPlane()) SetNearPlane(nearPlane);
 		if (farPlane != GetFarPlane()) SetFarPlane(farPlane);
@@ -167,11 +216,11 @@ void ComponentCamera::DrawFrustum()
 {
 	glLineWidth(2.0f);
 	glBegin(GL_LINES);
-	
+
 	float3 corners[8];
 	frustum.GetCornerPoints(corners);
 
-	glColor3f(1.f, 1.f, 1.f);
+	glColor3f(App->gui->frustum_color.r, App->gui->frustum_color.g, App->gui->frustum_color.b);
 
 	// Left Face
 	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
@@ -188,7 +237,7 @@ void ComponentCamera::DrawFrustum()
 	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
 
 	// Near-Far
-	glColor3f(1.f, 0.f, 0.f);
+	glColor3f(App->gui->plane_color.r, App->gui->plane_color.g, App->gui->plane_color.b);
 
 	// Near Plane
 	glVertex3f(corners[0].x, corners[0].y, corners[0].z);
@@ -216,7 +265,7 @@ void ComponentCamera::DrawFrustum()
 	glVertex3f(corners[5].x, corners[5].y, corners[5].z);
 	glVertex3f(corners[7].x, corners[7].y, corners[7].z);
 
-	glColor3f(1, 1, 1);
+	glColor3f(App->gui->frustum_color.r, App->gui->frustum_color.g, App->gui->frustum_color.b);
 	glEnd();
 
 }
@@ -292,4 +341,12 @@ bool ComponentCamera::Intersect(const Frustum& frustum_, const AABB& box)
 	}
 
 	return true;
+}
+
+void ComponentCamera::Save(uint GO_id, nlohmann::json& scene_file)
+{
+	scene_file[object->data.name]["Components"]["Camera"]["ShowFrustum"] = seeFrustum;
+	scene_file[object->data.name]["Components"]["Camera"]["DoCulling"] = showFrustum;
+	scene_file[object->data.name]["Components"]["Camera"]["FrustumFarPlane"] = frustum.farPlaneDistance;
+	scene_file[object->data.name]["Components"]["Camera"]["FrustumNearPlane"] = frustum.nearPlaneDistance;
 }
