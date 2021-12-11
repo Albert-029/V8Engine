@@ -110,7 +110,6 @@ void ComponentMesh::IsMeshComponentActive(GameObject* go)
 	{
 		LOG_C("ERROR: Mesh Component is NOT active");
 	}
-
 }
 
 void ComponentMesh::Save(uint GO_id, nlohmann::json& scene)

@@ -4,6 +4,7 @@
 #include "Application.h"
 #include "Module.h"
 #include "Resource.h"
+#include "PanelConsole.h"
 
 struct Assets
 {
@@ -20,15 +21,12 @@ struct Assets
 	}type;
 
 	std::string name = "";
-	Assets* selected_asset = nullptr;
-	bool selected = false;
 };
 
 
 class Resource;
 class ResourceMesh;
 class ResourceTexture;
-class ResourceModel;
 
 class ModuleResources : public Module
 {

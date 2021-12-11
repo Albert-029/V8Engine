@@ -41,7 +41,6 @@ public:
 	AABB aabb;
 
 	ResourceMesh* rMesh = nullptr;
-
 };
 
 #endif

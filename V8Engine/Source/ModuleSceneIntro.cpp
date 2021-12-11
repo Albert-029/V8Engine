@@ -77,6 +77,9 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 		App->gui->loadSceneMenu = true;
 
+	if (App->input->GetKey(SDL_SCANCODE_ESCAPE) == KEY_DOWN)
+		App->gui->exitMenu = true;
+
 	return UPDATE_CONTINUE;
 }
 
@@ -291,20 +294,6 @@ void ModuleSceneIntro::GetGameObjectSelectedIndex(GameObject* GO)
 	}
 }
 
-// old
-void ModuleSceneIntro::GetSizeOfList()
-{
-	int size = 0;
-
-	for (int i = 0; i < gameobjectsList.size(); ++i)
-	{
-		size = gameobjectsList.size();
-	}
-
-	LOG_C("The size of the GOs list is %i", size);
-}
-
-
 bool ModuleSceneIntro::DrawGridAndAxis(bool active)
 {
 	if (active)
@@ -361,7 +350,6 @@ bool ModuleSceneIntro::DrawGridAndAxis(bool active)
 	else {
 		return false;
 	}
-
 }
 
 void ModuleSceneIntro::Create3DObject(OBJECTS3D object)

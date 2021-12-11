@@ -8,8 +8,7 @@
 #include "ModuleCamera3D.h"
 #include "imgui-1.78/ImGuizmo.h"
 
-
-ModuleGUI::ModuleGUI(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleGUI::ModuleGUI(Application * app, bool start_enabled) : Module(app, start_enabled)
 {
 }
 
@@ -30,7 +29,7 @@ bool ModuleGUI::Init()
 	Pscene = new PanelScene();
 	Pgame = new PanelGame();
 	Pcam = new PanelCameraPreview();
-
+	
 	PushBackPanels();
 
 	ImGuizmo::Enable(true);
@@ -157,8 +156,7 @@ bool ModuleGUI::Draw()
 
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Quit", "Alt+F4"))
-				exitMenu = true;
+			ImGui::MenuItem("Quit", NULL, &exitMenu);
 
 			ImGui::EndMenu();
 		}
@@ -209,7 +207,7 @@ bool ModuleGUI::Draw()
 					App->scene_intro->Create3DObject(OBJECTS3D::STREET);
 					LOG_C("WARNING: This model is has many polys. Loading it can take a while.")
 				}
-
+					
 				ImGui::EndMenu();
 			}
 
@@ -343,7 +341,7 @@ bool ModuleGUI::Draw()
 				else
 					LOG_C("WARNING: You must select a GO to get the index");
 			}
-
+				
 			ImGui::EndMenu();
 		}
 
@@ -395,7 +393,7 @@ bool ModuleGUI::Draw()
 		{
 
 			ImGui::Spacing();
-
+			
 			// Saving scene name with a new index every time
 			for (int i = 0; i < App->scene_intro->maxScenes; i++)
 			{
@@ -425,11 +423,11 @@ bool ModuleGUI::Draw()
 
 			ImGui::Spacing();
 
-			ImGui::Text("The scene will be stored in"); ImGui::SameLine(); ImGui::TextColored(YELLOW_COLOR, "Assets/Scenes/%s.json", finalName.c_str());
+			ImGui::Text("The scene will be stored in"); ImGui::SameLine(); ImGui::TextColored(YELLOW_COLOR,"Assets/Scenes/%s.json", finalName.c_str());
 			if (ImGui::IsItemHovered())
 			{
 				ImGui::BeginTooltip();
-				ImGui::TextColored(GREY_COLOR, "V8Engine/Game/Assets/Scenes/%s.json", finalName.c_str());
+				ImGui::TextColored(GREY_COLOR,"V8Engine/Game/Assets/Scenes/%s.json", finalName.c_str());
 				ImGui::EndTooltip();
 			}
 
@@ -443,7 +441,7 @@ bool ModuleGUI::Draw()
 		if (ImGui::BeginPopupModal("Load Scene", &loadSceneMenu, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 		{
 			ImGui::Spacing();
-
+			
 			// Search in the specified folder and show the current files
 			vector<string> file_list, dir_list;
 			App->file_system->DiscoverFiles("Assets/Scenes/", file_list, dir_list);
@@ -496,7 +494,7 @@ bool ModuleGUI::Draw()
 			{
 				App->quitApp = false;
 				exitMenu = false;
-			}
+			}	
 
 			ImGui::Spacing();
 			ImGui::EndPopup();
@@ -534,8 +532,6 @@ void ModuleGUI::PushBackPanels()
 	panels.push_back(Pcam);
 }
 
-
-
 void ModuleGUI::LogConsole(char* text, ...)
 {
 	char buf[1024];
@@ -546,7 +542,6 @@ void ModuleGUI::LogConsole(char* text, ...)
 	va_end(args);
 	App->appLogs.push_back(Strdup(buf));
 }
-
 
 bool ModuleGUI::CleanUp()
 {
@@ -656,7 +651,7 @@ void ModuleGUI::ApplyDocking(bool* window)
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
 	window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 	window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
-
+	
 
 	dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
 	window_flags |= ImGuiWindowFlags_NoBackground;
