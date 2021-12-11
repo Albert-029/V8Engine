@@ -674,8 +674,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Tonic Engine\Game\Assets\iconEngine.ico" />
-    <Image Include="bitmap1.bmp" />
+    <Image Include="V8Engine\Game\Assets\iconEngine.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\KDTree.inl">

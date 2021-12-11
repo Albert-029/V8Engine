@@ -292,8 +292,7 @@
     <ClCompile Include="Source Code\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="bitmap1.bmp" />
-    <Image Include="Tonic Engine\Game\Assets\iconEngine.ico" />
+    <Image Include="V8Engine\Game\Assets\iconEngine.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\KDTree.inl" />
