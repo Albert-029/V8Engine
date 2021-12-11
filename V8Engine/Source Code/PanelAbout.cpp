@@ -83,7 +83,7 @@ bool PanelAbout::Draw()
 			ImGui::Separator();
 
 			ImGui::Text("MIT License");
-			ImGui::Text("Copyright (c) 2020 Albert Robles");
+			ImGui::Text("Copyright (c) 2020 Albert Robles Muñoz");
 			ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy of this");
 			ImGui::Text("software and associated documentation files (the 'Software'), to deal in the Software without");
 			ImGui::Text("restriction, including without limitation the rights to use, copy, modify, merge, publish,");
