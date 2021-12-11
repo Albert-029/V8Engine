@@ -72,17 +72,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>Source\Libraries\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>Source Code\Libraries\DevIL\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>Source\Libraries\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>Source Code\Libraries\DevIL\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
-    <IncludePath>Source\Libraries\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>Source Code\Libraries\DevIL\include;$(IncludePath)</IncludePath>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(CommonExecutablePath)</ExecutablePath>
     <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
@@ -93,7 +93,7 @@
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <ExecutablePath>$(VC_ExecutablePath_x86);$(CommonExecutablePath)</ExecutablePath>
-    <IncludePath>Source\Libraries\DevIL\include;$(IncludePath)</IncludePath>
+    <IncludePath>Source Code\Libraries\DevIL\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(VC_ReferencesPath_x86);</ReferencePath>
     <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
     <ExcludePath>$(CommonExcludePath);$(VC_ExecutablePath_x86);$(VC_LibraryPath_x86)</ExcludePath>
@@ -105,13 +105,13 @@
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WINDOWS_IGNORE_PACKING_MISMATCH</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Source/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Source Code/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -122,7 +122,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WINDOWS_IGNORE_PACKING_MISMATCH</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -130,8 +130,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Source/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Source Code/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -143,14 +143,14 @@
       <OmitFramePointers>false</OmitFramePointers>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ExceptionHandling>false</ExceptionHandling>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WINDOWS_IGNORE_PACKING_MISMATCH</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Source/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Source Code/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
@@ -161,7 +161,7 @@
       <SDLCheck>false</SDLCheck>
       <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);WINDOWS_IGNORE_PACKING_MISMATCH</PreprocessorDefinitions>
       <ConformanceMode>Default</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <SupportJustMyCode>true</SupportJustMyCode>
       <Optimization>Disabled</Optimization>
@@ -174,214 +174,214 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Source/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Source Code\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Source Code/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Application.cpp" />
-    <ClCompile Include="Source\Color.cpp" />
-    <ClCompile Include="Source\Component.cpp" />
-    <ClCompile Include="Source\ComponentCamera.cpp" />
-    <ClCompile Include="Source\ComponentMesh.cpp" />
-    <ClCompile Include="Source\ComponentTexture.cpp" />
-    <ClCompile Include="Source\ComponentTransform.cpp" />
-    <ClCompile Include="Source\GameObject.cpp" />
-    <ClCompile Include="Source\glmath.cpp" />
-    <ClCompile Include="Source\Libraries\glew\src\glew.c" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\ImGuizmo.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui_demo.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui_draw.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui_impl_opengl2.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui_impl_sdl.cpp" />
-    <ClCompile Include="Source\Libraries\imgui-1.78\imgui_widgets.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\AABB.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Capsule.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Circle.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Frustum.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Line.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\LineSegment.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\OBB.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Plane.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Polygon.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Polyhedron.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Ray.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Sphere.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\Triangle.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Geometry\TriangleMesh.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\BitOps.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\float2.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\float3.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\float3x3.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\float3x4.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\float4.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\float4x4.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\MathFunc.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\MathLog.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\MathOps.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\Polynomial.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\Quat.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\SSEMath.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Math\TransformOps.cpp" />
-    <ClCompile Include="Source\Libraries\MathGeoLib\include\Time\Clock.cpp" />
-    <ClCompile Include="Source\Libraries\mmgr\mmgr.cpp" />
-    <ClCompile Include="Source\Light.cpp" />
-    <ClCompile Include="Source\Main.cpp" />
-    <ClCompile Include="Source\MeshImporter.cpp" />
-    <ClCompile Include="Source\ModuleCamera3D.cpp" />
-    <ClCompile Include="Source\ModuleFileSystem.cpp" />
-    <ClCompile Include="Source\ModuleGui.cpp" />
-    <ClCompile Include="Source\ModuleInput.cpp" />
-    <ClCompile Include="Source\ModuleRenderer3D.cpp" />
-    <ClCompile Include="Source\ModuleResources.cpp" />
-    <ClCompile Include="Source\ModuleSceneIntro.cpp" />
-    <ClCompile Include="Source\ModuleTime.cpp" />
-    <ClCompile Include="Source\ModuleWindow.cpp" />
-    <ClCompile Include="Source\PanelAbout.cpp" />
-    <ClCompile Include="Source\PanelCameraPreview.cpp" />
-    <ClCompile Include="Source\PanelConfiguration.cpp" />
-    <ClCompile Include="Source\PanelConsole.cpp" />
-    <ClCompile Include="Source\PanelGame.cpp" />
-    <ClCompile Include="Source\PanelHierarchy.cpp" />
-    <ClCompile Include="Source\PanelInspector.cpp" />
-    <ClCompile Include="Source\PanelResources.cpp" />
-    <ClCompile Include="Source\PanelScene.cpp" />
-    <ClCompile Include="Source\PanelState.cpp" />
-    <ClCompile Include="Source\Primitive.cpp" />
-    <ClCompile Include="Source\RandomNumGenerator.cpp" />
-    <ClCompile Include="Source\Resource.cpp" />
-    <ClCompile Include="Source\ResourceMesh.cpp" />
-    <ClCompile Include="Source\ResourceModel.cpp" />
-    <ClCompile Include="Source\ResourceTexture.cpp" />
-    <ClCompile Include="Source\TextureImporter.cpp" />
-    <ClCompile Include="Source\Timer.cpp" />
-    <ClCompile Include="Source\Viewport.cpp" />
+    <ClCompile Include="Source Code\Application.cpp" />
+    <ClCompile Include="Source Code\Color.cpp" />
+    <ClCompile Include="Source Code\Component.cpp" />
+    <ClCompile Include="Source Code\ComponentCamera.cpp" />
+    <ClCompile Include="Source Code\ComponentMesh.cpp" />
+    <ClCompile Include="Source Code\ComponentTexture.cpp" />
+    <ClCompile Include="Source Code\ComponentTransform.cpp" />
+    <ClCompile Include="Source Code\GameObject.cpp" />
+    <ClCompile Include="Source Code\glmath.cpp" />
+    <ClCompile Include="Source Code\Libraries\glew\src\glew.c" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\ImGuizmo.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui_demo.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui_draw.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui_impl_opengl2.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui_impl_sdl.cpp" />
+    <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui_widgets.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Algorithm\Random\LCG.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\AABB.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Capsule.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Circle.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Frustum.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Line.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\LineSegment.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\OBB.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Plane.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Polygon.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Polyhedron.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Ray.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Sphere.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\Triangle.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Geometry\TriangleMesh.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\BitOps.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\float2.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\float3.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\float3x3.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\float3x4.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\float4.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\float4x4.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\MathFunc.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\MathLog.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\MathOps.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\Polynomial.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\Quat.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\SSEMath.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Math\TransformOps.cpp" />
+    <ClCompile Include="Source Code\Libraries\MathGeoLib\include\Time\Clock.cpp" />
+    <ClCompile Include="Source Code\Libraries\mmgr\mmgr.cpp" />
+    <ClCompile Include="Source Code\Light.cpp" />
+    <ClCompile Include="Source Code\Main.cpp" />
+    <ClCompile Include="Source Code\MeshImporter.cpp" />
+    <ClCompile Include="Source Code\ModuleCamera3D.cpp" />
+    <ClCompile Include="Source Code\ModuleFileSystem.cpp" />
+    <ClCompile Include="Source Code\ModuleGUI.cpp" />
+    <ClCompile Include="Source Code\ModuleInput.cpp" />
+    <ClCompile Include="Source Code\ModuleRenderer3D.cpp" />
+    <ClCompile Include="Source Code\ModuleResources.cpp" />
+    <ClCompile Include="Source Code\ModuleSceneIntro.cpp" />
+    <ClCompile Include="Source Code\ModuleTime.cpp" />
+    <ClCompile Include="Source Code\ModuleWindow.cpp" />
+    <ClCompile Include="Source Code\PanelAbout.cpp" />
+    <ClCompile Include="Source Code\PanelCameraPreview.cpp" />
+    <ClCompile Include="Source Code\PanelConfiguration.cpp" />
+    <ClCompile Include="Source Code\PanelConsole.cpp" />
+    <ClCompile Include="Source Code\PanelGame.cpp" />
+    <ClCompile Include="Source Code\PanelHierarchy.cpp" />
+    <ClCompile Include="Source Code\PanelInspector.cpp" />
+    <ClCompile Include="Source Code\PanelResources.cpp" />
+    <ClCompile Include="Source Code\PanelScene.cpp" />
+    <ClCompile Include="Source Code\PanelState.cpp" />
+    <ClCompile Include="Source Code\Primitive.cpp" />
+    <ClCompile Include="Source Code\RandomNumGenerator.cpp" />
+    <ClCompile Include="Source Code\Resource.cpp" />
+    <ClCompile Include="Source Code\ResourceMesh.cpp" />
+    <ClCompile Include="Source Code\ResourceModel.cpp" />
+    <ClCompile Include="Source Code\ResourceTexture.cpp" />
+    <ClCompile Include="Source Code\TextureImporter.cpp" />
+    <ClCompile Include="Source Code\Timer.cpp" />
+    <ClCompile Include="Source Code\Viewport.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Source\Application.h" />
-    <ClInclude Include="Source\Color.h" />
-    <ClInclude Include="Source\Component.h" />
-    <ClInclude Include="Source\ComponentCamera.h" />
-    <ClInclude Include="Source\ComponentMesh.h" />
-    <ClInclude Include="Source\ComponentTexture.h" />
-    <ClInclude Include="Source\ComponentTransform.h" />
-    <ClInclude Include="Source\GameObject.h" />
-    <ClInclude Include="Source\glmath.h" />
-    <ClInclude Include="Source\Globals.h" />
-    <ClInclude Include="Source\JsonImporter.h" />
-    <ClInclude Include="Source\Libraries\glew\include\GL\glew.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imconfig.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imgui.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\ImGuizmo.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imgui_impl_opengl2.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imgui_impl_opengl3.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imgui_impl_sdl.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imgui_internal.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imstb_rectpack.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imstb_textedit.h" />
-    <ClInclude Include="Source\Libraries\imgui-1.78\imstb_truetype.h" />
-    <ClInclude Include="Source\Libraries\JSON\json.hpp" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Algorithm\Random\LCG.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\AABB.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\AABB2D.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Capsule.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Circle.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Frustum.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\GeometryAll.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\GeomType.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\HitInfo.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\KDTree.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Line.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\LineSegment.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\OBB.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\PBVolume.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Plane.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Polygon.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Polyhedron.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\QuadTree.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Ray.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Sphere.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\Triangle.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Geometry\TriangleMesh.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\MathBuildConfig.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\MathGeoLib.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\MathGeoLibFwd.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\assume.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\BitOps.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\Complex.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\CoordinateAxisConvention.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\FixedPoint.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float2.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float3.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float3x3.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float3x4.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float4.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float4x4.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float4x4_neon.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float4x4_sse.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float4_neon.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\float4_sse.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\FloatCmp.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MathAll.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MathConstants.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MathFunc.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MathLog.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MathNamespace.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MathTypes.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\MatrixProxy.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\myassert.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\Polynomial.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\Quat.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\quat_simd.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\Rect.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\Reinterpret.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\SSEMath.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\sse_mathfun.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Math\TransformOps.h" />
-    <ClInclude Include="Source\Libraries\MathGeoLib\include\Time\Clock.h" />
-    <ClInclude Include="Source\Libraries\mmgr\mmgr.h" />
-    <ClInclude Include="Source\Libraries\mmgr\nommgr.h" />
-    <ClInclude Include="Source\Libraries\pcg-c-0.94\extras\entropy.h" />
-    <ClInclude Include="Source\Libraries\pcg-c-0.94\extras\pcg_spinlock.h" />
-    <ClInclude Include="Source\Libraries\pcg-c-0.94\include\pcg_variants.h" />
-    <ClInclude Include="Source\Light.h" />
-    <ClInclude Include="Source\Math.h" />
-    <ClInclude Include="Source\MeshImporter.h" />
-    <ClInclude Include="Source\Module.h" />
-    <ClInclude Include="Source\ModuleCamera3D.h" />
-    <ClInclude Include="Source\ModuleFileSystem.h" />
-    <ClInclude Include="Source\ModuleGui.h" />
-    <ClInclude Include="Source\ModuleInput.h" />
-    <ClInclude Include="Source\ModuleRenderer3D.h" />
-    <ClInclude Include="Source\ModuleResources.h" />
-    <ClInclude Include="Source\ModuleSceneIntro.h" />
-    <ClInclude Include="Source\ModuleTime.h" />
-    <ClInclude Include="Source\ModuleWindow.h" />
-    <ClInclude Include="Source\PanelAbout.h" />
-    <ClInclude Include="Source\PanelCameraPreview.h" />
-    <ClInclude Include="Source\PanelConfiguration.h" />
-    <ClInclude Include="Source\PanelConsole.h" />
-    <ClInclude Include="Source\PanelGame.h" />
-    <ClInclude Include="Source\PanelHierarchy.h" />
-    <ClInclude Include="Source\PanelInspector.h" />
-    <ClInclude Include="Source\PanelManager.h" />
-    <ClInclude Include="Source\PanelResources.h" />
-    <ClInclude Include="Source\PanelScene.h" />
-    <ClInclude Include="Source\PanelState.h" />
-    <ClInclude Include="Source\PathNode.h" />
-    <ClInclude Include="Source\Primitive.h" />
-    <ClInclude Include="Source\Resource.h" />
-    <ClInclude Include="Source\ResourceMesh.h" />
-    <ClInclude Include="Source\ResourceModel.h" />
-    <ClInclude Include="Source\ResourceTexture.h" />
-    <ClInclude Include="Source\TextureImporter.h" />
-    <ClInclude Include="Source\Timer.h" />
-    <ClInclude Include="Source\Viewport.h" />
+    <ClInclude Include="Source Code\Application.h" />
+    <ClInclude Include="Source Code\Color.h" />
+    <ClInclude Include="Source Code\Component.h" />
+    <ClInclude Include="Source Code\ComponentCamera.h" />
+    <ClInclude Include="Source Code\ComponentMesh.h" />
+    <ClInclude Include="Source Code\ComponentTexture.h" />
+    <ClInclude Include="Source Code\ComponentTransform.h" />
+    <ClInclude Include="Source Code\GameObject.h" />
+    <ClInclude Include="Source Code\glmath.h" />
+    <ClInclude Include="Source Code\Globals.h" />
+    <ClInclude Include="Source Code\JsonImporter.h" />
+    <ClInclude Include="Source Code\Libraries\glew\include\GL\glew.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imconfig.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imgui.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\ImGuizmo.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imgui_impl_opengl2.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imgui_impl_opengl3.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imgui_impl_sdl.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imgui_internal.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imstb_rectpack.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imstb_textedit.h" />
+    <ClInclude Include="Source Code\Libraries\imgui-1.78\imstb_truetype.h" />
+    <ClInclude Include="Source Code\Libraries\JSON\json.hpp" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Algorithm\Random\LCG.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\AABB.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\AABB2D.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Capsule.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Circle.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Frustum.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\GeometryAll.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\GeomType.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\HitInfo.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\KDTree.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Line.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\LineSegment.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\OBB.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\PBVolume.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Plane.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Polygon.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Polyhedron.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\QuadTree.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Ray.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Sphere.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\Triangle.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Geometry\TriangleMesh.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\MathBuildConfig.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\MathGeoLib.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\MathGeoLibFwd.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\assume.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\BitOps.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\Complex.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\CoordinateAxisConvention.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\FixedPoint.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float2.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float3.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float3x3.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float3x4.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float4.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float4x4.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float4x4_neon.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float4x4_sse.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float4_neon.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\float4_sse.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\FloatCmp.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MathAll.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MathConstants.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MathFunc.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MathLog.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MathNamespace.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MathTypes.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\MatrixProxy.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\myassert.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\Polynomial.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\Quat.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\quat_simd.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\Rect.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\Reinterpret.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\SSEMath.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\sse_mathfun.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Math\TransformOps.h" />
+    <ClInclude Include="Source Code\Libraries\MathGeoLib\include\Time\Clock.h" />
+    <ClInclude Include="Source Code\Libraries\mmgr\mmgr.h" />
+    <ClInclude Include="Source Code\Libraries\mmgr\nommgr.h" />
+    <ClInclude Include="Source Code\Libraries\pcg-c-0.94\extras\entropy.h" />
+    <ClInclude Include="Source Code\Libraries\pcg-c-0.94\extras\pcg_spinlock.h" />
+    <ClInclude Include="Source Code\Libraries\pcg-c-0.94\include\pcg_variants.h" />
+    <ClInclude Include="Source Code\Light.h" />
+    <ClInclude Include="Source Code\Math.h" />
+    <ClInclude Include="Source Code\MeshImporter.h" />
+    <ClInclude Include="Source Code\Module.h" />
+    <ClInclude Include="Source Code\ModuleCamera3D.h" />
+    <ClInclude Include="Source Code\ModuleFileSystem.h" />
+    <ClInclude Include="Source Code\ModuleGUI.h" />
+    <ClInclude Include="Source Code\ModuleInput.h" />
+    <ClInclude Include="Source Code\ModuleRenderer3D.h" />
+    <ClInclude Include="Source Code\ModuleResources.h" />
+    <ClInclude Include="Source Code\ModuleSceneIntro.h" />
+    <ClInclude Include="Source Code\ModuleTime.h" />
+    <ClInclude Include="Source Code\ModuleWindow.h" />
+    <ClInclude Include="Source Code\PanelAbout.h" />
+    <ClInclude Include="Source Code\PanelCameraPreview.h" />
+    <ClInclude Include="Source Code\PanelConfiguration.h" />
+    <ClInclude Include="Source Code\PanelConsole.h" />
+    <ClInclude Include="Source Code\PanelGame.h" />
+    <ClInclude Include="Source Code\PanelHierarchy.h" />
+    <ClInclude Include="Source Code\PanelInspector.h" />
+    <ClInclude Include="Source Code\PanelManager.h" />
+    <ClInclude Include="Source Code\PanelResources.h" />
+    <ClInclude Include="Source Code\PanelScene.h" />
+    <ClInclude Include="Source Code\PanelState.h" />
+    <ClInclude Include="Source Code\PathNode.h" />
+    <ClInclude Include="Source Code\Primitive.h" />
+    <ClInclude Include="Source Code\Resource.h" />
+    <ClInclude Include="Source Code\ResourceMesh.h" />
+    <ClInclude Include="Source Code\ResourceModel.h" />
+    <ClInclude Include="Source Code\ResourceTexture.h" />
+    <ClInclude Include="Source Code\TextureImporter.h" />
+    <ClInclude Include="Source Code\Timer.h" />
+    <ClInclude Include="Source Code\Viewport.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="V8Engine.rc" />
@@ -390,12 +390,12 @@
     <Image Include="Game\Assets\iconEngine.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Source\Libraries\MathGeoLib\include\Geometry\KDTree.inl" />
-    <None Include="Source\Libraries\MathGeoLib\include\Geometry\QuadTree.inl" />
-    <None Include="Source\Libraries\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
-    <None Include="Source\Libraries\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
-    <None Include="Source\Libraries\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
-    <None Include="Source\Libraries\MathGeoLib\include\Math\Matrix.inl" />
+    <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\KDTree.inl" />
+    <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\QuadTree.inl" />
+    <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />
+    <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_CPP.inl" />
+    <None Include="Source Code\Libraries\MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
+    <None Include="Source Code\Libraries\MathGeoLib\include\Math\Matrix.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
