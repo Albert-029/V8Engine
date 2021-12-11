@@ -98,7 +98,7 @@
       <AdditionalIncludeDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>Source/Libraries/Assimp/libx86/assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)\Source\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
