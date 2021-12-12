@@ -1,6 +1,6 @@
 # V8Engine
 
-[V8Engine](https://github.com/Albertito029/V8Engine) is a 3D Game Engine developed in C & C++ made by Albert Robles, student of [CITM](https://www.citm.upc.edu/) in Barcelona.
+[V8Engine](https://github.com/Albertito029/V8Engine) is a 3D Game Engine developed in C & C++ made by Albert Robles and Victor Nisa, students of [CITM](https://www.citm.upc.edu/) in Barcelona.
 
 ## Features
 
@@ -95,12 +95,16 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
 * **ESC:** Activates/Deactivates the Exit Engine pop-up
 * **ALT + F4:** Closes the engine
 
-## Author
+## Authors
 
 ### Albert Robles
 
 - Github: [Albert Robles](https://github.com/Albertito029)
 - LinkedIn: [Albert Robles](https://www.linkedin.com/in/albert-robles-munoz/)
+
+### Victor Nisa
+
+- Github: [Victor Nisa](https://github.com/VictorNisa)
 
 ## Contact
 
@@ -109,6 +113,7 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
  
  Contact:
  - Albert Robles: alber1206@gmail.com
+ - Victor Nisa: victornisan@gmail.com
   
 
 ## Third Party Libraries
