@@ -36,7 +36,7 @@ bool PanelAbout::Draw()
 		{
 			ImGui::Image((ImTextureID*)icon->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)); ImGui::SameLine();
 			
-			ImGui::Text("%s by Albert Robles", SDL_GetWindowTitle(App->window->window));
+			ImGui::Text("%s by Albert Robles and Victor Nisa", SDL_GetWindowTitle(App->window->window));
 			ImGui::Separator();
 
 			ImGui::Text("This is a 3D Game Engine developed during the Game Design and Development Bachelor's Degree.");
@@ -48,6 +48,8 @@ bool PanelAbout::Draw()
 					App->RequestBrowser("https://github.com/Albertito029/V8Engine"); ImGui::SameLine();
 				if (ImGui::Button("Albert Robles"))
 					App->RequestBrowser("https://github.com/Albertito029"); ImGui::SameLine();
+				if (ImGui::Button("Victor Nisa"))
+					App->RequestBrowser("https://github.com/VictorNisa"); ImGui::SameLine();
 
 				ImGui::TreePop();
 			}
