@@ -73,10 +73,10 @@ enum update_status
 #define VSYNC true
 
 //Common Directories
-#define ASSETS_FOLDER "/Assets/"
+#define ASSETS_FOLDER "Assets/"
 #define ASSETS_SCENES_FOLDER "Assets/Scenes/" // It must not have a / before Assets, even though it won't create any .json file
 #define ASSETS_TEXTURES_FOLDER "Assets/Textures/"
 #define ASSETS_MODELS_FOLDER "Assets/Models/"
-#define LIBRARY_FOLDER "/Library/"
-#define LIBRARY_TEXTURES_FOLDER "/Library/Textures/"
-#define LIBRARY_MESH_FOLDER "/Library/Meshes/"
+#define LIBRARY_FOLDER "Library/"
+#define LIBRARY_TEXTURES_FOLDER "Library/Textures/"
+#define LIBRARY_MESH_FOLDER "Library/Meshes/"
