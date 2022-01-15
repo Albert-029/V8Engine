@@ -9,8 +9,8 @@ ImageUI::ImageUI(ComponentImage* image)
 	CreateContainerImage();
 	Cimage = image;
 
-	image_texture = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile("Assets/Others/move2.png"));
-	image_texture->LoadInMemory();
+	//image_texture = (ResourceTexture*)App->resources->Get(App->resources->GetNewFile("Assets/Others/test.png"));
+	//image_texture->LoadInMemory();
 }
 
 ImageUI::~ImageUI()
@@ -39,7 +39,7 @@ bool ImageUI::Draw()
 	return true;
 }
 
-void ImageUI::DrawImageTexture()
+void ImageUI::DrawImageTexture() // THERE'S AN ERROR IN glDrawElements() THAT I CAN'T FIX OMG. THERE'S NO MUCH MORE TIME LEFT, SO I WILL DO IT ANOTHER AND WORSE WAY :(
 {
 	App->ui->UseUIRenderSettings();
 
@@ -77,7 +77,7 @@ ContainerUI* ImageUI::GetContainer()
 
 void ImageUI::ResizeImage(float2 size)
 {
-	
+
 }
 
 void ImageUI::CreateContainerImage()

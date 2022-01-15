@@ -32,9 +32,9 @@ typedef unsigned int uint;
 
 enum update_status
 {
-	UPDATE_CONTINUE = 1,
-	UPDATE_STOP,
-	UPDATE_ERROR
+    UPDATE_CONTINUE = 1,
+    UPDATE_STOP,
+    UPDATE_ERROR
 };
 
 // Deletes a buffer
@@ -62,10 +62,10 @@ enum update_status
 #define JSON_ASSERT(x) assert(x)
 
 // Configuration -----------
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
+#define SCREEN_WIDTH 1900
+#define SCREEN_HEIGHT 980
 #define SCREEN_SIZE 1
-#define WIN_MAXIMIZED true
+#define WIN_MAXIMIZED false
 #define WIN_FULLSCREEN false
 #define WIN_RESIZABLE true
 #define WIN_BORDERLESS false
@@ -73,10 +73,11 @@ enum update_status
 #define VSYNC true
 
 //Common Directories
-#define ASSETS_FOLDER "Assets/"
-#define ASSETS_SCENES_FOLDER "Assets/Scenes/" // It must not have a / before Assets, even though it won't create any .json file
+#define ASSETS_FOLDER "/Assets/"
+#define ASSETS_SCENES_FOLDER "Assets/Scenes/" 
 #define ASSETS_TEXTURES_FOLDER "Assets/Textures/"
 #define ASSETS_MODELS_FOLDER "Assets/Models/"
-#define LIBRARY_FOLDER "Library/"
-#define LIBRARY_TEXTURES_FOLDER "Library/Textures/"
-#define LIBRARY_MESH_FOLDER "Library/Meshes/"
+#define ASSETS_FONTS_FOLDER "Assets/Fonts/"
+#define LIBRARY_FOLDER "/Library/"
+#define LIBRARY_TEXTURES_FOLDER "/Library/Textures/"
+#define LIBRARY_MESH_FOLDER "/Library/Meshes/"

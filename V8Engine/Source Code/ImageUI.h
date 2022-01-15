@@ -31,7 +31,7 @@ public:
 	ResourceTexture* GetTexture();
 
 	ComponentImage* Cimage = nullptr;
-	
+
 private:
 
 	ContainerUI* container_image = nullptr;
