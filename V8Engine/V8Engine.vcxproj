@@ -87,15 +87,28 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source Code\ButtonUI.h" />
+    <ClInclude Include="Source Code\CanvasUI.h" />
+    <ClInclude Include="Source Code\ComponentButton.h" />
     <ClInclude Include="Source Code\ComponentCamera.h" />
     <ClInclude Include="Source Code\Application.h" />
     <ClInclude Include="Source Code\Color.h" />
     <ClInclude Include="Source Code\Component.h" />
+    <ClInclude Include="Source Code\ComponentCanvas.h" />
+    <ClInclude Include="Source Code\ComponentContainer.h" />
+    <ClInclude Include="Source Code\ComponentImage.h" />
     <ClInclude Include="Source Code\ComponentMesh.h" />
+    <ClInclude Include="Source Code\ComponentText.h" />
     <ClInclude Include="Source Code\ComponentTexture.h" />
     <ClInclude Include="Source Code\ComponentTransform.h" />
+    <ClInclude Include="Source Code\ContainerUI.h" />
+    <ClInclude Include="Source Code\ElementUI.h" />
+    <ClInclude Include="Source Code\FontCharacterUI.h" />
+    <ClInclude Include="Source Code\FontUI.h" />
     <ClInclude Include="Source Code\GameObject.h" />
+    <ClInclude Include="Source Code\ImageUI.h" />
     <ClInclude Include="Source Code\JsonImporter.h" />
+    <ClInclude Include="Source Code\LabelUI.h" />
     <ClInclude Include="Source Code\Libraries\glew\include\GL\glew.h" />
     <ClInclude Include="Source Code\glmath.h" />
     <ClInclude Include="Source Code\Globals.h" />
@@ -182,6 +195,7 @@
     <ClInclude Include="Source Code\ModuleResources.h" />
     <ClInclude Include="Source Code\ModuleSceneIntro.h" />
     <ClInclude Include="Source Code\ModuleTime.h" />
+    <ClInclude Include="Source Code\ModuleUserInterface.h" />
     <ClInclude Include="Source Code\ModuleWindow.h" />
     <ClInclude Include="Source Code\PanelAbout.h" />
     <ClInclude Include="Source Code\PanelCameraPreview.h" />
@@ -198,7 +212,7 @@
     <ClInclude Include="Source Code\ResourceMesh.h" />
     <ClInclude Include="Source Code\ResourceModel.h" />
     <ClInclude Include="Source Code\ResourceTexture.h" />
-    <ClInclude Include="Source Code\Viewport.h" />
+    <ClInclude Include="Source Code\TextUI.h" />
     <ClInclude Include="Source Code\PathNode.h" />
     <ClInclude Include="Source Code\Libraries\pcg-c-0.94\extras\entropy.h" />
     <ClInclude Include="Source Code\Libraries\pcg-c-0.94\extras\pcg_spinlock.h" />
@@ -209,14 +223,27 @@
     <ClInclude Include="Source Code\Timer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source Code\ButtonUI.cpp" />
+    <ClCompile Include="Source Code\CanvasUI.cpp" />
+    <ClCompile Include="Source Code\ComponentButton.cpp" />
     <ClCompile Include="Source Code\ComponentCamera.cpp" />
     <ClCompile Include="Source Code\Application.cpp" />
     <ClCompile Include="Source Code\Color.cpp" />
     <ClCompile Include="Source Code\Component.cpp" />
+    <ClCompile Include="Source Code\ComponentCanvas.cpp" />
+    <ClCompile Include="Source Code\ComponentContainer.cpp" />
+    <ClCompile Include="Source Code\ComponentImage.cpp" />
     <ClCompile Include="Source Code\ComponentMesh.cpp" />
+    <ClCompile Include="Source Code\ComponentText.cpp" />
     <ClCompile Include="Source Code\ComponentTexture.cpp" />
     <ClCompile Include="Source Code\ComponentTransform.cpp" />
+    <ClCompile Include="Source Code\ContainerUI.cpp" />
+    <ClCompile Include="Source Code\ElementUI.cpp" />
+    <ClCompile Include="Source Code\FontCharacterUI.cpp" />
+    <ClCompile Include="Source Code\FontUI.cpp" />
     <ClCompile Include="Source Code\GameObject.cpp" />
+    <ClCompile Include="Source Code\ImageUI.cpp" />
+    <ClCompile Include="Source Code\LabelUI.cpp" />
     <ClCompile Include="Source Code\Libraries\glew\src\glew.c" />
     <ClCompile Include="Source Code\glmath.cpp" />
     <ClCompile Include="Source Code\Libraries\imgui-1.78\imgui.cpp" />
@@ -270,6 +297,7 @@
     <ClCompile Include="Source Code\ModuleResources.cpp" />
     <ClCompile Include="Source Code\ModuleSceneIntro.cpp" />
     <ClCompile Include="Source Code\ModuleTime.cpp" />
+    <ClCompile Include="Source Code\ModuleUserInterface.cpp" />
     <ClCompile Include="Source Code\ModuleWindow.cpp" />
     <ClCompile Include="Source Code\PanelAbout.cpp" />
     <ClCompile Include="Source Code\PanelCameraPreview.cpp" />
@@ -285,7 +313,7 @@
     <ClCompile Include="Source Code\ResourceMesh.cpp" />
     <ClCompile Include="Source Code\ResourceModel.cpp" />
     <ClCompile Include="Source Code\ResourceTexture.cpp" />
-    <ClCompile Include="Source Code\Viewport.cpp" />
+    <ClCompile Include="Source Code\TextUI.cpp" />
     <ClCompile Include="Source Code\Primitive.cpp" />
     <ClCompile Include="Source Code\RandomNumGenerator.cpp" />
     <ClCompile Include="Source Code\TextureImporter.cpp" />

@@ -67,6 +67,18 @@
     <Filter Include="Sources\Modules\Resources">
       <UniqueIdentifier>{f6c7500b-446c-406a-99b3-90fdcbd7baed}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\UI">
+      <UniqueIdentifier>{7d2e7244-58a7-4813-8ba7-df4424c0bb51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI\UI Elements">
+      <UniqueIdentifier>{a392a049-fa21-4259-b20b-e4d3af523651}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\UI\UI Elements\Fonts">
+      <UniqueIdentifier>{83f046ff-74f9-48cc-8350-67536ea76413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\GameObject\UI Components">
+      <UniqueIdentifier>{5c25b45f-cf06-4e24-93d0-cdfae730a34f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
@@ -400,9 +412,6 @@
     <ClInclude Include="Source Code\PanelState.h">
       <Filter>Sources\Modules\GUI\Panels</Filter>
     </ClInclude>
-    <ClInclude Include="Source Code\Viewport.h">
-      <Filter>Sources\Modules\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="Source Code\PanelGame.h">
       <Filter>Sources\Modules\GUI\Panels</Filter>
     </ClInclude>
@@ -426,6 +435,51 @@
     </ClInclude>
     <ClInclude Include="Source Code\PanelCameraPreview.h">
       <Filter>Sources\Modules\GUI\Panels</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\FontCharacterUI.h">
+      <Filter>Sources\UI\UI Elements\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\FontUI.h">
+      <Filter>Sources\UI\UI Elements\Fonts</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ButtonUI.h">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\CanvasUI.h">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ContainerUI.h">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ImageUI.h">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\LabelUI.h">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\TextUI.h">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ElementUI.h">
+      <Filter>Sources\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ModuleUserInterface.h">
+      <Filter>Sources\Modules\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ComponentButton.h">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ComponentCanvas.h">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ComponentContainer.h">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ComponentImage.h">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Source Code\ComponentText.h">
+      <Filter>Sources\GameObject\UI Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -645,9 +699,6 @@
     <ClCompile Include="Source Code\PanelState.cpp">
       <Filter>Sources\Modules\GUI\Panels</Filter>
     </ClCompile>
-    <ClCompile Include="Source Code\Viewport.cpp">
-      <Filter>Sources\Modules\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="Source Code\PanelGame.cpp">
       <Filter>Sources\Modules\GUI\Panels</Filter>
     </ClCompile>
@@ -671,6 +722,51 @@
     </ClCompile>
     <ClCompile Include="Source Code\PanelCameraPreview.cpp">
       <Filter>Sources\Modules\GUI\Panels</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\FontCharacterUI.cpp">
+      <Filter>Sources\UI\UI Elements\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\FontUI.cpp">
+      <Filter>Sources\UI\UI Elements\Fonts</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ButtonUI.cpp">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\CanvasUI.cpp">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ContainerUI.cpp">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ImageUI.cpp">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\LabelUI.cpp">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\TextUI.cpp">
+      <Filter>Sources\UI\UI Elements</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ElementUI.cpp">
+      <Filter>Sources\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ModuleUserInterface.cpp">
+      <Filter>Sources\Modules\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ComponentButton.cpp">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ComponentCanvas.cpp">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ComponentContainer.cpp">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ComponentImage.cpp">
+      <Filter>Sources\GameObject\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Source Code\ComponentText.cpp">
+      <Filter>Sources\GameObject\UI Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
