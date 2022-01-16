@@ -115,6 +115,7 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
 ### Pol Cortés
 
 - Github: [Pol Cortés](https://github.com/PolCorTs)
+- Linkedin: [Pol Cortés](https://www.linkedin.com/in/polcortesescanuela/)
 
 ## Contact
 
@@ -123,7 +124,7 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
  
  Contact:
  - Albert Robles: alber1206@gmail.com
- - Pol Cortés: -
+ - Pol Cortés: 99.cortes.p@gmail.com
   
 
 ## Third Party Libraries
