@@ -6,6 +6,22 @@
 
 ### Windows
 
+**Main Tab:**
+Menus of all the functionalities of the engine
+* File
+* GameObject
+* Debug
+* Windows
+* Help
+
+**Scene Viewport:**
+Displays the scene from the view of the editor camera
+* Shows the ImGizmos
+
+**Game Viewport:**
+Displays the scene from the view of the play camera
+* Maintain the proper aspect ratio when is resized
+
 **Hierarchy:**
 Shows current GameObjects tree
 * Reparent with drag and drop
@@ -42,14 +58,6 @@ Contains the Play menu and other important buttons
 * Bounding boxes buttons
 * Playmode buttons
 
-**Main Tab:**
-Menus of all the functionalities of the engine
-* File
-* GameObject
-* Debug
-* Windows
-* Help
-
 ### Functionalities
 
 * **Resource Manager:** Manages all the assets of the engine
@@ -68,9 +76,11 @@ Menus of all the functionalities of the engine
 * Debug Menu
 * Environment customization
 
+## Usage
+
 ### Installation
 
-Download the zip file and unzip it. Open the folder, execute the .exe and enjoy!
+Download the zip file and unzip it. Open the folder, execute the .exe and enjoy Tonic Engine!
 
 IMPORTANT: *Do not modify, change or add any folder or file (unless specified) as you might not be able to execute the application.*
 
@@ -102,9 +112,9 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
 - Github: [Albert Robles](https://github.com/Albertito029)
 - LinkedIn: [Albert Robles](https://www.linkedin.com/in/albert-robles-munoz/)
 
-### Victor Nisa
+### Pol Cortés
 
-- Github: [Victor Nisa](https://github.com/VictorNisa)
+- Github: [Pol Cortés](https://github.com/PolCorTs)
 
 ## Contact
 
@@ -113,7 +123,7 @@ IMPORTANT: *Do not modify, change or add any folder or file (unless specified) a
  
  Contact:
  - Albert Robles: alber1206@gmail.com
- - Victor Nisa: victornisan@gmail.com
+ - Pol Cortés: -
   
 
 ## Third Party Libraries

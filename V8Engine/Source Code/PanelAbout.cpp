@@ -36,20 +36,20 @@ bool PanelAbout::Draw()
 		{
 			ImGui::Image((ImTextureID*)icon->tex.id, ImVec2(35, 35), ImVec2(0, 1), ImVec2(1, 0)); ImGui::SameLine();
 			
-			ImGui::Text("%s by Albert Robles and Victor Nisa", SDL_GetWindowTitle(App->window->window));
+			ImGui::Text("%s by Albert Robles & Pol Cortés", SDL_GetWindowTitle(App->window->window));
 			ImGui::Separator();
 
-			ImGui::Text("This is a 3D Game Engine developed during the Game Design and Development Bachelor's Degree.");
+			ImGui::Text("This is a 3D Game Engine developed during our Game Design and Development Bachelor's Degree.");
 			ImGui::Separator();
 
 			if (ImGui::TreeNodeEx("Github Links", ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_SpanAvailWidth))
 			{
 				if (ImGui::Button("Repository"))
-					App->RequestBrowser("https://github.com/Albertito029/V8Engine"); ImGui::SameLine();
+					App->RequestBrowser("https://github.com/albertito029/V8Engine"); ImGui::SameLine();
 				if (ImGui::Button("Albert Robles"))
 					App->RequestBrowser("https://github.com/Albertito029"); ImGui::SameLine();
-				if (ImGui::Button("Victor Nisa"))
-					App->RequestBrowser("https://github.com/VictorNisa"); ImGui::SameLine();
+				if (ImGui::Button("Pol Cortés"))
+					App->RequestBrowser("https://github.com/PolCorTs");
 
 				ImGui::TreePop();
 			}
@@ -85,7 +85,7 @@ bool PanelAbout::Draw()
 			ImGui::Separator();
 
 			ImGui::Text("MIT License");
-			ImGui::Text("Copyright (c) 2020 Albert Robles Muñoz");
+			ImGui::Text("Copyright (c) 2020 Albert Robles & Pol Cortés");
 			ImGui::Text("Permission is hereby granted, free of charge, to any person obtaining a copy of this");
 			ImGui::Text("software and associated documentation files (the 'Software'), to deal in the Software without");
 			ImGui::Text("restriction, including without limitation the rights to use, copy, modify, merge, publish,");

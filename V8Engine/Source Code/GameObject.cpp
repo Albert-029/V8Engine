@@ -19,6 +19,15 @@ GameObject::~GameObject()
 {
 }
 
+void GameObject::Start()
+{
+	for (int i = 0; i < componentsList.size(); ++i)
+	{
+		if (componentsList[i]->active)
+			componentsList[i]->Start();
+	}
+}
+
 void GameObject::Update()
 {
 	for (std::vector<GameObject*>::iterator it = childrenList.begin(); it != childrenList.end(); ++it)
@@ -28,9 +37,12 @@ void GameObject::Update()
 
 	if (this->data.active)
 	{
-		if (this->GetComponentTransform()->moved)
-			TransformGlobal(this);
-
+		if (this->GetComponentTransform() != nullptr)
+		{
+			if (this->GetComponentTransform()->moved)
+				TransformGlobal(this);
+		}
+		
 		GameObject* GO = App->scene_intro->GOselected;
 
 		UpdateBoundingBox();
@@ -106,6 +118,7 @@ void GameObject::Draw() const
 		DrawAllBoundingBoxes(aabb);
 	}
 
+	// Calling Draw() function of all components (only used for UI Components)
 	for (int i = 0; i < componentsList.size(); ++i)
 	{
 		if (componentsList[i]->active)
@@ -161,6 +174,37 @@ Component* GameObject::CreateComponent(COMPONENT_TYPE type, bool active)
 	}
 		
 	return component;
+}
+
+Component* GameObject::CreateComponentUI(COMPONENT_TYPE type, bool active)
+{
+	Component* componentUI = nullptr;
+
+	switch (type)
+	{
+	case COMPONENT_TYPE::CANVAS_UI:
+		componentUI = new ComponentCanvas(this);
+		break;
+	case COMPONENT_TYPE::BUTTON_UI:
+		componentUI = new ComponentButton(this);
+		break;
+	case COMPONENT_TYPE::IMAGE_UI:
+		componentUI = new ComponentImage(this);
+		break;
+		/*case COMPONENT_TYPE::LABEL_UI:
+		componentUI = new ComponentLabel(this);
+		break;
+		case COMPONENT_TYPE::TEXT_UI:
+		componentUI = new ComponentText(this);
+		break;*/
+	}
+
+	if (componentUI != nullptr)
+	{
+		componentsList.push_back(componentUI);
+	}
+
+	return componentUI;
 }
 
 Component* GameObject::GetComponent(COMPONENT_TYPE type) const
@@ -226,6 +270,45 @@ ComponentCamera* GameObject::GetComponentCamera()
 	return (ComponentCamera*)camera;
 }
 
+ComponentCanvas* GameObject::GetComponentCanvasUI()
+{
+	Component* canvas = nullptr;
+	for (std::vector<Component*>::iterator i = componentsList.begin(); i != componentsList.end(); i++)
+	{
+		if ((*i)->type == COMPONENT_TYPE::CANVAS_UI)
+		{
+			return (ComponentCanvas*)*i;
+		}
+	}
+	return (ComponentCanvas*)canvas;
+}
+
+ComponentButton* GameObject::GetComponentButtonUI()
+{
+	Component* button = nullptr;
+	for (std::vector<Component*>::iterator i = componentsList.begin(); i != componentsList.end(); i++)
+	{
+		if ((*i)->type == COMPONENT_TYPE::BUTTON_UI)
+		{
+			return (ComponentButton*)*i;
+		}
+	}
+	return (ComponentButton*)button;
+}
+
+ComponentImage* GameObject::GetComponentImageUI()
+{
+	Component* image = nullptr;
+	for (std::vector<Component*>::iterator i = componentsList.begin(); i != componentsList.end(); i++)
+	{
+		if ((*i)->type == COMPONENT_TYPE::IMAGE_UI)
+		{
+			return (ComponentImage*)*i;
+		}
+	}
+	return (ComponentImage*)image;
+}
+
 bool GameObject::IsGameObjectActive()
 {
 	return data.active;
@@ -284,20 +367,40 @@ void GameObject::TransformGlobal(GameObject* GO)
 
 void GameObject::Save(uint GO_id, nlohmann::json& scene)
 {
-	scene["Game Objects"][GO_id]["Name"] = data.name;
-	scene["Game Objects"][GO_id]["Id"] = data.id;
-	scene["Game Objects"][GO_id]["UUID"] = data.UUID;
-	scene["Game Objects"][GO_id]["Active"] = data.active;
-	
+	scene[data.name.c_str()]["UUID"] = std::to_string(data.UUID);
+
+	if (GOparent)
+		scene[data.name.c_str()]["ParentUUID"] = std::to_string(GOparent->data.UUID);
+	else
+		scene[data.name.c_str()]["ParentUUID"] = "NONE";
+
+	scene[data.name.c_str()]["Active"] = std::to_string(data.active);
+
 	for (int i = 0; i < componentsList.size(); i++)
 		componentsList[i]->Save(GO_id, scene);
+}
+
+void GameObject::Load(uint GO_id, nlohmann::json& scene_file)
+{
+	scene_file["Game Objects"][GO_id]["UUID"] = data.UUID;
+	scene_file["Game Objects"][GO_id]["Name"] = data.name;
+
+	if (GOparent)
+		scene_file["Game Objects"][GO_id]["ParentUUID"] = GOparent->data.UUID;
+	else
+		scene_file["Game Objects"][GO_id]["ParentUUID"] = "NONE";
+
+	scene_file["Game Objects"][GO_id]["Active"] = data.active;
+
+	for (int i = 0; i < componentsList.size(); i++)
+		componentsList[i]->Load(GO_id, scene_file);
 }
 
 void GameObject::UpdateBoundingBox()
 {
 	ComponentMesh* mesh = this->GetComponentMesh();
 
-	if (mesh)
+	if (mesh != nullptr)
 	{
 		obb = mesh->BoundingBox();
 		obb.Transform(this->GetComponentTransform()->GetGlobalTransform());

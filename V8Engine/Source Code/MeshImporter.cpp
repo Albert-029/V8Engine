@@ -8,6 +8,7 @@
 #include "ResourceMesh.h"
 #include "ResourceTexture.h"
 #include "ModuleResources.h"
+#include "ElementUI.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -56,6 +57,48 @@ bool MeshImporter::CleanUp()
 	aiDetachAllLogStreams();
 
 	return true;
+}
+
+GameObject* MeshImporter::LoadUI(ELEMENT_UI_TYPE type, std::string path, std::string texture_path)
+{
+	const aiScene* scene = aiImportFile(path.c_str(), aiProcessPreset_TargetRealtime_MaxQuality);
+
+	GameObject* GO = nullptr;
+
+	if (scene != nullptr)
+	{
+		aiNode* node = scene->mRootNode;
+		std::string file;
+
+		if (type == ELEMENT_UI_TYPE::IMAGE)
+		{
+			GO = App->scene_intro->CreateGO("Image", App->scene_intro->parent_canvas);
+			GO->CreateComponentUI(COMPONENT_TYPE::IMAGE_UI);
+		}
+		else if (type == ELEMENT_UI_TYPE::BUTTON)
+		{
+			GO = App->scene_intro->CreateGO("Button", App->scene_intro->parent_canvas);
+			GO->CreateComponentUI(COMPONENT_TYPE::BUTTON_UI);
+		}
+		else if (type == ELEMENT_UI_TYPE::TEXT)
+		{
+			GO = App->scene_intro->CreateGO("Text", App->scene_intro->parent_canvas);
+			GO->CreateComponentUI(COMPONENT_TYPE::TEXT_UI);
+		}
+		/*GameObject* GO = App->scene_intro->CreateGO(App->GetPathName(path));
+		App->scene_intro->GOroot->AddChild(GO);*/
+
+		if (node->mNumChildren > 0)
+			for (int i = 0; i < node->mNumChildren; ++i)
+				LoadNode(scene, node->mChildren[i], path.c_str(), file, GO, texture_path.c_str());
+
+		aiReleaseImport(scene);
+
+		LOG_C("Succesfully loaded mesh with path: %s", path);
+	}
+	else LOG_C("ERROR: Could not load scene with path: %s", path);
+
+	return GO;
 }
 
 bool MeshImporter::LoadFile(std::string path, std::string texture_path)

@@ -23,9 +23,9 @@ float3 ComponentTransform::GetScale() const { return scale; }
 
 float4x4 ComponentTransform::GetGlobalTransform() const { return globalMatrix; }
 
-void ComponentTransform::SetPosition(float3& position)
+void ComponentTransform::SetPosition(float3& position_)
 {
-	this->position = position;
+	position = position_;
 
 	UpdateLocalTransform();
 }
@@ -44,7 +44,7 @@ void ComponentTransform::SetEulerRotation(float3 rotation)
 
 void ComponentTransform::SetScale(float3& scale)
 {
-	if (scale.x > 0.0f && scale.y > 0.0f && scale.z > 0.0f) this->scale = scale;
+	if (scale.x > 0.0f || scale.y > 0.0f || scale.z > 0.0f) this->scale = scale;
 
 	UpdateLocalTransform();
 }
@@ -198,16 +198,16 @@ void ComponentTransform::IsTransformComponentActive(GameObject* go)
 
 void ComponentTransform::Save(uint GO_id, nlohmann::json& scene_file)
 {
-	scene_file[object->data.name]["Components"]["Transform"]["UUID"] = UUID;
-	scene_file[object->data.name]["Components"]["Transform"]["PositionX"] = position.x;
-	scene_file[object->data.name]["Components"]["Transform"]["PositionY"] = position.y;
-	scene_file[object->data.name]["Components"]["Transform"]["PositionZ"] = position.z;
-	scene_file[object->data.name]["Components"]["Transform"]["RotationX"] = rotation_euler.x;
-	scene_file[object->data.name]["Components"]["Transform"]["RotationY"] = rotation_euler.y;
-	scene_file[object->data.name]["Components"]["Transform"]["RotationZ"] = rotation_euler.z;
-	scene_file[object->data.name]["Components"]["Transform"]["ScaleX"] = scale.x;
-	scene_file[object->data.name]["Components"]["Transform"]["ScaleY"] = scale.y;
-	scene_file[object->data.name]["Components"]["Transform"]["ScaleZ"] = scale.z;
+	scene_file[object->data.name]["Components"]["Transform"]["UUID"] = std::to_string(UUID);
+	scene_file[object->data.name]["Components"]["Transform"]["PositionX"] = std::to_string(position.x);
+	scene_file[object->data.name]["Components"]["Transform"]["PositionY"] = std::to_string(position.y);
+	scene_file[object->data.name]["Components"]["Transform"]["PositionZ"] = std::to_string(position.z);
+	scene_file[object->data.name]["Components"]["Transform"]["RotationX"] = std::to_string(rotation_euler.x);
+	scene_file[object->data.name]["Components"]["Transform"]["RotationY"] = std::to_string(rotation_euler.y);
+	scene_file[object->data.name]["Components"]["Transform"]["RotationZ"] = std::to_string(rotation_euler.z);
+	scene_file[object->data.name]["Components"]["Transform"]["ScaleX"] = std::to_string(scale.x);
+	scene_file[object->data.name]["Components"]["Transform"]["ScaleY"] = std::to_string(scale.y);
+	scene_file[object->data.name]["Components"]["Transform"]["ScaleZ"] = std::to_string(scale.z);
 }
 
 void ComponentTransform::Reset(bool new_default)
@@ -243,13 +243,16 @@ void ComponentTransform::SetNewDefault(float3 pos, float3 rot, float3 sc)
 
 void ComponentTransform::UpdateGizmo(float4x4 newMatrix)
 {
-	newMatrix.Decompose(position, rotation_quaternion, scale);
+	if (App->scene_intro->GOselected != nullptr)
+	{
+		newMatrix.Decompose(position, rotation_quaternion, scale);
 
-	rotation_euler = rotation_quaternion.ToEulerXYZ() * RADTODEG;
+		rotation_euler = rotation_quaternion.ToEulerXYZ() * RADTODEG;
 
-	SetPosition(position);
-	SetEulerRotation(rotation_euler);
-	SetScale(scale);
+		SetPosition(position);
+		SetEulerRotation(rotation_euler);
+		SetScale(scale);
 
-	globalMatrix = newMatrix;
+		globalMatrix = newMatrix;
+	}
 }

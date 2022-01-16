@@ -17,13 +17,13 @@ enum main_states
 
 Application* App = NULL;
 
-int main(int argc, char** argv)
+int main(int argc, char ** argv)
 {
-	LOG("Welcome to Tonic Engine :) ");
+	LOG("Welcome to V8 Engine :) ");
 
 	int main_return = EXIT_FAILURE;
 	main_states state = MAIN_CREATION;
-
+	
 
 	while (state != MAIN_EXIT)
 	{
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
 			if (update_return == UPDATE_STOP)
 				state = MAIN_FINISH;
 		}
-		break;
+			break;
 
 		case MAIN_FINISH:
 
@@ -85,6 +85,6 @@ int main(int argc, char** argv)
 	}
 
 	delete App;
-	LOG("Quitting from Tonic Engine... ");
+	LOG("Quitting from V8 Engine... ");
 	return main_return;
 }

@@ -5,6 +5,7 @@
 #include "Primitive.h"
 #include "GameObject.h"
 #include "imgui-1.78/ImGuizmo.h"
+#include "ElementUI.h"
 
 enum class OBJECTS3D
 {
@@ -47,7 +48,9 @@ public:
 	GameObject* CreateGO(string objName, GameObject* parent = nullptr);
 	GameObject* CreateCamera(string objName, GameObject* parent = nullptr);
 	GameObject* CreateEmpty(string objName, GameObject* parent = nullptr);
-	string AssignNameToGO(string name_go, bool isCamera, bool isEmpty);
+	GameObject* CreateUI(COMPONENT_TYPE type, string objName, GameObject* parent = nullptr);
+
+	string AssignNameToGO(string name_go, bool isCamera, bool isEmpty, bool isUI);
 	void RemoveSelectedGO(GameObject* GO);
 	void RemoveAllGO();
 	void NumberOfGO();
@@ -59,10 +62,15 @@ public:
 	int cam_aux = 0;
 	int empty_i = 0;
 	int empty_aux = 0;
+	int ui_i = 0;
+	int ui_aux = 0;
 
 	void DrawGameObjectNodes(GameObject* GO);
 	GameObject* GOselected = nullptr;
 	GameObject* GOroot = nullptr;
+	GameObject* parent_canvas = nullptr;
+	GameObject* background_image = nullptr;
+	GameObject* start_button = nullptr;
 	uint numGO = 0;
 
 	// Serialization
@@ -78,10 +86,15 @@ public:
 	bool drawGrid = true;
 	Color gridColor = White;
 	Color bbColor = Blue;
-	float bbSize = 1.0f;
+	float bbSize = 4.0f;
 	float gridSize = 3.0f;
-	float gridWidth = 0.5f;
+	float gridWidth = 3.5f;
 	float axisLength = 6.0f;
+
+	float3 defaultSize = { 20,10,1 };
+
+	float3 button1Size = { 5,1,1 };
+	float3 button1Pos = { 0.5,-3.5,0.001 };
 
 };
 

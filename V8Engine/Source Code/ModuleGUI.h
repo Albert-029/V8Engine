@@ -91,6 +91,20 @@ public:
 	ImGuizmo::MODE mode = ImGuizmo::MODE::WORLD;
 	
 	int currentOp = 1; // 1 is move, 2 is rotate, 3 is scale
+
+	float sceneX = 0.0f;
+	float sceneY = 0.0f;
+	float sceneW = 0.0f;
+	float sceneH = 0.0f;
+
+	float gameX, gameY, gameW, gameH;
+
+	ImVec2 winSize;
+	ImVec2 panelPos;
+
+	ImVec2 sceneMousePos;
+	ImVec2 gameMousePos;
+
 	bool updateMat = false;
 
 	static void HelpMarker(const char* desc);
@@ -98,6 +112,7 @@ public:
 	Color frustum_color = { 1.0f, 1.0f, 1.0f };
 	Color plane_color = { 1.0f, 0.0f, 0.0f };
 
+	bool isButton = false;
 	bool CheckParent(GameObject* GO);
 
 private:

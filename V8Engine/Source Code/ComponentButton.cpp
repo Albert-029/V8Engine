@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "ComponentButton.h"
 #include "ButtonUI.h"
 #include "ModuleSceneIntro.h"
@@ -51,5 +52,14 @@ void ComponentButton::DrawInspector()
 		ImGui::Spacing();
 
 		ImGui::Text("This is the Button component");
+
+		ImGui::Spacing();
+		ImGui::Separator();
+
+		ImGui::PushItemWidth(150);
+		if (ImGui::Combo("Event Call", &button_function, "Load Street\0\Change vsync"))
+		{
+			App->gui->Pgame->DoButtonFunction(button_function);
+		}
 	}
 }

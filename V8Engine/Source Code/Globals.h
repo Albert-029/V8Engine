@@ -32,9 +32,9 @@ typedef unsigned int uint;
 
 enum update_status
 {
-    UPDATE_CONTINUE = 1,
-    UPDATE_STOP,
-    UPDATE_ERROR
+	UPDATE_CONTINUE = 1,
+	UPDATE_STOP,
+	UPDATE_ERROR
 };
 
 // Deletes a buffer
@@ -70,7 +70,6 @@ enum update_status
 #define WIN_RESIZABLE true
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
-#define VSYNC true
 
 //Common Directories
 #define ASSETS_FOLDER "/Assets/"

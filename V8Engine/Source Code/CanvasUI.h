@@ -14,14 +14,14 @@ public:
 	~CanvasUI();
 
 	ComponentCanvas* Ccanvas = nullptr;
-
+	
 	bool Start();
 	bool Update();
 
 	void CreateCanvasRect();
 	void SetUpCanvasRect(ResourceMesh* mesh, float2 size = { 1,1 });
 	void DrawCanvasRect(ResourceMesh* mesh, Color color);
-
+	
 	std::vector<GameObject*> canvas_elements;
 	ResourceMesh* canvas_mesh = nullptr;
 };

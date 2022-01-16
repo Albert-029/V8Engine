@@ -32,7 +32,7 @@ class ModuleUserInterface;
 enum class ENGINE_STATE
 {
 	NONE = 0,
-	PLAY,
+	PLAY, 
 	PAUSE
 };
 
@@ -115,6 +115,8 @@ public:
 	const char* jsonPath;
 	void LoadJSON();
 	void SaveJSON();
+
+	bool vsyncB = true;
 
 private:
 

@@ -7,15 +7,11 @@
 #include "ComponentMesh.h"
 #include "ComponentTexture.h"
 #include "ComponentCamera.h"
+#include "ComponentCanvas.h"
+#include "ComponentButton.h"
+#include "ComponentImage.h"
 #include "ModuleInput.h"
 #include "imgui-1.78/ImGuizmo.h"
-
-class ComponentTransform;
-class ComponentMesh;
-class ComponentTexture;
-class ComponentCamera;
-
-class ResourceModel;
 
 struct goData;
 struct meshData;
@@ -33,6 +29,7 @@ public:
 	GameObject(std::string name);
 	virtual ~GameObject();
 
+	void Start();
 	void Update();
 	void CleanUp();
 	void Draw() const;
@@ -46,12 +43,16 @@ public:
 	int GetGameObjectUUID();
 
 	Component* CreateComponent(COMPONENT_TYPE type, bool active = true);
+	Component* CreateComponentUI(COMPONENT_TYPE type, bool active = true);
 	Component* GetComponent(COMPONENT_TYPE type) const;
 
 	ComponentTransform* GetComponentTransform();
 	ComponentMesh* GetComponentMesh();
 	ComponentTexture* GetComponentTexture();
 	ComponentCamera* GetComponentCamera();
+	ComponentCanvas* GetComponentCanvasUI();
+	ComponentButton* GetComponentButtonUI();
+	ComponentImage* GetComponentImageUI();
 
 	GameObject* GetRootGameObject();
 	void AddChild(GameObject* child);
@@ -64,6 +65,7 @@ public:
 	bool DrawOwnBoundingBox(GameObject* GO);
 
 	void Save(uint GO_id, nlohmann::json& scene_file);
+	void Load(uint GO_id, nlohmann::json& scene_file);
 
 public:
 	goData data;
@@ -74,6 +76,7 @@ public:
 
 	AABB aabb;
 	OBB obb;
+
 };
 
 namespace GO 

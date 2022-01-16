@@ -8,8 +8,8 @@ enum ELEMENT_UI_TYPE
 	NONE_TYPE = 0,
 	CANVAS,
 	BUTTON,
-	IMAGE,
-	LABEL,
+	IMAGE, 
+	LABEL, 
 	TEXT
 };
 
@@ -40,18 +40,18 @@ public:
 
 	ELEMENT_UI_STATE GetState() const;
 	void SetState(const ELEMENT_UI_STATE& new_state);
-
+	
 	bool GetSelected() const;
 	void SetSelected(const bool& new_selected);
 
 private:
 
 	bool selected = false;
-	bool rendered = true;
+	bool rendered = true;	
 
 	ELEMENT_UI_TYPE type = ELEMENT_UI_TYPE::NONE_TYPE;
 	ELEMENT_UI_STATE state = ELEMENT_UI_STATE::NONE_STATE;
-
+	
 	CanvasUI* canvas = nullptr;
 
 };

@@ -23,10 +23,13 @@ bool ModuleCamera3D::Start()
 {
 	mainCam->frustum.farPlaneDistance = 300;
 
-	mainCam->frustum.pos = float3(26.f, 86.f, -90.f);
+	mainCam->frustum.pos = float3(0.f, 10.f, 40.f);
 
 	cameraGO = App->scene_intro->CreateGO("Main_Camera", App->scene_intro->GOroot);
 	cameraGO->CreateComponent(COMPONENT_TYPE::CAMERA);
+
+	cameraGO->GetComponentTransform()->SetPosition(defaultPos);
+	cameraGO->GetComponentTransform()->SetEulerRotation(defaultRot);
 
 	// default in Play Mode
 	playCam = cameraGO;
@@ -264,6 +267,22 @@ const Frustum& ModuleCamera3D::GetActiveFrustum() const
 	return activeCam->frustum;
 }
 
+GameObject* ModuleCamera3D::GetEditorCamera()
+{
+	if (cameraGO == nullptr)
+		return nullptr;
+	else
+		return cameraGO;
+}
+
+GameObject* ModuleCamera3D::GetGameCamera()
+{
+	if (playCam == nullptr)
+		return nullptr;
+	else
+		return playCam;
+}
+
 bool ModuleCamera3D::Intersects(const AABB& box) const
 {
 	return activeCam->Intersect(box);
@@ -272,6 +291,11 @@ bool ModuleCamera3D::Intersects(const AABB& box) const
 float* ModuleCamera3D::GetView() const
 {
 	return activeCam->GetView().ptr();
+}
+
+float* ModuleCamera3D::GetGameView() const
+{
+	return playCam->GetComponentCamera()->GetView().ptr();
 }
 
 float* ModuleCamera3D::GetProjection() const
@@ -287,8 +311,13 @@ bool* ModuleCamera3D::GetProjectionBool() const
 GameObject* ModuleCamera3D::MousePicking() const
 {
 	GameObject* GO = nullptr;
+	ImVec2 mousePos;
 
-	ImVec2 mousePos = { (float)App->input->GetMouseX() / (float)App->window->GetWidth() * 2.f - 1.f, -((float)App->input->GetMouseY() / (float)App->window->GetHeight() * 2.f - 1.f) };
+	if (App->camera->isOnScene)
+		mousePos = { (float)App->gui->sceneMousePos.x / (float)App->gui->sceneW * 2.f - 1.f, -((float)App->gui->sceneMousePos.y / (float)App->gui->sceneH * 2.f - 1.f) };
+
+	else if (App->camera->isOnGame)
+		mousePos = { (float)App->gui->gameMousePos.x / (float)App->gui->gameW * 2.f - 1.f, -((float)App->gui->gameMousePos.y / (float)App->gui->gameH * 2.f - 1.f) };
 
 	LineSegment ray = activeCam->NearSegment((float)mousePos.x, (float)mousePos.y);
 

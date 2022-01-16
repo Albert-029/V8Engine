@@ -29,10 +29,13 @@ public:
 	// Getters
 	float3 GetPosition() const;
 	float* GetView() const;
+	float* GetGameView() const;
 	float* GetProjection() const;
 	bool* GetProjectionBool() const;
 	ComponentCamera* GetActiveCamera();
 	const Frustum& GetActiveFrustum() const;
+	GameObject* GetEditorCamera();
+	GameObject* GetGameCamera();
 
 private:
 
@@ -83,6 +86,9 @@ public:
 private:
 
 	LineSegment rayHit;
+
+	float3 defaultPos = { 0,0,9 };
+	float3 defaultRot = { 180,0,180 };
 };
 
 #endif __ModuleCamera3D__

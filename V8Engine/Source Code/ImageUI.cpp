@@ -59,7 +59,7 @@ void ImageUI::DrawImageTexture() // THERE'S AN ERROR IN glDrawElements() THAT I 
 	}
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, container_image->GetContainerMesh()->data.id_index);
-	glDrawElements(GL_TRIANGLES, container_image->GetContainerMesh()->data.num_index, GL_UNSIGNED_INT, NULL);
+	glDrawElements(GL_TRIANGLES, container_image->GetContainerMesh()->data.num_index, GL_UNSIGNED_INT, NULL); 
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -77,7 +77,7 @@ ContainerUI* ImageUI::GetContainer()
 
 void ImageUI::ResizeImage(float2 size)
 {
-
+	
 }
 
 void ImageUI::CreateContainerImage()

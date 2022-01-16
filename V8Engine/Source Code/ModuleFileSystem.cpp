@@ -16,28 +16,26 @@ ModuleFileSystem::ModuleFileSystem(Application* app, bool start_enabled) : Modul
 	const char* game_path;
 
 	char* base_path = SDL_GetBasePath();
-	PHYSFS_init(nullptr);
+	PHYSFS_init(base_path);
 	SDL_free(base_path);
 
-	if (PHYSFS_setWriteDir(".") == 0)
-		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());
-
 	AddPath(".");
-	AddPath("Assets");
 
-	//if (0 && game_path != nullptr)
-	//	AddPath(game_path);
+	if (0 && game_path != nullptr)
+		AddPath(game_path);
 
 	LOG("FileSystem Operations base is [%s] plus:", GetBasePath());
 	LOG(GetReadPaths());
 
-
+	if (PHYSFS_setWriteDir(".") == 0)
+		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());
 
 	const char* dirs[] = {
 		ASSETS_FOLDER, 
 		ASSETS_SCENES_FOLDER,
 		ASSETS_TEXTURES_FOLDER,
 		ASSETS_MODELS_FOLDER,
+		ASSETS_FONTS_FOLDER,
 		LIBRARY_FOLDER,
 		LIBRARY_TEXTURES_FOLDER,
 		LIBRARY_MESH_FOLDER,
@@ -64,7 +62,7 @@ bool ModuleFileSystem::Init()
 	LOG("Loading File System");
 	bool ret = true;
 
-	char* write_path = SDL_GetPrefPath("Albert", "V8Engine");
+	char* write_path = SDL_GetPrefPath("Albert and Pol", "V8 Engine");
 
 	SDL_free(write_path);
 
@@ -363,19 +361,7 @@ uint ModuleFileSystem::Save(const char* file, const void* buffer, unsigned int s
 	unsigned int ret = 0;
 
 	bool overwrite = PHYSFS_exists(file) != 0;
-	//PHYSFS_file* fs_file = (append) ? PHYSFS_openAppend(file) : PHYSFS_openWrite(file);
-	PHYSFS_file* fs_file = NULL;
-
-	if (append)
-	{
-		fs_file = PHYSFS_openAppend(file);
-	}
-	else
-	{
-		fs_file = PHYSFS_openWrite(file);
-	}
-	
-	
+	PHYSFS_file* fs_file = (append) ? PHYSFS_openAppend(file) : PHYSFS_openWrite(file);
 
 	if (fs_file != nullptr)
 	{

@@ -2,6 +2,7 @@
 #include "ImageUI.h"
 #include "ModuleSceneIntro.h"
 #include "ModuleGUI.h"
+#include "ModuleCamera3D.h"
 
 ComponentImage::ComponentImage(GameObject* parent) : Component(COMPONENT_TYPE::IMAGE_UI, parent)
 {
@@ -45,6 +46,7 @@ void ComponentImage::Draw()
 void ComponentImage::DrawInspector()
 {
 	GameObject* go = App->scene_intro->GOselected;
+	GameObject* camera = App->camera->GetGameCamera();
 
 	ImGui::Spacing();
 
@@ -52,19 +54,16 @@ void ComponentImage::DrawInspector()
 	{
 		ImGui::Spacing();
 
-		if (go->GetComponentImageUI()->image->GetTexture())
+		ImGui::Text("This is the Image component");
+
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		if (ImGui::Button("Adapt To Screen Size"))
 		{
-			ImGui::Text("Name:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", go->GetComponentImageUI()->image->GetTexture()->file.c_str());
-			//ImGui::Text("Path:"); ImGui::SameLine();
-			//ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", go->GetComponentImageUI()->image->GetMaterial()->file.c_str());
+			float3 newScale(20, 10, 1);
+			go->GetComponentTransform()->SetScale(newScale);
 		}
-		else
-		{
-			ImGui::Text("Material:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "NONE");
-			ImGui::Text("Path:"); ImGui::SameLine();
-			ImGui::TextColored(ImVec4(1, 1, 0, 1), "NONE");
-		}
+
 	}
 }

@@ -108,8 +108,8 @@ update_status ModuleGUI::PostUpdate(float dt)
 		ret = (*it)->PostUpdate(dt);
 	}
 
-	if (App->scene_intro->GOselected != nullptr && App->scene_intro->GOselected->data.active)
-		DrawGuizmo();
+	/*if (App->scene_intro->GOselected != nullptr && App->scene_intro->GOselected->data.active)
+		DrawGuizmo();*/
 
 	if (ImGuizmo::IsUsing() == true)
 		usingGizmo = true;
@@ -123,7 +123,24 @@ update_status ModuleGUI::PostUpdate(float dt)
 		pick = App->camera->MousePicking();
 
 		if (pick != nullptr)
-			App->scene_intro->GOselected = pick;
+		{
+			if (!App->camera->isOnGame)
+			{
+				App->scene_intro->GOselected = pick;
+			}
+			else
+			{
+				if(isButton)
+				{
+					if (pick->GetComponentButtonUI() != nullptr)
+						if (App->gui->Pgame->continued)
+							App->gui->Pgame->DoButtonFunction(1);
+						else
+							App->gui->Pgame->DoButtonFunction(0);
+				}
+			}
+
+		}
 		else
 			App->scene_intro->GOselected = nullptr;
 	}
@@ -172,6 +189,34 @@ bool ModuleGUI::Draw()
 					App->scene_intro->CreateCamera("New_Camera_", App->scene_intro->GOroot);
 
 				ImGui::MenuItem("Light", NULL, false, false);
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Create UI Element"))
+			{
+				if (ImGui::MenuItem("Canvas"))
+				{
+					LOG_C("WARNING: Canvas Work In Progress :)");
+					App->scene_intro->CreateUI(COMPONENT_TYPE::CANVAS_UI, "Parent Canvas", App->scene_intro->GOroot);
+				}
+
+				if (ImGui::MenuItem("Button"))
+				{
+					LOG_C("WARNING: Button Work In Progress :)");
+					/*App->scene_intro->CreateUI(COMPONENT_TYPE::BUTTON_UI, "Button_", App->scene_intro->GOroot);*/
+					App->mesh_imp->LoadUI(ELEMENT_UI_TYPE::BUTTON, "Assets/BasicShapes/bUI.fbx");
+				}
+
+				if (ImGui::MenuItem("Image"))
+				{
+					LOG_C("WARNING: Image Work In Progress :)");
+					/*App->scene_intro->CreateUI(COMPONENT_TYPE::IMAGE_UI, "Image_", App->scene_intro->GOroot);*/
+					App->mesh_imp->LoadUI(ELEMENT_UI_TYPE::IMAGE, "Assets/BasicShapes/bUI.fbx");
+				}
+
+				ImGui::MenuItem("Text", NULL, false, false);
+				ImGui::MenuItem("Checkbox", NULL, false, false);
 
 				ImGui::EndMenu();
 			}
@@ -355,8 +400,8 @@ bool ModuleGUI::Draw()
 			ImGui::MenuItem("Inspector Window", NULL, &Pinspector->active);
 			ImGui::MenuItem("Engine State Window", NULL, &Pstate->active);
 			ImGui::MenuItem("Resources Window", NULL, &Presources->active);
-			ImGui::MenuItem("Scene Window", NULL, &Pscene->active, false);
-			ImGui::MenuItem("Game Window", NULL, &Pgame->active, false);
+			ImGui::MenuItem("Scene Window", NULL, &Pscene->active);
+			ImGui::MenuItem("Game Window", NULL, &Pgame->active);
 			ImGui::MenuItem("Camera Preview Window", NULL, &Pcam->active, false);
 
 			ImGui::EndMenu();
@@ -364,23 +409,34 @@ bool ModuleGUI::Draw()
 
 		if (ImGui::BeginMenu("Help"))
 		{
-			ImGui::MenuItem("About V8Engine", NULL, &Pabout->active);
+			ImGui::MenuItem("About V8 Engine", NULL, &Pabout->active);
 
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Documentation"))
-				App->RequestBrowser("https://github.com/Albertito029/V8Engine/blob/master/README.md");
+				App->RequestBrowser("https://github.com/albertito029/V8Engine/blob/master/README.md");
 
 			if (ImGui::MenuItem("Download Latest Version"))
-				App->RequestBrowser("https://github.com/Albertito029/V8Engine/releases");
+				App->RequestBrowser("https://github.com/albertito029/V8Engine/releases");
 
 			ImGui::Separator();
 
 			if (ImGui::MenuItem("Report Bug"))
-				App->RequestBrowser("https://github.com/Albertito029/V8Engine/issues");
+				App->RequestBrowser("https://github.com/albertito029/V8Engine/issues");
 
 			ImGui::EndMenu();
 		}
+
+		ImVec4* colors = ImGui::GetStyle().Colors;
+		colors[ImGuiCol_HeaderHovered] = ImVec4(0.98f, 0.26f, 0.26f, 0.80f);
+
+		ImGui::SetCursorPosX(SCREEN_WIDTH - 20);
+		if (ImGui::MenuItem("X"))
+		{
+			exitMenu = true;
+		}
+
+		colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
 
 		ImGui::EndMainMenuBar();
 
@@ -482,7 +538,7 @@ bool ModuleGUI::Draw()
 		if (ImGui::BeginPopupModal("Quit", &exitMenu, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse))
 		{
 
-			ImGui::Text("Exit from V8Engine?");
+			ImGui::Text("Exit from V8 Engine?");
 			ImGui::Spacing();
 
 			if (ImGui::Button("Yes", ImVec2(77.0f, 25.0f)))
@@ -594,8 +650,9 @@ void ModuleGUI::DrawGuizmo()
 	float4x4 proj_matrix = App->camera->GetActiveCamera()->frustum.ProjectionMatrix().Transposed();
 
 	// Draw guizmos axis
-	ImGuiIO& io = ImGui::GetIO();
-	ImGuizmo::SetRect(0, 0, io.DisplaySize.x, io.DisplaySize.y);
+	ImVec2 panPos = App->gui->panelPos;
+	ImVec2 winSize = App->gui->winSize;
+	ImGuizmo::SetRect(panPos.x, panPos.y, winSize.x, winSize.y);
 
 	// Change guizmos operations
 	ChangeOperationGuizmo(g_operator);
